@@ -2,3 +2,14 @@
 	path = nemu
 	url = git@github.com:NJU-ProjectN/nemu.git
 	branch = ysyx2204
+
+[submodule "abstract-machine"]
+	path = abstract-machine
+	url = git@github.com:NJU-ProjectN/abstract-machine.git
+	branch = ysyx2204
+
+[submodule "fceux-am"]
+	path = fceux-am
+	url = git@github.com:NJU-ProjectN/fceux-am.git
+	branch = ics2021
+
