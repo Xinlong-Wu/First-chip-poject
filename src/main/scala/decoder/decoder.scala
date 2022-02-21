@@ -4,10 +4,10 @@ import chisel3._
 
 class decoder extends Module{
   var io = IO(new Bundle() {
-    var En = Input(Bool())
-    var x = Input(UInt(2.W))
+    val En = Input(Bool())
+    val x = Input(UInt(2.W))
 
-    var y = Output(UInt(4.W))
+    val y = Output(UInt(4.W))
   })
 
   io.y := 0.U
