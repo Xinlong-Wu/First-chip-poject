@@ -1,0 +1,4 @@
+[submodule "nemu"]
+	path = nemu
+	url = git@github.com:NJU-ProjectN/nemu.git
+	branch = ysyx2204
