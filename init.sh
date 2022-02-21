@@ -12,6 +12,15 @@ function addenv() {
 # usage: init repo branch directory trace [env]
 # trace = true|false
 function init() {
+  if [ $5 ] ; then
+  sed -i -e "/^export $5=.*/d" ~/.bashrc
+  echo "export $5=`readlink -e $3`" >> ~/.bashrc
+
+  echo "By default this script will add environment variables into ~/.bashrc."
+  echo "After that, please run 'source ~/.bashrc' to let these variables take effect."
+  echo "If you use shell other than bash, please add these environment variables manually."
+  fi
+
   if [ -d $3 ]; then
     echo "$3 is already initialized, skipping..."
     return

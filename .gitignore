@@ -3,6 +3,8 @@
 !*/
 !/nemu/*
 !/nexus-am/*
+!/fceux-am/*
+!/abstract-machine/*
 !/nanos-lite/*
 !/navy-apps/*
 !/npc/*
