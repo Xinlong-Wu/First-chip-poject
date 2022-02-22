@@ -1,5 +1,3 @@
-include ../Makefile
-
 test:
 	mill -i __.test
 
