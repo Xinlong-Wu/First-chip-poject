@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
   tfp = new VerilatedVcdC;
 
   top->trace(tfp, 99);
-  tfp->open("WAVE_FILE");
+  tfp->open(WAVE_FILE);
   while (!Verilated::gotFinish() && main_time < sim_time) {
     if( main_time % 10 == 0 ) top->clock = 0;
 	  if( main_time % 10 == 5 ) top->clock = 1;
