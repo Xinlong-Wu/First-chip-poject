@@ -52,7 +52,7 @@ endef
 	
 sim: build
 	# $(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	chmod 777 $(BUILD_DIR)/V$(basename $(TOP_MOD)); `$(BUILD_DIR)/V$(basename $(TOP_MOD))`
+	$(BUILD_DIR)/V$(basename $(TOP_MOD))
 	gtkwave $(TOP_MOD)
 
 header:
