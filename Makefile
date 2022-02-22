@@ -29,7 +29,7 @@ define git_commit
 endef
 
 sim: build
-	# $(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@$(BUILD_DIR)/V$(basename $(TOP_MOD));gtkwave $(WAVE_FILE)
 
 header:
