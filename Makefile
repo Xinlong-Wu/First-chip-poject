@@ -1,16 +1,19 @@
 STUID = ysyx_22040000
 STUNAME = 张三
 
-CPP_DIR = npc/csrc/
-VERILOG_DIR = npc/vsrc/
-BUILD_DIR = build/
+BASE_DIR = .
+NPC_DIR = $(BASE_DIR)/npc
+CPP_DIR = csrc
+VERILOG_DIR = vsrc
+BUILD_DIR = build
+
 MAX_THREAD = `cat /proc/cpuinfo |grep "processor"|wc -l`
 JOB_NUM = $(shell expr $(MAX_THREAD) - 1)
 
-OBJ_SRC = $(basename $(notdir $(wildcard $(VERILOG_DIR)*.v)))
+OBJ_SRC = $(basename $(notdir $(wildcard $(NPC_DIR)/$(VERILOG_DIR)/*.v)))
 
-VERILOG_SRC = $(wildcard $(VERILOG_DIR)*.v)
-CPP_SRC = $(wildcard $(CPP_DIR)*.cpp)
+VERILOG_SRC = $(wildcard $(NPC_DIR)/$(VERILOG_DIR)/*.v)
+CPP_SRC = $(wildcard $(NPC_DIR)/$(CPP_DIR)/*.cpp)
 
 # DO NOT modify the following code!!!
 
@@ -49,8 +52,8 @@ endef
 .clean_index:
 	rm -f $(WORK_INDEX)
 
-include npc/Makefile
-
 _default:	build
 
 .PHONY: .git_commit .clean_index _default
+
+include npc/Makefile

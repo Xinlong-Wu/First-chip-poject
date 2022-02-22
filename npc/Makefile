@@ -1,36 +1,29 @@
-SUB_DIR = `pwd`/npc
+SUB_DIR = $(shell pwd)/npc
 test:
-	@cd $(SUB_DIR)
-	mill -i __.test
+	@cd $(SUB_DIR); mill -i __.test
 
 verilog:
 	$(call git_commit, "generate verilog")
-	@cd $(SUB_DIR)
-	mkdir -p $(SUB_DIR)/$(BUILD_DIR)
-	mill -i __.test.runMain Elaborate -td $(SUB_DIR)/$(BUILD_DIR)
+	mkdir -p $(VERILOG_DIR)
+	cd $(SUB_DIR); mill -i __.test.runMain Elaborate -td $(VERILOG_DIR)
 
 help:
-	@cd $(SUB_DIR)
-	mill -i __.test.runMain Elaborate --help
+	@cd $(SUB_DIR); mill -i __.test.runMain Elaborate --help
 
 compile:
-	@cd $(SUB_DIR)
-	mill -i __.compile
+	@cd $(SUB_DIR); mill -i __.compile
 
 bsp:
-	@cd $(SUB_DIR)
-	mill -i mill.bsp.BSP/install
+	@cd $(SUB_DIR); mill -i mill.bsp.BSP/install
 
 reformat:
-	@cd $(SUB_DIR)
-	mill -i __.reformat
+	@cd $(SUB_DIR); mill -i __.reformat
 
 checkformat:
-	@cd $(SUB_DIR)
-	mill -i __.checkFormat
+	@cd $(SUB_DIR); mill -i __.checkFormat
 
 cleanchisel:
-	-rm -rf $(SUB_DIR)/$(BUILD_DIR)
+	-rm -rf $(VERILOG_DIR)
 
 .PHONY: test verilog help compile bsp reformat checkformat cleanchisel
 
