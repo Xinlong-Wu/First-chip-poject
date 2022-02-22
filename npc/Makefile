@@ -26,7 +26,3 @@ cleanchisel:
 	-rm -rf $(VERILOG_DIR)
 
 .PHONY: test verilog help compile bsp reformat checkformat cleanchisel
-
-sim:
-	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	@echo "Write this Makefile by yourself."
