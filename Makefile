@@ -37,7 +37,7 @@ header:
 	echo "" > $(CPP_DIR)/TEMP.h
 	$(foreach f,$(OBJ_SRC), echo '#include"V$(f).h"' >> /$(CPP_DIR)/TEMP.h)
 	echo "#define Vtop V$(firstword $(OBJ_SRC))" >> $(CPP_DIR)/TEMP.h
-	echo "#define WAVE_DIR $(WAVE_DIR)" >> $(CPP_DIR)/TEMP.h
+	echo "#define WAVE_FILE $(WAVE_FILE)" >> $(CPP_DIR)/TEMP.h
 
 build: verilog header $(VERILOG_SRC) $(CPP_SRC)
 	verilator -j $(JOB_NUM) --cc --exe --trace --build $(VERILOG_SRC) $(CPP_SRC) --Mdir $(BUILD_DIR)
