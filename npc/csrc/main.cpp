@@ -5,7 +5,7 @@
 #include <verilated_vcd_c.h>
 #include "TEMP.h"
 
-static Vtop* top;
+static VGCD* top;
 static VerilatedVcdC* tfp;
 static vluint64_t main_time = 0;
 static const vluint64_t sim_time = 1000;
@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
   Verilated::commandArgs(argc, argv);
   Verilated::traceEverOn(true);
 
-	top = new Vtop;
+	top = new VGCD;
   tfp = new VerilatedVcdC;
 
   top->trace(tfp, 99);
