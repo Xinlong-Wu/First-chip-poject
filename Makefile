@@ -51,7 +51,7 @@ endef
 	-@cd $(YSYX_HOME) && mv $(WORK_INDEX) .git/index                                        `# restore git index`
 	
 sim: build
-	# $(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@$(BUILD_DIR)/V$(basename $(TOP_MOD));gtkwave $(WAVE_FILE)
 
 header:
