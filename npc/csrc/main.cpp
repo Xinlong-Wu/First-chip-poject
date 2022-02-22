@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <verilated.h>          
-#include <verilated_vcd_c.h>    
+#include <verilated_vcd_c.h>
+#include "Vtop.h"
 
-static Vrvcpu* top;
+static Vtop* top;
 static VerilatedVcdC* tfp;
 static vluint64_t main_time = 0;
 static const vluint64_t sim_time = 1000;
@@ -14,11 +15,11 @@ int main(int argc, char **argv) {
   Verilated::commandArgs(argc, argv);
   Verilated::traceEverOn(true);
 
-	top = new Vrvcpu;
+	top = new Vtop;
   tfp = new VerilatedVcdC;
 
   top->trace(tfp, 99);
-  tfp->open("../res/top.vcd");
+  tfp->open("../build/res/top.vcd");
   while (!Verilated::gotFinish() && main_time < sim_time) {
     // if( main_time % 10 == 0 ) top->clk = 0;
 	  // if( main_time % 10 == 5 ) top->clk = 1;
