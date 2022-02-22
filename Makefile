@@ -12,8 +12,6 @@ OBJ_SRC = $(basename $(notdir $(wildcard $(VERILOG_DIR)*.v)))
 VERILOG_SRC = $(wildcard $(VERILOG_DIR)*.v)
 CPP_SRC = $(wildcard $(CPP_DIR)*.cpp)
 
-include npc/Makefile
-
 # DO NOT modify the following code!!!
 
 TRACER = tracer-ysyx2204
