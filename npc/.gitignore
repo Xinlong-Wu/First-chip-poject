@@ -12,7 +12,7 @@
 !.scalafmt.conf
 !build.sc
 !README.md
-vsrc/
+build/
 
 # mill
 out/
