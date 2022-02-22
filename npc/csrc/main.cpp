@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
     tfp->dump(main_time);
 	  main_time++;
 
-    // printf("a = %d, b = %d, f = %d\n", a, b, top->f);
+    printf("/home/vincent/CodeSpace/First-chip-poject/build/top.vcd");
     // assert(top->f == a ^ b);
   }
 
