@@ -23,6 +23,7 @@ checkformat:
 	@cd $(SUB_DIR); mill -i __.checkFormat
 
 cleanchisel:
-	# -rm -rf $(VERILOG_DIR)
+	rm -rf $(CHISEL_BUILD)
+	rm -rf $(SUB_DIR)/out
 
 .PHONY: test verilog help compile bsp reformat checkformat cleanchisel
