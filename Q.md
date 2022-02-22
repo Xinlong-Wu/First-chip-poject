@@ -1,5 +1,5 @@
 ### Reference io is not fully initialized.
-error：
+error：Reference io is not fully initialized
 ```scala
 when(io.En){
   ...
