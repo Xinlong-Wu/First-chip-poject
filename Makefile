@@ -10,6 +10,7 @@ NPC_DIR = $(shell pwd)/npc
 CPP_DIR = $(NPC_DIR)/csrc
 VERILOG_DIR = $(NPC_DIR)/vsrc
 BUILD_DIR = $(shell pwd)/build
+CHISEL_BUILD = $(NPC_DIR)/build
 WAVE_FILE = $(BUILD_DIR)/top.vcd
 $(shell mkdir -p $(BUILD_DIR))
 
@@ -23,6 +24,7 @@ $(SRC_AUTO_BIND): $(NXDC_FILES)
 OBJ_SRC = $(basename $(notdir $(wildcard $(VERILOG_DIR)/*.v)))
 
 VERILOG_SRC = $(wildcard $(VERILOG_DIR)/*.v)
+VERILOG_SRC += $(wildcard $(CHISEL_BUILD)/*.v)
 CPP_SRC = $(wildcard $(CPP_DIR)/*.cpp)
 CPP_SRC += $(SRC_AUTO_BIND)
 
@@ -78,12 +80,7 @@ nvboard: build
 gtkwave: build
 	@$(BUILD_DIR)/$(TOPNAME);gtkwave $(WAVE_FILE)
 
-header:
-	echo "" > $(CPP_DIR)/TEMP.h
-	$(foreach f,$(OBJ_SRC), echo '#include"V$(f).h"' >> /$(CPP_DIR)/TEMP.h)
-	echo '#define WAVE_FILE "$(WAVE_FILE)"' >> $(CPP_DIR)/TEMP.h
-
-build: verilog header $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE)
+build: verilog $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE)
 	@rm -rf $(BUILD_DIR)/obj_dir
 	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
 		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE) \
