@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
   tfp = new VerilatedVcdC;
 
   top->trace(tfp, 99);
-  tfp->open("/home/vincent/CodeSpace/First-chip-poject/build/top.vcd");
+  tfp->open(WAVE_FILE);
   while (!Verilated::gotFinish() && main_time < sim_time) {
     if( main_time % 10 == 0 ) top->clock = 0;
 	  if( main_time % 10 == 5 ) top->clock = 1;
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
 	  main_time++;
     // assert(top->f == a ^ b);
   }
-  printf("/home/vincent/CodeSpace/First-chip-poject/build/top.vcd");
+  printf(WAVE_FILE);
 
   // clean
   tfp->close();

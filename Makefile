@@ -6,7 +6,7 @@ NPC_DIR = $(shell pwd)/npc
 CPP_DIR = $(NPC_DIR)/csrc
 VERILOG_DIR = $(NPC_DIR)/vsrc
 BUILD_DIR = $(shell pwd)/build
-WAVE_FILE = $(BUILD_DIR)/wave/top.vcd
+WAVE_FILE = $(BUILD_DIR)/top.vcd
 
 MAX_THREAD = `cat /proc/cpuinfo |grep "processor"|wc -l`
 JOB_NUM = $(shell expr $(MAX_THREAD) - 1)
@@ -30,7 +30,7 @@ endef
 
 sim: build
 	# $(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	$(BUILD_DIR)/V$(basename $(TOP_MOD))
+	@$(BUILD_DIR)/V$(basename $(TOP_MOD))
 	gtkwave $(TOP_MOD)
 
 header:
