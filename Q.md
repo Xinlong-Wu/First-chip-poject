@@ -2,9 +2,10 @@
 error：Reference io is not fully initialized
 ```scala
 when(io.En){
+  io.y := 1.U
   ...
 }.otherwise{
-io.y := 0.U
+  io.y := 0.U
 }
 ```
 fix:
