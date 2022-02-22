@@ -13,3 +13,7 @@
 	url = git@github.com:NJU-ProjectN/fceux-am.git
 	branch = ics2021
 
+[submodule "nvboard"]
+	path = nvboard
+	url = git@github.com:NJU-ProjectN/nvboard.git
+	branch = master
