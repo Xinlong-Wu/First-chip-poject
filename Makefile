@@ -52,8 +52,7 @@ endef
 	
 sim: build
 	# $(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	@$(BUILD_DIR)/V$(basename $(TOP_MOD))
-	gtkwave $(TOP_MOD)
+	@$(BUILD_DIR)/V$(basename $(TOP_MOD));gtkwave $(TOP_MOD)
 
 header:
 	echo "" > $(CPP_DIR)/TEMP.h
