@@ -1,12 +1,12 @@
 STUID = ysyx_22040000
 STUNAME = 张三
 
+TOP_MOD = GCD.v
 NPC_DIR = $(shell pwd)/npc
 CPP_DIR = $(NPC_DIR)/csrc
 VERILOG_DIR = $(NPC_DIR)/vsrc
 BUILD_DIR = $(shell pwd)/build
 WAVE_FILE = $(BUILD_DIR)/wave/top.vcd
-TOP_MOD = top.v
 
 MAX_THREAD = `cat /proc/cpuinfo |grep "processor"|wc -l`
 JOB_NUM = $(shell expr $(MAX_THREAD) - 1)
