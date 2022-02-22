@@ -45,7 +45,7 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 VERILATOR_CFLAGS += -MMD --build -cc --trace  \
-				-O3 --x-assign fast --x-initial fast --noassert
+				-O3 --x-assign fast --x-initial fast --noassert --exe
 LDFLAGS += -lSDL2 -lSDL2_image
 
 sim: build
