@@ -5,7 +5,7 @@ test:
 verilog:
 	$(call git_commit, "generate verilog")
 	mkdir -p $(VERILOG_DIR)
-	cd $(SUB_DIR); mill -i __.test.runMain Elaborate -td $(VERILOG_DIR)
+	cd $(SUB_DIR); mill -i __.test.runMain Elaborate -td ./build
 
 help:
 	@cd $(SUB_DIR); mill -i __.test.runMain Elaborate --help
@@ -23,6 +23,6 @@ checkformat:
 	@cd $(SUB_DIR); mill -i __.checkFormat
 
 cleanchisel:
-	-rm -rf $(VERILOG_DIR)
+	# -rm -rf $(VERILOG_DIR)
 
 .PHONY: test verilog help compile bsp reformat checkformat cleanchisel
