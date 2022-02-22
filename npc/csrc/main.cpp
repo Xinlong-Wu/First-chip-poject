@@ -32,10 +32,9 @@ int main(int argc, char **argv) {
     top->eval();
     tfp->dump(main_time);
 	  main_time++;
-
-    printf("/home/vincent/CodeSpace/First-chip-poject/build/top.vcd");
     // assert(top->f == a ^ b);
   }
+  printf("/home/vincent/CodeSpace/First-chip-poject/build/top.vcd");
 
   // clean
   tfp->close();
