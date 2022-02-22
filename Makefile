@@ -1,16 +1,19 @@
 STUID = ysyx_22040000
 STUNAME = 张三
 
-CPP_DIR = npc/csrc/
-VERILOG_DIR = npc/vsrc/
-BUILD_DIR = build/
+BASE_DIR = .
+NPC_DIR = $(BASE_DIR)/npc
+CPP_DIR = csrc
+VERILOG_DIR = vsrc
+BUILD_DIR = build
+
 MAX_THREAD = `cat /proc/cpuinfo |grep "processor"|wc -l`
 JOB_NUM = $(shell expr $(MAX_THREAD) - 1)
 
-OBJ_SRC = $(basename $(notdir $(wildcard $(VERILOG_DIR)*.v)))
+OBJ_SRC = $(basename $(notdir $(wildcard $(NPC_DIR)/$(VERILOG_DIR)/*.v)))
 
-VERILOG_SRC = $(wildcard $(VERILOG_DIR)*.v)
-CPP_SRC = $(wildcard $(CPP_DIR)*.cpp)
+VERILOG_SRC = $(wildcard $(NPC_DIR)/$(VERILOG_DIR)/*.v)
+CPP_SRC = $(wildcard $(NPC_DIR)/$(CPP_DIR)/*.cpp)
 
 # DO NOT modify the following code!!!
 
@@ -24,6 +27,18 @@ define git_commit
 	-@sync
 endef
 
+build: verilog $(VERILOG_SRC) $(CPP_SRC)
+	echo "" > $(NPC_DIR)/$(CPP_DIR)/TEMP.h
+	$(foreach f,$(OBJ_SRC), echo '#include"V$(f).h"' >> $(NPC_DIR)/$(CPP_DIR)/TEMP.h)
+	echo "#define Vtop V$(firstword $(OBJ_SRC))" >> $(NPC_DIR)/$(CPP_DIR)/TEMP.h
+	verilator -j $(JOB_NUM) --cc --exe --trace --build $(VERILOG_SRC) $(CPP_SRC) --Mdir $(BUILD_DIR)
+
+clean: cleanchisel
+	rm -rf $(BUILD_DIR)
+
+.PHONY: clean
+
 include npc/Makefile
 
-_default:	build
+
+
