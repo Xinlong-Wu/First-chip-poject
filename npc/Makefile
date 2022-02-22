@@ -1,5 +1,4 @@
 include ../Makefile
-BUILD_DIR = ../build/
 
 test:
 	mill -i __.test
