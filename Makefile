@@ -3,6 +3,7 @@ STUNAME = 乌鑫龙
 
 NVBOARD_HOME = $(shell pwd)/nvboard
 INC_PATH ?=
+NXDC_FILES = npc/constr/top.nxdc
 
 TOPNAME = top
 NPC_DIR = $(shell pwd)/npc
@@ -10,14 +11,20 @@ CPP_DIR = $(NPC_DIR)/csrc
 VERILOG_DIR = $(NPC_DIR)/vsrc
 BUILD_DIR = $(shell pwd)/build
 WAVE_FILE = $(BUILD_DIR)/top.vcd
+$(shell mkdir -p $(BUILD_DIR))
 
 MAX_THREAD = `cat /proc/cpuinfo |grep "processor"|wc -l`
 JOB_NUM = $(shell expr $(MAX_THREAD) - 1)
+
+SRC_AUTO_BIND = $(abspath $(BUILD_DIR)/auto_bind.cpp)
+$(SRC_AUTO_BIND): $(NXDC_FILES)
+	python $(NVBOARD_HOME)/scripts/auto_pin_bind.py $^ $@
 
 OBJ_SRC = $(basename $(notdir $(wildcard $(VERILOG_DIR)/*.v)))
 
 VERILOG_SRC = $(wildcard $(VERILOG_DIR)/*.v)
 CPP_SRC = $(wildcard $(CPP_DIR)/*.cpp)
+CPP_SRC += $(SRC_AUTO_BIND)
 
 # DO NOT modify the following code!!!
 GITFLAGS = -q --author='tracer-ysyx2204 <tracer@ysyx.org>' --no-verify --allow-empty
@@ -36,7 +43,7 @@ include $(NVBOARD_HOME)/scripts/nvboard.mk
 INCFLAGS = $(addprefix -I, $(INC_PATH))
 CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 VERILATOR_CFLAGS += -MMD --build -cc --trace  \
-				-O3 --x-assign fast --x-initial fast --noassert
+				-O3 --x-assign fast --x-initial fast --noassert --exe
 LDFLAGS += -lSDL2 -lSDL2_image
 
 sim: build
@@ -54,10 +61,11 @@ header:
 	echo '#define WAVE_FILE "$(WAVE_FILE)"' >> $(CPP_DIR)/TEMP.h
 
 build: verilog header $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE)
-	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) -top $(TOPNAME) \
-				$(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE) \
-				$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
-				--Mdir $(BUILD_DIR) -o $(abspath $(BUILD_DIR)/$(TOPNAME))
+	@rm -rf $(BUILD_DIR)/obj_dir
+	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
+		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE) \
+		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
+		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
 
 clean: cleanchisel
 	rm -rf $(BUILD_DIR)
