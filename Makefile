@@ -5,7 +5,8 @@ NPC_DIR = $(shell pwd)/npc
 CPP_DIR = $(NPC_DIR)/csrc
 VERILOG_DIR = $(NPC_DIR)/vsrc
 BUILD_DIR = $(shell pwd)/build
-WAVE_DIR = $(BUILD_DIR)/wave
+WAVE_FILE = $(BUILD_DIR)/wave/top.vcd
+TOP_MOD = top.v
 
 MAX_THREAD = `cat /proc/cpuinfo |grep "processor"|wc -l`
 JOB_NUM = $(shell expr $(MAX_THREAD) - 1)
@@ -28,8 +29,9 @@ define git_commit
 endef
 
 sim: build
-	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	@echo "Write this Makefile by yourself."
+	# $(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	$(shell exec $(BUILD_DIR)/V$(basename $(TOP_MOD)));\
+	gtkwave $(TOP_MOD)
 
 header:
 	echo "" > $(CPP_DIR)/TEMP.h
