@@ -1,4 +1,4 @@
-BUILD_DIR = ./build
+include ../Makefile
 
 test:
 	mill -i __.test
@@ -31,5 +31,3 @@ clean:
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	@echo "Write this Makefile by yourself."
-
-include ../Makefile
