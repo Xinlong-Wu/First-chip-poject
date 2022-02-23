@@ -71,7 +71,7 @@ VERILATOR_CFLAGS += -MMD --build -cc --trace  \
 				-O3 --x-assign fast --x-initial fast --noassert --exe
 LDFLAGS += -lSDL2 -lSDL2_image
 
-sim: build
+sim: build nvboard
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	
 nvboard: build
