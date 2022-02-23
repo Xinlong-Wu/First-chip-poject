@@ -22,18 +22,18 @@ module top (
     output [7:0] seg7
 );
 
-// led led1(
-//     .clk(clk),
-//     .rst(rst),
-//     .sw(sw),
-//     .ledr(ledr)
-// );
-
-light light(
+led led1(
     .clk(clk),
     .rst(rst),
-    .led(ledr)
+    .sw(sw),
+    .ledr(ledr)
 );
+
+// light light(
+//     .clk(clk),
+//     .rst(rst),
+//     .led(ledr)
+// );
 
 assign VGA_CLK = clk;
 
