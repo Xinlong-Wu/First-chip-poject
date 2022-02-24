@@ -1,15 +1,16 @@
 STUID = ysyx_22040200
 STUNAME = 乌鑫龙
 
-NVBOARD_HOME = $(shell pwd)/nvboard
+YSYX_HOME=/home/vincent/CodeSpace/First-chip-poject
+
 INC_PATH ?=
-NXDC_FILES = npc/constr/top.nxdc
+NXDC_FILES = $(YSYX_HOME)/npc/constr/top.nxdc
 
 TOPNAME = top
-NPC_DIR = $(shell pwd)/npc
+NPC_DIR = $(YSYX_HOME)/npc
 CPP_DIR = $(NPC_DIR)/csrc
 VERILOG_DIR = $(NPC_DIR)/vsrc
-BUILD_DIR = $(shell pwd)/build
+BUILD_DIR = $(YSYX_HOME)/build
 CHISEL_BUILD = $(NPC_DIR)/build
 WAVE_FILE = $(BUILD_DIR)/top.vcd
 $(shell mkdir -p $(BUILD_DIR))
@@ -64,12 +65,12 @@ build: verilog $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE)
 		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
 		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
 
-clean: cleanchisel
+cleanall: cleanchisel
 	rm -rf $(BUILD_DIR)
 
-.PHONY: clean
+.PHONY: cleanall
 
-include npc/Makefile
+include $(YSYX_HOME)/npc/Makefile
 
 
 
