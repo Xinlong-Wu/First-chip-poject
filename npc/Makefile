@@ -4,7 +4,6 @@ test:
 
 verilog:
 	$(call git_commit, "generate verilog")
-	mkdir -p $(VERILOG_DIR)
 	cd $(SUB_DIR); mill -i __.test.runMain Elaborate -td $(CHISEL_BUILD)
 
 help:
