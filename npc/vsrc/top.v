@@ -34,7 +34,7 @@ assign io_seg7 = 8'b11111111;
 light light(
     .clk(clock),
     .rst(reset),
-    .led(io_ledr[15:4])
+    .led(ledr[15:4])
 );
 
 // wire [24:0] count_clk = 0;
