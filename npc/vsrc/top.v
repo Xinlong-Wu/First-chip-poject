@@ -82,7 +82,7 @@ light light(
 //     .io_HEX(seg2)
 // );
 
-assign VGA_CLK = clock;
+assign io_VGA_CLK = clock;
 
 wire [9:0] h_addr;
 wire [9:0] v_addr;
