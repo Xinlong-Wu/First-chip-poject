@@ -37,22 +37,22 @@ light light(
     .led(ledr)
 );
 
-// wire [2:0] res;
-// encoder83 encoder83(
-//     .clk(clk),
-//     .rst(rst),
-//     .io_x(sw[7:0]),
-//     .io_en(sw[8]),
-//     .io_y(res)
-// )
+wire [2:0] res;
+encoder83 encoder83(
+    .clk(clk),
+    .rst(rst),
+    .io_x(sw[7:0]),
+    .io_en(sw[8]),
+    .io_y(res)
+)
 
-// bcd7seg bcd7seg(
-//     .clk(clk),
-//     .rst(rst),
-//     .io_num({1'b0, res})
-//     .io_en(sw[9]),
-//     .io_HEX()
-// )
+bcd7seg bcd7seg(
+    .clk(clk),
+    .rst(rst),
+    .io_num({1'b0, res})
+    .io_en(sw[9]),
+    .io_HEX(seg0)
+)
 
 assign VGA_CLK = clk;
 
@@ -80,19 +80,6 @@ ps2_keyboard my_keyboard(
     .ps2_clk(ps2_clk),
     .ps2_data(ps2_data)
 );
-
-// seg mu_seg(
-//     .clk(clk),
-//     .rst(rst),
-//     .o_seg0(seg0),
-//     .o_seg1(seg1),
-//     .o_seg2(seg2),
-//     .o_seg3(seg3),
-//     .o_seg4(seg4),
-//     .o_seg5(seg5),
-//     .o_seg6(seg6),
-//     .o_seg7(seg7)
-// );
 
 vmem my_vmem(
     .h_addr(h_addr),
