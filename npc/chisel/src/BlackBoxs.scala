@@ -2,7 +2,7 @@ import chisel3._
 import chisel3.util.HasBlackBoxInline
 
 class led extends BlackBox{
-  val io = IO(new Bundle {
+  val io = Wire(new Bundle {
     val clk = Input(UInt(1.W))
     val rst = Input(UInt(1.W))
     val sw = Input(UInt(8.W))
