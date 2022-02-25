@@ -31,4 +31,12 @@ class encoderSpec extends AnyFlatSpec with ChiselScalatestTester {
       c.io.y.expect(4.U)
     }
   }
+
+  it should "test Encoder83" in {
+    test(new encoder83){ c =>
+      c.io.x.poke("b00000001".U)
+      c.io.en.poke(true.B)
+      c.io.y.expect(1.U)
+    }
+  }
 }
