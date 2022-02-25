@@ -22,15 +22,28 @@ module top (
     output [7:0] seg7
 );
 
-// light light(
+light light(
+    .clk(clk),
+    .rst(rst),
+    .led(ledr)
+);
+
+// wire [2:0] res;
+// encoder83 encoder83(
 //     .clk(clk),
 //     .rst(rst),
-//     .led(ledr)
-// );
+//     .io_x(sw[7:0]),
+//     .io_en(sw[8]),
+//     .io_y(res)
+// )
 
-encoder83 encoder83(
-    
-)
+// bcd7seg bcd7seg(
+//     .clk(clk),
+//     .rst(rst),
+//     .io_num({1'b0, res})
+//     .io_en(sw[9]),
+//     .io_HEX()
+// )
 
 assign VGA_CLK = clk;
 

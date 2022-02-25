@@ -3,7 +3,7 @@ import chisel3._
 
 class bcd7seg extends Module{
   val io = IO(new Bundle() {
-    val num = Input(UInt(5.W))
+    val num = Input(UInt(4.W))
     val en = Input(Bool())
     val HEX = Output(UInt(7.W))
   })
