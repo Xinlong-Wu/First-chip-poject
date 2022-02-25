@@ -14,6 +14,9 @@ class ALU(bitWidth: Int) extends Module{
   io.res := 0.U
 
   val adder = Module(new Arithmetic(bitWidth))
+  adder.io.in1 := 0.U
+  adder.io.in2 := 0.U
+  adder.io.minus := 0.U
 
   when(io.op === "b000".U){
     adder.io.in1 := io.in1
