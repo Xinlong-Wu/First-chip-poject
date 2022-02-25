@@ -22,6 +22,15 @@ module top (
     output [7:0] seg7
 );
 
+assign seg0 = 8'b11111111;
+assign seg1 = 8'b11111111;
+assign seg2 = 8'b11111111;
+assign seg3 = 8'b11111111;
+assign seg4 = 8'b11111111;
+assign seg5 = 8'b11111111;
+assign seg6 = 8'b11111111;
+assign seg7 = 8'b11111111;
+
 light light(
     .clk(clk),
     .rst(rst),
