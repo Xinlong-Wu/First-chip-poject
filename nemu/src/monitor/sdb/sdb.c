@@ -42,6 +42,11 @@ static int cmd_q(char *args) {
 static int cmd_info(char *args) {
   Log("cmd_info get arg %s", args);
   char *cmd = strtok(args, " ");
+  if (cmd == NULL){
+    printf("%s\n", ASNI_FMT(str(Error: valid params.), ASNI_FG_RED));
+    return 0;
+  }
+  
   args = cmd + strlen(cmd) +1;
 
   if (strcmp(cmd,"r") == 0){
