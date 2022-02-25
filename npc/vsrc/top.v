@@ -38,6 +38,7 @@ light light(
 );
 
 wire [2:0] res;
+
 encoder83 encoder83(
     .clock(clk),
     .reset(rst),
