@@ -22,20 +22,20 @@ module top (
     output [7:0] io_seg7
 );
 
-assign io_seg0 = 8'b11111111;
-assign io_seg1 = 8'b11111111;
-assign io_seg2 = 8'b11111111;
-assign io_seg3 = 8'b11111111;
-assign io_seg4 = 8'b11111111;
-assign io_seg5 = 8'b11111111;
-assign io_seg6 = 8'b11111111;
-assign io_seg7 = 8'b11111111;
+// assign io_seg0 = 8'b11111111;
+// assign io_seg1 = 8'b11111111;
+// assign io_seg2 = 8'b11111111;
+// assign io_seg3 = 8'b11111111;
+// assign io_seg4 = 8'b11111111;
+// assign io_seg5 = 8'b11111111;
+// assign io_seg6 = 8'b11111111;
+// assign io_seg7 = 8'b11111111;
 
-light light(
-    .clk(clock),
-    .rst(reset),
-    .led(io_ledr[15:4])
-);
+// light light(
+//     .clk(clock),
+//     .rst(reset),
+//     .led(io_ledr[15:4])
+// );
 
 // wire [24:0] count_clk = 0;
 // wire clk_1s = 0;
