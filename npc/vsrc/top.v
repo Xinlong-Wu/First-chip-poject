@@ -1,7 +1,7 @@
 module top (
     input clock,
     input reset,
-    input [15:0] sw,
+    input [15:0] io_sw,
     input io_ps2_clk,
     input io_ps2_data,
     output [15:0] ledr,
