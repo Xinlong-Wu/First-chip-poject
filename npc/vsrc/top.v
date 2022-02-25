@@ -53,6 +53,7 @@ wire [7:0] count = 0;
 
 Counter Coounter(
     .clock(clk_1s),
+    .reset(rst),
     .io_en(1),
     .io_out(count)
 );
@@ -60,7 +61,7 @@ Counter Coounter(
 bcd7seg bcd7seg_1(
     .clock(clk),
     .reset(rst),
-    .io_num(count%10),
+    .io_num((count%10)[4:0]),
     .io_en(1),
     .io_HEX(seg0)
 );
@@ -68,7 +69,7 @@ bcd7seg bcd7seg_1(
 bcd7seg bcd7seg_2(
     .clock(clk),
     .reset(rst),
-    .io_num((count%100)/10),
+    .io_num(((count%100)/10)[4:0]),
     .io_en(1),
     .io_HEX(seg1)
 );
@@ -76,7 +77,7 @@ bcd7seg bcd7seg_2(
 bcd7seg bcd7seg_3(
     .clock(clk),
     .reset(rst),
-    .io_num(count/100),
+    .io_num((count/100)[4:0]),
     .io_en(1),
     .io_HEX(seg2)
 );
