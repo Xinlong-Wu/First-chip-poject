@@ -35,6 +35,17 @@ light light(
     .led(ledr)
 );
 
+mux24 mux24(
+    .clock(clk),
+    .reset(rst),
+    .y(sw[1:0]),
+    .io_x0(sw[3:2]),
+    .io_x1(sw[5:4]),
+    .io_x2(sw[7:6]),
+    .io_x3(sw[9:8]),
+    .io_f(ledr[1:0])
+);
+
 assign VGA_CLK = clk;
 
 wire [9:0] h_addr;
