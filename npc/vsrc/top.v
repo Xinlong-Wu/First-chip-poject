@@ -32,7 +32,7 @@ chiseltop chiseltop(
     .io_VGA_CLK(VGA_CLK),
     .io_VGA_HSYNC(VGA_HSYNC),
     .io_VGA_VSYNC(VGA_VSYNC),
-    .io_VGA_BLANK_N(sw),
+    .io_VGA_BLANK_N(VGA_BLANK_N),
     .io_VGA_R(VGA_R),
     .io_VGA_G(VGA_G),
     .io_VGA_B(VGA_B),
