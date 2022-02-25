@@ -29,11 +29,11 @@ module top (
 //     .ledr(ledr)
 // );
 
-light light(
-    .clk(clk),
-    .rst(rst),
-    .led(ledr)
-);
+// light light(
+//     .clk(clk),
+//     .rst(rst),
+//     .led(ledr)
+// );
 
 mux24 mux24(
     .clock(clk),
