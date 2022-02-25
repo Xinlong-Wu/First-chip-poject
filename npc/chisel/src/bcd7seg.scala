@@ -13,6 +13,7 @@ class bcd7seg extends Module{
 
 //  when(io.en){
 //    when(io.num === 0.U){
+  io.HEX := "b11000000".U
 //      io.HEX := Cat(encode(7, 6), 0.U(6.W))
 //    }.elsewhen(io.num === 1.U){
 //      io.HEX := Cat(encode(7, 3), 0.U(2.W), encode(0))
