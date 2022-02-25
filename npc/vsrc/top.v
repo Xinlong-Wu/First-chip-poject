@@ -37,24 +37,48 @@ light light(
     .led(ledr[15:4])
 );
 
-wire [2:0] res;
+wire [24:0] count_clk = 0;
+wire clk_1s = 0;
 
-encoder83 encoder83(
-    .clock(clk),
-    .reset(rst),
-    .io_x(sw[7:0]),
-    .io_en(sw[8]),
-    .io_y(res)
+always @(posedge clk)
+  if(count_clk==24999999)
+  begin
+    count_clk <=0;
+    clk_1s <= ~clk_1s;
+  end
+  else
+    count_clk <= count_clk+1;
+
+wire [7:0] count = 0;
+
+Counter Coounter(
+    .clock(clk_1s),
+    .io_en(1),
+    .io_out(count)
 );
 
-assign ledr[2:0] = res;
-
-bcd7seg bcd7seg(
+bcd7seg bcd7seg_1(
     .clock(clk),
     .reset(rst),
-    .io_num({1'b0, res}),
-    .io_en(sw[9]),
+    .io_num(count%10),
+    .io_en(1),
     .io_HEX(seg0)
+);
+
+bcd7seg bcd7seg_2(
+    .clock(clk),
+    .reset(rst),
+    .io_num((count%100)/10),
+    .io_en(1),
+    .io_HEX(seg1)
+);
+
+bcd7seg bcd7seg_3(
+    .clock(clk),
+    .reset(rst),
+    .io_num(count/100),
+    .io_en(1),
+    .io_HEX(seg2)
 );
 
 assign VGA_CLK = clk;
