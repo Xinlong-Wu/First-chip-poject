@@ -49,7 +49,7 @@ encoder83 encoder83(
 bcd7seg bcd7seg(
     .clk(clk),
     .rst(rst),
-    .io_num({1'b0, res})
+    .io_num({1'b0, res}),
     .io_en(sw[9]),
     .io_HEX(seg0)
 );
