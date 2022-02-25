@@ -34,7 +34,7 @@ assign seg7 = 8'b11111111;
 light light(
     .clk(clk),
     .rst(rst),
-    .led(ledr)
+    .led(ledr[15:4])
 );
 
 wire [2:0] res;
