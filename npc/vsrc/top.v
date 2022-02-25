@@ -38,7 +38,7 @@ light light(
 mux24 mux24(
     .clock(clk),
     .reset(rst),
-    .y(sw[1:0]),
+    .io_y(sw[1:0]),
     .io_x0(sw[3:2]),
     .io_x1(sw[5:4]),
     .io_x2(sw[7:6]),
