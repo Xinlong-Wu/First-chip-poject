@@ -22,19 +22,19 @@ module top (
     output [7:0] io_seg7
 );
 
-assign seg0 = 8'b11111111;
-assign seg1 = 8'b11111111;
-assign seg2 = 8'b11111111;
-assign seg3 = 8'b11111111;
-assign seg4 = 8'b11111111;
-assign seg5 = 8'b11111111;
-assign seg6 = 8'b11111111;
-assign seg7 = 8'b11111111;
+assign io_seg0 = 8'b11111111;
+assign io_seg1 = 8'b11111111;
+assign io_seg2 = 8'b11111111;
+assign io_seg3 = 8'b11111111;
+assign io_seg4 = 8'b11111111;
+assign io_seg5 = 8'b11111111;
+assign io_seg6 = 8'b11111111;
+assign io_seg7 = 8'b11111111;
 
 light light(
     .clk(clock),
     .rst(reset),
-    .led(ledr[15:4])
+    .led(io_ledr[15:4])
 );
 
 // wire [24:0] count_clk = 0;
@@ -94,19 +94,19 @@ vga_ctrl my_vga_ctrl(
     .vga_data(vga_data),
     .h_addr(h_addr),
     .v_addr(v_addr),
-    .hsync(VGA_HSYNC),
-    .vsync(VGA_VSYNC),
-    .valid(VGA_BLANK_N),
-    .vga_r(VGA_R),
-    .vga_g(VGA_G),
-    .vga_b(VGA_B)
+    .hsync(io_VGA_HSYNC),
+    .vsync(io_VGA_VSYNC),
+    .valid(io_VGA_BLANK_N),
+    .vga_r(io_VGA_R),
+    .vga_g(io_VGA_G),
+    .vga_b(io_VGA_B)
 );
 
 ps2_keyboard my_keyboard(
     .clk(clock),
     .resetn(~reset),
-    .ps2_clk(ps2_clk),
-    .ps2_data(ps2_data)
+    .ps2_clk(io_ps2_clk),
+    .ps2_data(io_ps2_data)
 );
 
 vmem my_vmem(
