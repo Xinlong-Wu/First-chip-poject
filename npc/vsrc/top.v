@@ -37,18 +37,21 @@ light light(
     .led(ledr[15:4])
 );
 
+wire [2:0] res;
 encoder83 encoder83(
     .clock(clk),
     .reset(rst),
     .io_x(sw[7:0]),
     .io_en(sw[8]),
-    .io_y(ledr[2:0])
+    .io_y(res)
 );
+
+assign ledr[2:0] = res;
 
 bcd7seg bcd7seg(
     .clock(clk),
     .reset(rst),
-    .io_num({1'b0, ledr[2:0]}),
+    .io_num({1'b0, res}),
     .io_en(sw[9]),
     .io_HEX(seg0)
 );
