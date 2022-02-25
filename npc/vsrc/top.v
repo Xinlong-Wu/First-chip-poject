@@ -1,7 +1,7 @@
 module top (
     input clk,
     input rst,
-    input [7:0] sw,
+    input [9:0] sw,
     input ps2_clk,
     input ps2_data,
     output [15:0] ledr,
@@ -29,22 +29,22 @@ module top (
 //     .ledr(ledr)
 // );
 
-light light(
-    .clk(clk),
-    .rst(rst),
-    .led(ledr)
-);
-
-// mux24 mux24(
-//     .clock(clk),
-//     .reset(rst),
-//     .io_y(sw[1:0]),
-//     .io_x0(sw[3:2]),
-//     .io_x1(sw[5:4]),
-//     .io_x2(sw[7:6]),
-//     .io_x3(sw[9:8]),
-//     .io_f(ledr[1:0])
+// light light(
+//     .clk(clk),
+//     .rst(rst),
+//     .led(ledr)
 // );
+
+mux24 mux24(
+    .clock(clk),
+    .reset(rst),
+    .io_y(sw[1:0]),
+    .io_x0(sw[3:2]),
+    .io_x1(sw[5:4]),
+    .io_x2(sw[7:6]),
+    .io_x3(sw[9:8]),
+    .io_f(ledr[1:0])
+);
 
 assign VGA_CLK = clk;
 
