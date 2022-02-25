@@ -1,6 +1,6 @@
 module top (
-    input clk,
-    input rst,
+    input clock,
+    input reset,
     input [15:0] sw,
     input ps2_clk,
     input ps2_data,
@@ -32,8 +32,8 @@ assign seg6 = 8'b11111111;
 assign seg7 = 8'b11111111;
 
 light light(
-    .clk(clk),
-    .rst(rst),
+    .clk(clock),
+    .rst(reset),
     .led(ledr[15:4])
 );
 
@@ -82,15 +82,15 @@ light light(
 //     .io_HEX(seg2)
 // );
 
-assign VGA_CLK = clk;
+assign VGA_CLK = clock;
 
 wire [9:0] h_addr;
 wire [9:0] v_addr;
 wire [23:0] vga_data;
 
 vga_ctrl my_vga_ctrl(
-    .pclk(clk),
-    .reset(rst),
+    .pclk(clock),
+    .reset(reset),
     .vga_data(vga_data),
     .h_addr(h_addr),
     .v_addr(v_addr),
@@ -103,8 +103,8 @@ vga_ctrl my_vga_ctrl(
 );
 
 ps2_keyboard my_keyboard(
-    .clk(clk),
-    .resetn(~rst),
+    .clk(clock),
+    .resetn(~reset),
     .ps2_clk(ps2_clk),
     .ps2_data(ps2_data)
 );
