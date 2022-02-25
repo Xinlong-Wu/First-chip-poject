@@ -13,5 +13,5 @@
 !.gitignore
 !init.sh
 !.gitmodules
-/nvboard
-/am-kernels
+!/nvboard
+!/am-kernels
