@@ -1,7 +1,7 @@
 module top (
     input clk,
     input rst,
-    input [9:0] sw,
+    input [15:0] sw,
     input ps2_clk,
     input ps2_data,
     output [15:0] ledr,
