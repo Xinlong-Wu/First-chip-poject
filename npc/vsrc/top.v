@@ -44,7 +44,7 @@ encoder83 encoder83(
     .io_x(sw[7:0]),
     .io_en(sw[8]),
     .io_y(res)
-)
+);
 
 bcd7seg bcd7seg(
     .clk(clk),
@@ -52,7 +52,7 @@ bcd7seg bcd7seg(
     .io_num({1'b0, res})
     .io_en(sw[9]),
     .io_HEX(seg0)
-)
+);
 
 assign VGA_CLK = clk;
 
