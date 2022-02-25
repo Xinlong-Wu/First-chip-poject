@@ -4,7 +4,7 @@ module top (
     input [15:0] io_sw,
     input io_ps2_clk,
     input io_ps2_data,
-    output [15:0] ledr,
+    output [15:0] io_ledr,
     output io_VGA_CLK,
     output io_VGA_HSYNC,
     output io_VGA_VSYNC,
@@ -34,7 +34,7 @@ assign io_seg7 = 8'b11111111;
 light light(
     .clk(clock),
     .rst(reset),
-    .led(ledr[15:4])
+    .led(io_ledr[15:4])
 );
 
 // wire [24:0] count_clk = 0;
