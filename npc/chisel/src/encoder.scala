@@ -10,7 +10,7 @@ class encoder83 extends Module{
   when(io.en){
     for (i <- 0 until 8){
       when(io.x(i)===1.U){
-        io.y := i.U
+        io.y := (i+1).U
       }
     }
   }
