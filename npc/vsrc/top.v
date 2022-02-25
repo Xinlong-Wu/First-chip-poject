@@ -46,13 +46,6 @@ chiseltop chiseltop(
     .io_seg7(seg7)
 );
 
-
-light light(
-    .clk(clock),
-    .rst(reset),
-    .led(ledr[15:4])
-);
-
 // wire [24:0] count_clk = 0;
 // wire clk_1s = 0;
 

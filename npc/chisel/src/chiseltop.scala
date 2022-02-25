@@ -1,8 +1,10 @@
 import Chisel.Cat
 import chisel3._
 
-class chiseltop extends Module{
+class chiseltop extends RawModule{
   val io = IO(new Bundle {
+    val clock = Input(UInt(1.W))
+    val reset = Input(UInt(1.W))
     val sw = Input(UInt(16.W))
     val ps2_clk = Input(UInt(1.W))
     val ps2_data = Input(UInt(1.W))
@@ -40,4 +42,9 @@ class chiseltop extends Module{
   io.VGA_R := 0.U(8.W)
   io.VGA_G := 0.U(8.W)
   io.VGA_B := 0.U(8.W)
+
+  var flowlight = Module(new light())
+  flowlight.io.clk := io.clock
+  flowlight.io.rst := io.reset
+  io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 }
