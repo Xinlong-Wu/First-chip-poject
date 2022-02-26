@@ -85,8 +85,12 @@ class top extends Module{
   data_ready := my_keyboard.io.ready
   data_overflow := my_keyboard.io.overflow
 
+  val reader_reset = Reg(Bool())
+  reader_reset := nextdata_n & data_ready
+
   val ps2_reader = Module(new ps2_reader())
   ps2_reader.clock := data_ready.asBool.asClock
+  ps2_reader.reset := reader_reset
   ps2_reader.io.data := data
   ps2_reader.io.overflow := data_overflow
   nextdata_n := ps2_reader.io.finish

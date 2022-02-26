@@ -6,10 +6,12 @@ class ps2_reader extends Module {
     val overflow = Input(Bool())
     val finish = Output(Bool())
   })
+
   io.finish := DontCare
 
-//  val ps2data = Wire(UInt(8.W))
-//  ps2data
+  when(reset.asBool){
+    printf(p"reset!\n")
+  }
 
   when(io.overflow){
     printf(p"over flow!!\n")
@@ -17,5 +19,6 @@ class ps2_reader extends Module {
 
   when(clock.asBool){
     printf(p"got $io \n")
+
   }
 }
