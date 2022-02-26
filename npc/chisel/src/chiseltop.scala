@@ -3,6 +3,8 @@ import chisel3._
 import chisel3.util.Counter
 
 class chiseltop extends Module{
+//  val clock = IO(Input(Clock()))
+//  val reset = IO(Input(UInt(1.W)))
   val io = IO(new Bundle {
     val sw = Input(UInt(16.W))
     val ps2_clk = Input(UInt(1.W))
@@ -43,29 +45,32 @@ class chiseltop extends Module{
   io.VGA_B := 0.U(8.W)
 
   val flowlight = Module(new light())
+//  flowlight.io.clk := io.clock.asUInt
+//  flowlight.io.rst := io.reset
   io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
-  val (_, clk_1s) = Counter(true.B, 24999999)
+//  withClockAndReset(io.clock, io.reset.asBool){
+    val (_, clk_1s) = Counter(true.B, 24999999)
 
-  val counterRes = RegInit(UInt(8.W),0.U(8.W))
-  when(clk_1s){
-    counterRes := counterRes + 1.U(8.W)
-  }
+    val counterRes = RegInit(UInt(8.W),0.U(8.W))
+    when(clk_1s){
+      counterRes := counterRes + 1.U(8.W)
+    }
 
-  val num1 = Module(new bcd7seg())
-  num1.io.en := 1.U
-  num1.io.num := (counterRes % 10.U(8.W))(3, 0)
-  io.seg0 := num1.io.HEX
+    val num1 = Module(new bcd7seg())
+    num1.io.en := 1.U
+    num1.io.num := (counterRes % 10.U(8.W))(3, 0)
+    io.seg0 := num1.io.HEX
 
-  val num2 = Module(new bcd7seg())
-  num2.io.en := 1.U
-  num2.io.num := ((counterRes % 100.U(8.W))/10.U(8.W))(3, 0)
-  io.seg1 := num2.io.HEX
+    val num2 = Module(new bcd7seg())
+    num2.io.en := 1.U
+    num2.io.num := ((counterRes % 100.U(8.W))/10.U(8.W))(3, 0)
+    io.seg1 := num2.io.HEX
 
-  val num3 = Module(new bcd7seg())
-  num3.io.en := 1.U
-  num3.io.num := (counterRes / 100.U(8.W))(3, 0)
-  io.seg2 := num3.io.HEX
+    val num3 = Module(new bcd7seg())
+    num3.io.en := 1.U
+    num3.io.num := (counterRes / 100.U(8.W))(3, 0)
+    io.seg2 := num3.io.HEX
 
 //    val h_addr = Wire(UInt(10.W))
 //    val v_addr = Wire(UInt(10.W))
@@ -95,4 +100,5 @@ class chiseltop extends Module{
 //    mem.io.h_addr := h_addr
 //    mem.io.v_addr := v_addr(8,0)
 //    vga_data := mem.io.vga_data
+//  }
 }
