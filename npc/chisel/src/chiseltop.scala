@@ -2,9 +2,7 @@ import Chisel.Cat
 import chisel3._
 import chisel3.util.Counter
 
-class chiseltop extends RawModule{
-  val clock = IO(Input(Clock()))
-  val reset = IO(Input(UInt(1.W)))
+class chiseltop extends Module{
   val io = IO(new Bundle {
     val sw = Input(UInt(16.W))
     val ps2_clk = Input(UInt(1.W))
@@ -51,31 +49,33 @@ class chiseltop extends RawModule{
 //  val vga_data = Wire(UInt(24.W))
 
 
-  withClockAndReset(clock, reset.asBool){
-    val flowlight = Module(new light())
-    io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
-    val (_, clk_1s) = Counter(true.B, 24999999)
+  val flowlight = Module(new light())
+  flowlight.io.clk := clock
+  flowlight.io.rst := reset
+  io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
-    val counterRes = RegInit(UInt(8.W),0.U(8.W))
-    when(clk_1s){
-      counterRes := counterRes + 1.U(8.W)
-    }
+  val (_, clk_1s) = Counter(true.B, 24999999)
 
-    val num1 = Module(new bcd7seg())
-    num1.io.en := 1.U
-    num1.io.num := (counterRes % 10.U(8.W))(3, 0)
-    io.seg0 := num1.io.HEX
+  val counterRes = RegInit(UInt(8.W),0.U(8.W))
+  when(clk_1s){
+    counterRes := counterRes + 1.U(8.W)
+  }
 
-    val num2 = Module(new bcd7seg())
-    num2.io.en := 1.U
-    num2.io.num := ((counterRes % 100.U(8.W))/10.U(8.W))(3, 0)
-    io.seg1 := num2.io.HEX
+  val num1 = Module(new bcd7seg())
+  num1.io.en := 1.U
+  num1.io.num := (counterRes % 10.U(8.W))(3, 0)
+  io.seg0 := num1.io.HEX
 
-    val num3 = Module(new bcd7seg())
-    num3.io.en := 1.U
-    num3.io.num := (counterRes / 100.U(8.W))(3, 0)
-    io.seg2 := num3.io.HEX
+  val num2 = Module(new bcd7seg())
+  num2.io.en := 1.U
+  num2.io.num := ((counterRes % 100.U(8.W))/10.U(8.W))(3, 0)
+  io.seg1 := num2.io.HEX
+
+  val num3 = Module(new bcd7seg())
+  num3.io.en := 1.U
+  num3.io.num := (counterRes / 100.U(8.W))(3, 0)
+  io.seg2 := num3.io.HEX
 
 //    val my_keyboard = Module(new ps2_keyboard())
 //    my_keyboard.io.clk := clock.asUInt
@@ -95,7 +95,7 @@ class chiseltop extends RawModule{
 //    io.VGA_R := my_vga_ctrl.io.vga_r
 //    io.VGA_G := my_vga_ctrl.io.vga_g
 //    io.VGA_B := my_vga_ctrl.io.vga_b
-  }
+
 
 //  val mem = Module(new vmem())
 //  mem.clock := clock
