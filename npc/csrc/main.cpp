@@ -24,8 +24,8 @@ int main() {
 
   while(1) {
     nvboard_update();
-    top.clock = !top.clock;
-    top.eval();
-    // single_cycle();
+    // top.clock = !top.clock;
+    // top.eval();
+    single_cycle();
   }
 }
