@@ -38,9 +38,13 @@ class vga_ctrl extends BlackBox{
 class ps2_keyboard extends BlackBox{
   val io = IO(new Bundle {
     val clk = Input(UInt(1.W))
-    val resetn = Input(UInt(1.W))
+    val clrn = Input(UInt(1.W))
     val ps2_clk = Input(UInt(1.W))
     val ps2_data = Input(UInt(1.W))
+    val nextdata_n = Input(UInt(1.W))
+    val data = Output(UInt(8.W))
+    val ready = Output(UInt(1.W))
+    val overflow = Output(UInt(1.W))
   })
 }
 
