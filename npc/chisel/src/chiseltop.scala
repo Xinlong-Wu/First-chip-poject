@@ -53,8 +53,6 @@ class chiseltop extends RawModule{
 
   withClockAndReset(clock, reset.asBool){
     val flowlight = Module(new light())
-    flowlight.io.clk := clock
-    flowlight.io.rst := reset
     io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
     val (_, clk_1s) = Counter(true.B, 24999999)
