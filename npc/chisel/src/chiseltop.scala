@@ -8,7 +8,7 @@ class chiseltop extends Module{
     val ps2_clk = Input(UInt(1.W))
     val ps2_data = Input(UInt(1.W))
     val ledr = Output(UInt(16.W))
-    val VGA_CLK = Output(UInt(1.W))
+    val VGA_CLK = Output(Clock())
     val VGA_HSYNC = Output(UInt(1.W))
     val VGA_VSYNC = Output(UInt(1.W))
     val VGA_BLANK_N = Output(UInt(1.W))
@@ -34,7 +34,7 @@ class chiseltop extends Module{
   io.seg6 := "b11111111".U
   io.seg7 := "b11111111".U
   io.ledr := 0.U(16.W)
-  io.VGA_CLK := 0.U(1.W)
+  io.VGA_CLK := clock
   io.VGA_HSYNC := 0.U(1.W)
   io.VGA_VSYNC := 0.U(1.W)
   io.VGA_BLANK_N := 0.U(1.W)
