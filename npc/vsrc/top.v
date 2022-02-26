@@ -74,9 +74,9 @@ ps2_keyboard my_keyboard(
 );
 
 vmem my_vmem(
-    .h_addr(h_addr),
-    .v_addr(v_addr[8:0]),
-    .vga_data(vga_data)
+    .io_h_addr(h_addr),
+    .io_v_addr(v_addr[8:0]),
+    .io_vga_data(vga_data)
 );
 
 endmodule
