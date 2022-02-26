@@ -18,5 +18,5 @@ class ps2_reader extends Module {
     }
   }
 
-  when()
+//  when()
 }
