@@ -14,8 +14,8 @@ class led extends BlackBox{
 
 class light extends BlackBox{
   val io = IO(new Bundle {
-    val clk = Input(UInt(1.W))
-    val rst = Input(UInt(1.W))
+    val clk = Input(Clock())
+    val rst = Input(Bool())
     val led = Output(UInt(12.W))
   })
 }
