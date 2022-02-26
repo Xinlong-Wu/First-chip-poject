@@ -23,8 +23,8 @@ module top (
 );
 
 chiseltop chiseltop(
-    .io_clock(clock),
-    .io_reset(reset),
+    .clock(clock),
+    .reset(reset),
     .io_sw(sw),
     .io_ps2_clk(ps2_clk),
     .io_ps2_data(ps2_data),
