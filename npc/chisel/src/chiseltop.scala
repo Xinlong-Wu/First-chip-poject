@@ -1,9 +1,8 @@
 import Chisel.Cat
 import chisel3._
 import chisel3.util.Counter
-import chisel3.util.experimental.loadMemoryFromFile
 
-class top extends RawModule{
+class chiseltop extends RawModule{
   val clock = IO(Input(Clock()))
   val reset = IO(Input(UInt(1.W)))
   val io = IO(new Bundle {
@@ -98,11 +97,11 @@ class top extends RawModule{
     io.VGA_B := my_vga_ctrl.io.vga_b
   }
 
-  val mem = Module(new vmem())
-  mem.clock := clock
-  mem.reset := reset
-  mem.io.h_addr := h_addr
-  mem.io.v_addr := v_addr(8,0)
-  vga_data := mem.io.vga_data
+//  val mem = Module(new vmem())
+//  mem.clock := clock
+//  mem.reset := reset
+//  mem.io.h_addr := h_addr
+//  mem.io.v_addr := v_addr(8,0)
+//  vga_data := mem.io.vga_data
 
 }
