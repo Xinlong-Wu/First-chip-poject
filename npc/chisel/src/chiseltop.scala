@@ -54,7 +54,7 @@ class chiseltop extends RawModule{
     val count_clk = Reg(UInt(25.W))
     when(count_clk === 24999999.U){
       count_clk := 0.U
-      clk_1s := ~clk_1s
+      clk_1s := Mux(clk_1s, 0.U, 1.U)
     }.otherwise{
       count_clk := count_clk + 1.U
     }
