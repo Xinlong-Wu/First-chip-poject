@@ -45,7 +45,7 @@ class top extends Module{
   flowlight.io.rst := reset
   ledr := Cat(flowlight.io.led, 0.U(4.W))
 
-  val (_, clk_1s) = Counter(true.B, 50000)
+  val (_, clk_1s) = Counter(true.B, 24999999)
 
   val counterRes = RegInit(UInt(8.W),0.U(8.W))
   when(clk_1s){
@@ -71,24 +71,24 @@ class top extends Module{
   val v_addr = Wire(UInt(10.W))
   val vga_data = Wire(UInt(24.W))
 
-    val my_keyboard = Module(new ps2_keyboard())
-    my_keyboard.io.clk := clock.asUInt
-    my_keyboard.io.resetn := ~reset.asUInt
-    my_keyboard.io.ps2_clk := ps2_clk
-    my_keyboard.io.ps2_data := ps2_data
+  val my_keyboard = Module(new ps2_keyboard())
+  my_keyboard.io.clk := clock.asUInt
+  my_keyboard.io.resetn := ~reset.asUInt
+  my_keyboard.io.ps2_clk := ps2_clk
+  my_keyboard.io.ps2_data := ps2_data
 
-    val my_vga_ctrl = Module(new vga_ctrl())
-    my_vga_ctrl.io.pclk := clock.asUInt
-    my_vga_ctrl.io.reset := reset
-    my_vga_ctrl.io.vga_data := vga_data
-    h_addr := my_vga_ctrl.io.h_addr
-    v_addr := my_vga_ctrl.io.v_addr
-    VGA_HSYNC := my_vga_ctrl.io.hsync
-    VGA_VSYNC := my_vga_ctrl.io.vsync
-    VGA_BLANK_N := my_vga_ctrl.io.valid
-    VGA_R := my_vga_ctrl.io.vga_r
-    VGA_G := my_vga_ctrl.io.vga_g
-    VGA_B := my_vga_ctrl.io.vga_b
+  val my_vga_ctrl = Module(new vga_ctrl())
+  my_vga_ctrl.io.pclk := clock.asUInt
+  my_vga_ctrl.io.reset := reset
+  my_vga_ctrl.io.vga_data := vga_data
+  h_addr := my_vga_ctrl.io.h_addr
+  v_addr := my_vga_ctrl.io.v_addr
+  VGA_HSYNC := my_vga_ctrl.io.hsync
+  VGA_VSYNC := my_vga_ctrl.io.vsync
+  VGA_BLANK_N := my_vga_ctrl.io.valid
+  VGA_R := my_vga_ctrl.io.vga_r
+  VGA_G := my_vga_ctrl.io.vga_g
+  VGA_B := my_vga_ctrl.io.vga_b
 
 
   val mem = Module(new vmem())
