@@ -9,10 +9,6 @@ class ps2_reader extends Module {
     val finish = Output(Bool())
 //    val outdata = Output(UInt(8.W))
   })
-//  ~io.en
-
-  val doen = RegInit(false.B)
-  doen := io.finish
 
   withClock(io.readClk){
     val ps2data = Wire(UInt(8.W))
@@ -20,9 +16,5 @@ class ps2_reader extends Module {
 
     printf(p"got $io \n")
     io.finish := 1.U
-  }
-
-  when(doen === true.B){
-    io.finish := 0.U
   }
 }
