@@ -87,7 +87,7 @@ module vmem (
     output [23:0] vga_data
 );
 
-reg [23:0] vga_mem [524287:0];
+reg [23:0] vga_mem [0:524287];
 
 initial begin
     $readmemh("npc/resource/picture.hex", vga_mem);

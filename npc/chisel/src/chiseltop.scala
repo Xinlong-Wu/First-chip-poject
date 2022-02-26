@@ -49,9 +49,9 @@ class chiseltop extends RawModule{
   flowlight.io.rst := reset
   io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
-  val h_addr = Wire(UInt(10.W))
-  val v_addr = Wire(UInt(10.W))
-  val vga_data = Wire(UInt(24.W))
+//  val h_addr = Wire(UInt(10.W))
+//  val v_addr = Wire(UInt(10.W))
+//  val vga_data = Wire(UInt(24.W))
 
 
   withClockAndReset(clock, reset.asBool){
@@ -77,24 +77,24 @@ class chiseltop extends RawModule{
     num3.io.num := (counterRes / 100.U(8.W))(3, 0)
     io.seg2 := num3.io.HEX
 
-    val my_keyboard = Module(new ps2_keyboard())
-    my_keyboard.io.clk := clock.asUInt
-    my_keyboard.io.resetn := ~reset
-    my_keyboard.io.ps2_clk := io.ps2_clk
-    my_keyboard.io.ps2_data := io.ps2_data
-
-    val my_vga_ctrl = Module(new vga_ctrl())
-    my_vga_ctrl.io.pclk := clock.asUInt
-    my_vga_ctrl.io.reset := reset
-    my_vga_ctrl.io.vga_data := vga_data
-    h_addr := my_vga_ctrl.io.h_addr
-    v_addr := my_vga_ctrl.io.v_addr
-    io.VGA_HSYNC := my_vga_ctrl.io.hsync
-    io.VGA_VSYNC := my_vga_ctrl.io.vsync
-    io.VGA_BLANK_N := my_vga_ctrl.io.valid
-    io.VGA_R := my_vga_ctrl.io.vga_r
-    io.VGA_G := my_vga_ctrl.io.vga_g
-    io.VGA_B := my_vga_ctrl.io.vga_b
+//    val my_keyboard = Module(new ps2_keyboard())
+//    my_keyboard.io.clk := clock.asUInt
+//    my_keyboard.io.resetn := ~reset
+//    my_keyboard.io.ps2_clk := io.ps2_clk
+//    my_keyboard.io.ps2_data := io.ps2_data
+//
+//    val my_vga_ctrl = Module(new vga_ctrl())
+//    my_vga_ctrl.io.pclk := clock.asUInt
+//    my_vga_ctrl.io.reset := reset
+//    my_vga_ctrl.io.vga_data := vga_data
+//    h_addr := my_vga_ctrl.io.h_addr
+//    v_addr := my_vga_ctrl.io.v_addr
+//    io.VGA_HSYNC := my_vga_ctrl.io.hsync
+//    io.VGA_VSYNC := my_vga_ctrl.io.vsync
+//    io.VGA_BLANK_N := my_vga_ctrl.io.valid
+//    io.VGA_R := my_vga_ctrl.io.vga_r
+//    io.VGA_G := my_vga_ctrl.io.vga_g
+//    io.VGA_B := my_vga_ctrl.io.vga_b
   }
 
 //  val mem = Module(new vmem())
