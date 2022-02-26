@@ -1,5 +1,7 @@
+import Chisel.Cat
 import chisel3._
 import chisel3.util.HasBlackBoxInline
+import chisel3.util.experimental.loadMemoryFromFile
 
 class led extends BlackBox{
   val io = Wire(new Bundle {
@@ -43,29 +45,14 @@ class ps2_keyboard extends BlackBox{
   })
 }
 
-class vmem extends BlackBox with HasBlackBoxInline{
+class vmem extends Module{
   val io = IO(new Bundle {
     val h_addr = Input(UInt(10.W))
     val v_addr = Input(UInt(9.W))
     val vga_data = Output(UInt(24.W))
   })
+  val mem = Mem(524288, UInt(24.W))
+  loadMemoryFromFile(mem, "npc/resource/picture.hex")
 
-  setInline("vmem.v",
-    """
-      |module vmem (
-      |    input [9:0] h_addr,
-      |    input [8:0] v_addr,
-      |    output [23:0] vga_data
-      |);
-      |
-      |reg [23:0] vga_mem [524287:0];
-      |
-      |initial begin
-      |    $readmemh("npc/resource/picture.hex", vga_mem);
-      |end
-      |
-      |assign vga_data = vga_mem[{h_addr, v_addr}];
-      |
-      |endmodule
-    """.stripMargin)
+  io.vga_data := mem.read(Cat(io.h_addr, io.v_addr))
 }
