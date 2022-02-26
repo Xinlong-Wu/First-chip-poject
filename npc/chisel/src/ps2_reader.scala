@@ -19,6 +19,6 @@ class ps2_reader extends Module {
 
   when(clock.asBool){
     printf(p"got $io \n")
-
+    io.finish := true.B
   }
 }
