@@ -49,7 +49,13 @@ class chiseltop extends RawModule{
   flowlight.io.rst := io.reset
   io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
-//  withClockAndReset(io.clock, io.reset.asBool){
+  withClockAndReset(io.clock, io.reset.asBool){
+    val (counterRes, clk_1s) = Counter(true.B, 24999999)
+
+    val num1 = Module(new bcd7seg())
+    num1.io.en := 1.U
+    num1.io.num := (counterRes % 10.U(8.W))(3, 0)
+    io.seg0 := num1.io.HEX
 //    val (_, clk_1s) = Counter(true.B, 24999999)
 //
 //    withClock(clk_1s.asClock){
@@ -70,5 +76,5 @@ class chiseltop extends RawModule{
 //      num3.io.num := (counterRes / 100.U(8.W))(3, 0)
 //      io.seg2 := num3.io.HEX
 //    }
-//  }
+  }
 }
