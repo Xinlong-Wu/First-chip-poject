@@ -7,7 +7,10 @@ class ps2_reader extends Module {
   })
   io.finish := DontCare
 
+//  val ps2data = Wire(UInt(8.W))
+//  ps2data
+
   when(clock.asBool){
-    printf("c")
+    printf(p"got $io.data")
   }
 }
