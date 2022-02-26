@@ -2,7 +2,7 @@ import Chisel.Cat
 import chisel3._
 import chisel3.util.Counter
 
-class chiseltop extends Module{
+class top extends Module{
   val io = IO(new Bundle {
     val sw = Input(UInt(16.W))
     val ps2_clk = Input(UInt(1.W))
