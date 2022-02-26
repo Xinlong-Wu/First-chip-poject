@@ -44,10 +44,7 @@ class chiseltop extends RawModule{
   io.VGA_G := 0.U(8.W)
   io.VGA_B := 0.U(8.W)
 
-  val flowlight = Module(new light())
-  flowlight.io.clk := clock
-  flowlight.io.rst := reset
-  io.ledr := Cat(flowlight.io.led, 0.U(3.W))
+
 
 //  val h_addr = Wire(UInt(10.W))
 //  val v_addr = Wire(UInt(10.W))
@@ -55,6 +52,11 @@ class chiseltop extends RawModule{
 
 
   withClockAndReset(clock, reset.asBool){
+    val flowlight = Module(new light())
+    flowlight.io.clk := clock
+    flowlight.io.rst := reset
+    io.ledr := Cat(flowlight.io.led, 0.U(3.W))
+
     val (_, clk_1s) = Counter(true.B, 24999999)
 
     val counterRes = RegInit(UInt(8.W),0.U(8.W))
