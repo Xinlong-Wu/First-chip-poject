@@ -71,12 +71,12 @@ class top extends Module{
   val v_addr = Wire(UInt(10.W))
   val vga_data = Wire(UInt(24.W))
 
-//    val my_keyboard = Module(new ps2_keyboard())
-//    my_keyboard.io.clk := clock.asUInt
-//    my_keyboard.io.resetn := ~reset
-//    my_keyboard.io.ps2_clk := io.ps2_clk
-//    my_keyboard.io.ps2_data := io.ps2_data
-//
+    val my_keyboard = Module(new ps2_keyboard())
+    my_keyboard.io.clk := clock.asUInt
+    my_keyboard.io.resetn := ~reset.asUInt
+    my_keyboard.io.ps2_clk := ps2_clk
+    my_keyboard.io.ps2_data := ps2_data
+
     val my_vga_ctrl = Module(new vga_ctrl())
     my_vga_ctrl.io.pclk := clock.asUInt
     my_vga_ctrl.io.reset := reset
