@@ -23,8 +23,6 @@ class ps2_reader extends Module {
   }
 
   when(doen === true.B){
-    printf(p"waiting for data\n")
     io.finish := 0.U
-    doen := false.B
   }
 }
