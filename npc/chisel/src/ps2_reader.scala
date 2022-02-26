@@ -9,6 +9,7 @@ class ps2_reader extends Module {
 //    val outdata = Output(UInt(8.W))
   })
 //  io.finish := ~io.en
+  io.finish := DontCare
   withClock(io.readClk){
     val ps2data = Wire(UInt(8.W))
     ps2data := io.data

@@ -89,8 +89,7 @@ class top extends Module{
 //  reader_reset := nextdata_n & data_ready
 
   val ps2_reader = Module(new ps2_reader())
-  ps2_reader.clock := (data_ready.asBool | data_overflow).asClock
-//  ps2_reader.reset := reader_reset
+  ps2_reader.io.readClk := (data_ready.asBool | data_overflow).asClock
   ps2_reader.io.en := sw(0)
   ps2_reader.io.data := data
   nextdata_n := ps2_reader.io.finish
