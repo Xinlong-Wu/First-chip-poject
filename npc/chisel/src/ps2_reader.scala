@@ -7,11 +7,8 @@ class ps2_reader extends Module {
     val finish = Output(Bool())
 //    val outdata = Output(UInt(8.W))
   })
-
-  io.finish := DontCare
-
-  val ps2data = RegInit(0.U(8.W))
-  ps2data := io.data
+  val finish = RegInit(1.U(8.W))
+  io.finish := finish
 
   when(io.overflow){
     printf(p"over flow!!\n")
