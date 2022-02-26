@@ -57,17 +57,17 @@ class chiseltop extends RawModule{
 
       val num1 = Module(new bcd7seg())
       num1.io.en := 1.U
-      num1.io.num := (counterRes % 10.U(10.W))(3, 0)
+      num1.io.num := (counterRes % 10.U(8.W))(3, 0)
       io.seg0 := num1.io.HEX
 
       val num2 = Module(new bcd7seg())
       num2.io.en := 1.U
-      num2.io.num := ((counterRes % 100.U(10.W))/10.U(10.W))(3, 0)
+      num2.io.num := ((counterRes % 100.U(8.W))/10.U(8.W))(3, 0)
       io.seg1 := num2.io.HEX
 
       val num3 = Module(new bcd7seg())
       num3.io.en := 1.U
-      num3.io.num := (counterRes / 100.U(10.W))(3, 0)
+      num3.io.num := (counterRes / 100.U(8.W))(3, 0)
       io.seg2 := num3.io.HEX
     }
   }
