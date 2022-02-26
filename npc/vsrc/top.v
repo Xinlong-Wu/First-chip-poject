@@ -46,39 +46,39 @@ chiseltop chiseltop(
     .io_seg7(seg7)
 );
 
-// assign VGA_CLK = clock;
+assign VGA_CLK = clock;
 
-// wire [9:0] h_addr;
-// wire [9:0] v_addr;
-// wire [23:0] vga_data;
+wire [9:0] h_addr;
+wire [9:0] v_addr;
+wire [23:0] vga_data;
 
-// vga_ctrl my_vga_ctrl(
-//     .pclk(clock),
-//     .reset(reset),
-//     .vga_data(vga_data),
-//     .h_addr(h_addr),
-//     .v_addr(v_addr),
-//     .hsync(VGA_HSYNC),
-//     .vsync(VGA_VSYNC),
-//     .valid(VGA_BLANK_N),
-//     .vga_r(VGA_R),
-//     .vga_g(VGA_G),
-//     .vga_b(VGA_B)
-// );
+vga_ctrl my_vga_ctrl(
+    .pclk(clock),
+    .reset(reset),
+    .vga_data(vga_data),
+    .h_addr(h_addr),
+    .v_addr(v_addr),
+    .hsync(VGA_HSYNC),
+    .vsync(VGA_VSYNC),
+    .valid(VGA_BLANK_N),
+    .vga_r(VGA_R),
+    .vga_g(VGA_G),
+    .vga_b(VGA_B)
+);
 
-// ps2_keyboard my_keyboard(
-//     .clk(clock),
-//     .resetn(~reset),
-//     .ps2_clk(ps2_clk),
-//     .ps2_data(ps2_data)
-// );
+ps2_keyboard my_keyboard(
+    .clk(clock),
+    .resetn(~reset),
+    .ps2_clk(ps2_clk),
+    .ps2_data(ps2_data)
+);
 
-// vmem my_vmem(
-//     .clock(clock),
-//     .reset(reset),
-//     .io_h_addr(h_addr),
-//     .io_v_addr(v_addr[8:0]),
-//     .io_vga_data(vga_data)
-// );
+vmem my_vmem(
+    .clock(clock),
+    .reset(reset),
+    .io_h_addr(h_addr),
+    .io_v_addr(v_addr[8:0]),
+    .io_vga_data(vga_data)
+);
 
 endmodule
