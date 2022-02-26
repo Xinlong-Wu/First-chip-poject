@@ -12,7 +12,7 @@ class ps2_reader extends Module {
 //  ~io.en
 
   val doen = RegInit(false.B)
-  io.finish := doen
+  doen := io.finish
 
   withClock(io.readClk){
     val ps2data = Wire(UInt(8.W))
@@ -20,7 +20,6 @@ class ps2_reader extends Module {
 
     printf(p"got $io \n")
     io.finish := 1.U
-    doen := true.B
   }
 
   when(doen === true.B){
