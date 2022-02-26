@@ -81,18 +81,18 @@ vmem my_vmem(
 
 endmodule
 
-module vmem (
-    input [9:0] h_addr,
-    input [8:0] v_addr,
-    output [23:0] vga_data
-);
+// module vmem (
+//     input [9:0] h_addr,
+//     input [8:0] v_addr,
+//     output [23:0] vga_data
+// );
 
-reg [23:0] vga_mem [0:524287];
+// reg [23:0] vga_mem [0:524287];
 
-initial begin
-    $readmemh("npc/resource/picture.hex", vga_mem);
-end
+// initial begin
+//     $readmemh("npc/resource/picture.hex", vga_mem);
+// end
 
-assign vga_data = vga_mem[{h_addr, v_addr}];
+// assign vga_data = vga_mem[{h_addr, v_addr}];
 
-endmodule
+// endmodule
