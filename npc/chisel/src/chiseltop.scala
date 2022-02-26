@@ -47,7 +47,7 @@ class chiseltop extends Module{
   flowlight.io.rst := reset
   io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
-  val (_, clk_1s) = Counter(true.B, 24999999)
+  val (_, clk_1s) = Counter(true.B, 50000)
 
   val counterRes = RegInit(UInt(8.W),0.U(8.W))
   when(clk_1s){
