@@ -7,17 +7,14 @@ class ps2_reader extends Module {
     val data = Input(UInt(8.W))
     val en = Input(Bool())
     val finish = Output(Bool())
-//    val outdata = Output(UInt(8.W))
+    val outdata = Output(UInt(8.W))
   })
 
   val doen = RegInit(false.B)
   doen := io.finish
 
   withClock(io.readClk){
-    val ps2data = Wire(UInt(8.W))
-    ps2data := io.data
-
-    printf(p"got $doen \n")
+    io.outdata := io.data
     io.finish := 1.U
   }
 

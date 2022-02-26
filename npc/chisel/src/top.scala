@@ -85,14 +85,12 @@ class top extends Module{
   data_ready := my_keyboard.io.ready
   data_overflow := my_keyboard.io.overflow
 
-//  val reader_reset = Wire(Bool())
-//  reader_reset := nextdata_n & data_ready
-
   val ps2_reader = Module(new ps2_reader())
   ps2_reader.io.readClk := data_ready.asBool.asClock
   ps2_reader.io.en := sw(0)
   ps2_reader.io.data := data
   nextdata_n := ps2_reader.io.finish
+
 
 
   val my_vga_ctrl = Module(new vga_ctrl())
