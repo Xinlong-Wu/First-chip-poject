@@ -1,4 +1,5 @@
 import chisel3._
+import firrtl.Utils.False
 
 class ps2_reader extends Module {
   val io = IO(new Bundle() {
@@ -8,16 +9,22 @@ class ps2_reader extends Module {
     val finish = Output(Bool())
 //    val outdata = Output(UInt(8.W))
   })
-//  io.finish := ~io.en
-  io.finish := DontCare
+  io.finish := ~io.en
+
+  val doen = Reg(Bool())
+
   withClock(io.readClk){
     val ps2data = Wire(UInt(8.W))
     ps2data := io.data
 
-    when(clock.asBool){
-      printf(p"got $io \n")
-    }
+    printf(p"got $io \n")
+    io.finish := 1.U
+    doen := true.B
   }
 
-//  when()
+  when(doen){
+//    printf(p"got $io \n")
+    io.finish := 0.U
+    doen := false.B
+  }
 }
