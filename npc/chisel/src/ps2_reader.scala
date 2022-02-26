@@ -15,7 +15,6 @@ class ps2_reader extends Module {
   }
 
   when(clock.asBool){
-    printf(p"got $ps2data \n")
-//    io.finish := true.B
+//    printf(p"got $ps2data \n")
   }
 }
