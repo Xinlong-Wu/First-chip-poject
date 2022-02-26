@@ -9,16 +9,14 @@ class ps2_reader extends Module {
 
   io.finish := DontCare
 
-  when(reset.asBool){
-    printf(p"reset!\n")
-  }
+  val ps2data = Reg(UInt(8.W))
 
   when(io.overflow){
     printf(p"over flow!!\n")
   }
 
   when(clock.asBool){
-    printf(p"got $io \n")
-    io.finish := true.B
+    printf(p"got $ps2data \n")
+//    io.finish := true.B
   }
 }
