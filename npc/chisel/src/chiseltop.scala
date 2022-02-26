@@ -2,7 +2,7 @@ import Chisel.Cat
 import chisel3._
 import chisel3.util.Counter
 
-class top extends RawModule{
+class chiseltop extends RawModule{
   val io = IO(new Bundle {
     val clock = Input(Clock())
     val reset = Input(UInt(1.W))
