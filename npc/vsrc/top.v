@@ -74,6 +74,8 @@ ps2_keyboard my_keyboard(
 );
 
 vmem my_vmem(
+    .clock(clock)
+    .reset(reset)
     .io_h_addr(h_addr),
     .io_v_addr(v_addr[8:0]),
     .io_vga_data(vga_data)
