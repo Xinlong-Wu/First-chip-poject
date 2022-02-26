@@ -74,6 +74,7 @@ class top extends Module{
   val data_ready = Wire(UInt(1.W))
   val data = Wire(UInt(8.W))
   val nextdata_n = Wire(UInt(1.W))
+  val data_overflow = Wire(Bool())
   val my_keyboard = Module(new ps2_keyboard())
   my_keyboard.io.clk := clock.asUInt
   my_keyboard.io.clrn := ~reset.asUInt
@@ -82,10 +83,12 @@ class top extends Module{
   my_keyboard.io.nextdata_n := nextdata_n
   data := my_keyboard.io.data
   data_ready := my_keyboard.io.ready
+  data_overflow := my_keyboard.io.overflow
 
   val ps2_reader = Module(new ps2_reader())
   ps2_reader.clock := data_ready.asBool.asClock
   ps2_reader.io.data := data
+  ps2_reader.io.overflow := data_overflow
   nextdata_n := ps2_reader.io.finish
 
 
