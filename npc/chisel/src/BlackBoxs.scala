@@ -1,6 +1,5 @@
 import Chisel.Cat
 import chisel3._
-import chisel3.util.HasBlackBoxInline
 import chisel3.util.experimental.loadMemoryFromFile
 
 class led extends BlackBox{
@@ -45,14 +44,34 @@ class ps2_keyboard extends BlackBox{
   })
 }
 
-class vmem extends Module{
+//class vmem extends RawModule{
+//  val clock = IO(Input(Clock()))
+//  val reset = IO(Input(UInt(1.W)))
+//  val io = IO(new Bundle {
+//    val h_addr = Input(UInt(10.W))
+//    val v_addr = Input(UInt(9.W))
+//    val vga_data = Output(UInt(24.W))
+//  })
+//  withClockAndReset(clock, reset.asBool){
+//    val mem = Mem(524288, UInt(24.W))
+//    loadMemoryFromFile(mem, "npc/resource/picture.hex")
+//
+//    io.vga_data := mem.read(Cat(io.h_addr, io.v_addr))
+//  }
+//}
+
+class LoadMem extends RawModule {
+  val clock = IO(Input(Clock()))
+  val reset = IO(Input(UInt(1.W)))
   val io = IO(new Bundle {
-    val h_addr = Input(UInt(10.W))
-    val v_addr = Input(UInt(9.W))
+//    val h_addr = Input(UInt(10.W))
+//    val v_addr = Input(UInt(9.W))
+    val address = Input(UInt(3.W))
     val vga_data = Output(UInt(24.W))
   })
-  val mem = Mem(524288, UInt(24.W))
-  loadMemoryFromFile(mem, "npc/resource/picture.hex")
-
-  io.vga_data := mem.read(Cat(io.h_addr, io.v_addr))
+  withClockAndReset(clock, reset.asBool){
+    val memory = Mem(8, UInt(24.W))
+    io.vga_data := memory.read(io.address)
+    loadMemoryFromFile(memory, "npc/resource/picture.hex")
+  }
 }
