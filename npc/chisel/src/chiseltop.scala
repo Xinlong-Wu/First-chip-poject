@@ -44,33 +44,31 @@ class chiseltop extends RawModule{
   io.VGA_G := 0.U(8.W)
   io.VGA_B := 0.U(8.W)
 
-  withClockAndReset(io.clock, io.reset.asBool){
-    val (_, clk_1s) = Counter(true.B, 24999999)
+  val flowlight = Module(new light())
+  flowlight.io.clk := io.clock.asUInt
+  flowlight.io.rst := io.reset
+  io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
-    when(clk_1s){
-      val flowlight = Module(new light())
-      flowlight.io.clk := io.clock.asUInt
-      flowlight.io.rst := io.reset
-      io.ledr := Cat(flowlight.io.led, 0.U(3.W))
-    }
-
-    withClock(clk_1s.asClock){
-      val (counterRes, _) = Counter(true.B, 233)
-
-      val num1 = Module(new bcd7seg())
-      num1.io.en := 1.U
-      num1.io.num := (counterRes % 10.U(8.W))(3, 0)
-      io.seg0 := num1.io.HEX
-
-      val num2 = Module(new bcd7seg())
-      num2.io.en := 1.U
-      num2.io.num := ((counterRes % 100.U(8.W))/10.U(8.W))(3, 0)
-      io.seg1 := num2.io.HEX
-
-      val num3 = Module(new bcd7seg())
-      num3.io.en := 1.U
-      num3.io.num := (counterRes / 100.U(8.W))(3, 0)
-      io.seg2 := num3.io.HEX
-    }
-  }
+//  withClockAndReset(io.clock, io.reset.asBool){
+//    val (_, clk_1s) = Counter(true.B, 24999999)
+//
+//    withClock(clk_1s.asClock){
+//      val (counterRes, _) = Counter(true.B, 233)
+//
+//      val num1 = Module(new bcd7seg())
+//      num1.io.en := 1.U
+//      num1.io.num := (counterRes % 10.U(8.W))(3, 0)
+//      io.seg0 := num1.io.HEX
+//
+//      val num2 = Module(new bcd7seg())
+//      num2.io.en := 1.U
+//      num2.io.num := ((counterRes % 100.U(8.W))/10.U(8.W))(3, 0)
+//      io.seg1 := num2.io.HEX
+//
+//      val num3 = Module(new bcd7seg())
+//      num3.io.en := 1.U
+//      num3.io.num := (counterRes / 100.U(8.W))(3, 0)
+//      io.seg2 := num3.io.HEX
+//    }
+//  }
 }
