@@ -29,7 +29,7 @@ class bcd7seg extends Module{
     }.elsewhen(io.num === 7.U){
       io.HEX := Cat( 0.U(3.W), encode(7, 3))
     }.elsewhen(io.num === 8.U){
-      io.HEX := Cat(0.U(6.W), encode(7, 6))
+      io.HEX := Cat(0.U(7.W), encode(7))
     }.elsewhen(io.num === 9.U){
       io.HEX := Cat(0.U(4.W), encode(4), 0.U(2.W), encode(7))
     }
