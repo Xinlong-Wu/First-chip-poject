@@ -49,6 +49,11 @@ class chiseltop extends RawModule{
   flowlight.io.rst := reset
   io.ledr := Cat(flowlight.io.led, 0.U(3.W))
 
+  val h_addr = Wire(UInt(10.W))
+  val v_addr = Wire(UInt(10.W))
+  val vga_data = Wire(UInt(24.W))
+
+
   withClockAndReset(clock, reset.asBool){
     val (_, clk_1s) = Counter(true.B, 24999999)
 
@@ -72,10 +77,6 @@ class chiseltop extends RawModule{
     num3.io.num := (counterRes / 100.U(8.W))(3, 0)
     io.seg2 := num3.io.HEX
 
-    val h_addr = Wire(UInt(10.W))
-    val v_addr = Wire(UInt(10.W))
-    val vga_data = Wire(UInt(24.W))
-
     val my_keyboard = Module(new ps2_keyboard())
     my_keyboard.io.clk := clock.asUInt
     my_keyboard.io.resetn := ~reset
@@ -94,11 +95,18 @@ class chiseltop extends RawModule{
     io.VGA_R := my_vga_ctrl.io.vga_r
     io.VGA_G := my_vga_ctrl.io.vga_g
     io.VGA_B := my_vga_ctrl.io.vga_b
-//
-//
-//    val mem = Module(new vmem())
-//    mem.io.h_addr := h_addr
-//    mem.io.v_addr := v_addr(8,0)
-//    vga_data := mem.io.vga_data
   }
+
+//  val mem = Module(new vmem())
+//  mem.clock := clock
+//  mem.reset := reset
+//  mem.io.h_addr := h_addr
+//  mem.io.v_addr := v_addr(8,0)
+//  vga_data := mem.io.vga_data
+
+  val mem = Module(new LoadMem())
+  mem.clock := clock
+  mem.reset := reset
+  mem.io.address := 0.U(3.W)
+  vga_data := mem.io.vga_data
 }
