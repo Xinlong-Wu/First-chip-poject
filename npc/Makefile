@@ -8,7 +8,7 @@ test:
 
 verilog: $(CHISEL_SRC)
 	$(call git_commit, "generate verilog")
-	python $(NPC_DIR)/resourse/AsciiGen.py $(NPC_DIR)/resourse
+	python $(NPC_DIR)/resource/AsciiGen.py $(NPC_DIR)/resource
 	mill -i __.test.runMain Elaborate -td $(CHISEL_BUILD)
 
 help:
