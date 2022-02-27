@@ -17,7 +17,7 @@ class ps2_reader extends Module {
     val ps2data = Wire(UInt(8.W))
     io.outdata := io.data
     ps2data := io.data
-    
+
     printf(p"got $ps2data \n")
     io.finish := 1.U
   }
