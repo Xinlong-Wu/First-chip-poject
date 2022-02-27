@@ -91,9 +91,9 @@ class top extends Module{
   ps2_reader.io.data := data
   nextdata_n := ps2_reader.io.finish
 
-  val my_vga_ctrl = Module(new vga_graph_ctrl())
-  my_vga_ctrl.io.pclk := clock.asUInt
-  my_vga_ctrl.io.reset := reset
+  val my_vga_ctrl = Module(new vga_ctrl())
+  my_vga_ctrl.clock := clock
+  my_vga_ctrl.reset := reset
   my_vga_ctrl.io.vga_data := vga_data
   h_addr := my_vga_ctrl.io.h_addr
   v_addr := my_vga_ctrl.io.v_addr
