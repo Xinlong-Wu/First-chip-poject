@@ -28,4 +28,4 @@ cleanchisel:
 	rm -rf $(CHISEL_BUILD)
 	rm -rf $(SUB_DIR)/out
 
-.PHONY: test verilog help compile bsp reformat checkformat cleanchisel
+.PHONY: test help compile bsp reformat checkformat cleanchisel
