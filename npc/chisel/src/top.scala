@@ -91,7 +91,7 @@ class top extends Module{
   ps2_reader.io.data := data
   nextdata_n := ps2_reader.io.finish
 
-  val my_vga_ctrl = Module(new vga_ctrl())
+  val my_vga_ctrl = Module(new vga_graph_ctrl())
   my_vga_ctrl.io.pclk := clock.asUInt
   my_vga_ctrl.io.reset := reset
   my_vga_ctrl.io.vga_data := vga_data
@@ -104,18 +104,18 @@ class top extends Module{
   VGA_G := my_vga_ctrl.io.vga_g
   VGA_B := my_vga_ctrl.io.vga_b
 
-  val mem = Module(new vmem(524288,24, "npc/resource/AsciiMask.hex"))
-  mem.clock := clock
-  mem.reset := reset
-  mem.io.h_addr := h_addr
-  mem.io.v_addr := v_addr(8,0)
-  vga_data := mem.io.vga_data
-
-//  val mem = Module(new vmem(524288,24, "npc/resource/picture.hex"))
+//  val mem = Module(new vmem(524288,24, "npc/resource/AsciiMask.hex"))
 //  mem.clock := clock
 //  mem.reset := reset
 //  mem.io.h_addr := h_addr
 //  mem.io.v_addr := v_addr(8,0)
 //  vga_data := mem.io.vga_data
+
+  val mem = Module(new vmem(524288,24, "npc/resource/picture.hex"))
+  mem.clock := clock
+  mem.reset := reset
+  mem.io.h_addr := h_addr
+  mem.io.v_addr := v_addr(8,0)
+  vga_data := mem.io.vga_data
 
 }

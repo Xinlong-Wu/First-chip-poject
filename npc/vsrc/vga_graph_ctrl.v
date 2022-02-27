@@ -1,4 +1,4 @@
-module vga_ctrl(
+module vga_graph_ctrl(
     input           pclk,     //25MHz时钟
     input           reset,    //置位
     input  [23:0]   vga_data, //上层模块提供的VGA颜色数据

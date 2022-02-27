@@ -19,7 +19,7 @@ class light extends BlackBox{
   })
 }
 
-class vga_ctrl extends BlackBox{
+class vga_graph_ctrl extends BlackBox{
   val io = IO(new Bundle {
     val pclk = Input(UInt(1.W))
     val reset = Input(UInt(1.W))
