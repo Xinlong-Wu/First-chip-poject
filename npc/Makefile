@@ -1,10 +1,13 @@
-SUB_DIR = $(shell pwd)/npc
+YSYX_HOME=/home/vincent/CodeSpace/First-chip-poject
+NPC_DIR = $(YSYX_HOME)/npc
+CHISEL_DIR = $(NPC_DIR)/chisel/src
+CHISEL_SRC = $(wildcard $(CHISEL_DIR)/*.scala)
 test:
-	@cd $(SUB_DIR); mill -i __.test
+	@cd $(NPC_DIR); mill -i __.test
 
-verilog:
+verilog: $(CHISEL_SRC)
 	$(call git_commit, "generate verilog")
-	cd $(SUB_DIR); mill -i __.test.runMain Elaborate -td $(CHISEL_BUILD)
+	cd $(NPC_DIR); mill -i __.test.runMain Elaborate -td $(CHISEL_BUILD)
 
 help:
 	@cd $(SUB_DIR); mill -i __.test.runMain Elaborate --help

@@ -9,6 +9,7 @@ NXDC_FILES = $(YSYX_HOME)/npc/constr/top.nxdc
 TOPNAME = top
 NPC_DIR = $(YSYX_HOME)/npc
 CPP_DIR = $(NPC_DIR)/csrc
+CHISEL_DIR = $(NPC_DIR)/chisel/src
 VERILOG_DIR = $(NPC_DIR)/vsrc
 BUILD_DIR = $(YSYX_HOME)/build
 CHISEL_BUILD = $(NPC_DIR)/build
