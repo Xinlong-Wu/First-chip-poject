@@ -1,31 +1,33 @@
 YSYX_HOME=/home/vincent/CodeSpace/First-chip-poject
 NPC_DIR = $(YSYX_HOME)/npc
+CHISEL_BUILD = $(NPC_DIR)/build
 CHISEL_DIR = $(NPC_DIR)/chisel/src
 CHISEL_SRC = $(wildcard $(CHISEL_DIR)/*.scala)
 test:
-	@cd $(NPC_DIR); mill -i __.test
+	mill -i __.test
 
 verilog: $(CHISEL_SRC)
 	$(call git_commit, "generate verilog")
-	cd $(NPC_DIR); mill -i __.test.runMain Elaborate -td $(CHISEL_BUILD)
+	python
+	mill -i __.test.runMain Elaborate -td $(CHISEL_BUILD)
 
 help:
-	@cd $(SUB_DIR); mill -i __.test.runMain Elaborate --help
+	mill -i __.test.runMain Elaborate --help
 
 compile:
-	@cd $(SUB_DIR); mill -i __.compile
+	mill -i __.compile
 
 bsp:
-	@cd $(SUB_DIR); mill -i mill.bsp.BSP/install
+	mill -i mill.bsp.BSP/install
 
 reformat:
-	@cd $(SUB_DIR); mill -i __.reformat
+	mill -i __.reformat
 
 checkformat:
-	@cd $(SUB_DIR); mill -i __.checkFormat
+	mill -i __.checkFormat
 
 cleanchisel:
 	rm -rf $(CHISEL_BUILD)
-	rm -rf $(SUB_DIR)/out
+	rm -rf $(NPC_DIR)/out
 
 .PHONY: test help compile bsp reformat checkformat cleanchisel
