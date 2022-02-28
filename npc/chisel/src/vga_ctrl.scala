@@ -57,8 +57,6 @@ class vga_ctrl extends Module {
   //计算当前有效像素坐标
   io.h_addr := Mux(h_valid, (x_cnt - (h_active+1).U(10.W)), 0.U(10.W))
   io.v_addr := Mux(v_valid, (y_cnt - (v_active+1).U(10.W)), 0.U(10.W))
-//  io.h_addr := Mux(h_valid, (x_cnt - (h_active+1).U(10)), 0.U(10))
-//  io.v_addr := Mux(v_valid, (y_cnt - (v_active+1).U(10)), 0.U(10))
   //设置输出的颜色值
   io.vga_r := io.vga_data(23,16)
   io.vga_g := io.vga_data(15,8)
