@@ -77,7 +77,7 @@ sim: build nvboard
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	
 nvboard: build
-	@$(BUILD_DIR)/$(TOPNAME) > 
+	@$(BUILD_DIR)/$(TOPNAME)
 
 gtkwave: build
 	@$(BUILD_DIR)/$(TOPNAME);gtkwave $(WAVE_FILE)
