@@ -24,10 +24,10 @@ class cmd_ctrl extends Module {
 
   // 将屏幕上的坐标转换成buffer的坐标
   val index = Wire(UInt(10.W))
-  index := (io.v_addr(10,4) * (h_display/w_ch).U(10.W)) + io.h_addr(10,3)
+  index := (io.v_addr(9,4) * (h_display/w_ch).U(10.W)) + io.h_addr(9,3)
 
   val screen_buffer = Mem((h_display/w_ch * v_display/h_ch)+10, UInt(8.W))
-  loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/screen_buffer.hex")
+  loadMemoryFromFile(screen_buffer, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/screen_buffer.hex")
 
   val ch_index = Wire(UInt(8.W)) // 字符在字模中的起始位置
   ch_index := screen_buffer.read(index) - 20.U(8.W)
@@ -36,7 +36,7 @@ class cmd_ctrl extends Module {
   loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/AsciiMask.hex")
 
   val ch_offset = Wire(UInt(7.W)) // 当前字符在该字模中显示到的像素点
-  ch_offset := (io.v_addr(3,0) * h_ch.U(4.W)) + io.h_addr(3,0)
+  ch_offset := (io.v_addr(3,0) * h_ch.U(5.W)) + io.h_addr(3,0)
 
   var ch_data = Wire(UInt(1.W)) // 字符的像素点数据
   ch_data := templete.read(Cat(ch_index,ch_offset))
