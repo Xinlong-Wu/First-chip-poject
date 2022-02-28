@@ -54,7 +54,10 @@ sim: build nvboard
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	
 nvboard: build
-	@$(BUILD_DIR)/$(TOPNAME)
+	@$(BUILD_DIR)/$(TOPNAME) > 
+
+nvboard-debug: build
+	@$(BUILD_DIR)/$(TOPNAME) > $(BUILD_DIR)/log
 
 gtkwave: build
 	@$(BUILD_DIR)/$(TOPNAME);gtkwave $(WAVE_FILE)
