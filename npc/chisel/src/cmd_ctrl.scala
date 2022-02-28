@@ -39,7 +39,7 @@ class cmd_ctrl extends Module {
   ch_offset := (io.v_addr(3,0) * h_ch.U(5.W)) + io.h_addr(3,0)
 
 //  var temp = Wire(UInt(8.W))
-  printf(p"index $ch_index \n")
+  printf(p"index $index \n")
 
   var ch_data = Wire(UInt(1.W)) // 字符的像素点数据
   ch_data := templete.read(Cat(ch_index,ch_offset))
