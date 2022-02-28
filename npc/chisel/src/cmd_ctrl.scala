@@ -41,5 +41,6 @@ class cmd_ctrl extends Module {
   var ch_data = Wire(UInt(1.W)) // 字符的像素点数据
   ch_data := templete.read(Cat(ch_index,ch_offset))
 
-  io.data := Fill(24, ch_data)
+//  io.data := Fill(24, ch_data)
+  io.data := Fill(24, 1.U)
 }
