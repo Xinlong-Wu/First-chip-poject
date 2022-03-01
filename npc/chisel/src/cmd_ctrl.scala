@@ -38,7 +38,7 @@ class cmd_ctrl extends Module {
   val templete = Mem(block_num, UInt(block_size.W))
   loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/AsciiMask.hex")
 
-  var block_index = Wire(UInt(8.W)) // 计算该字符在字模内存的哪一个block里
+  var block_index = Wire(UInt(9.W)) // 计算该字符在字模内存的哪一个block里
   block_index := ch_index * 4.U /* 基block */ + io.v_addr(3,2) /* 该像素点偏移的block */
 
   var ch_data = Wire(UInt(block_size.W)) // 字符的像素点数据
