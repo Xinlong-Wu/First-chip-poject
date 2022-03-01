@@ -35,16 +35,19 @@ class cmd_ctrl extends Module {
   val templete = Mem(block_num, UInt(block_size.W))
   loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/AsciiMask.hex")
 
-  val ch_offset = Wire(UInt(7.W)) // 当前字符在该字模中显示到的像素点
-  ch_offset := (io.v_addr(3,0) * h_ch.U) + io.h_addr(2,0)
+  val temp_offset = Wire(UInt(7.W)) // 当前字符在该字模中显示到的像素点
+  temp_offset := (io.v_addr%16.U)/4.U
 
-  var temp_index = Wire(UInt(8.W))
-  temp_index := ch_index * 4.U
+  var block_index = Wire(UInt(8.W)) // 计算该字符在字模内存的哪一个block里
+  block_index := ch_index * 4.U /* 基block */ + io.v_addr(3,2) /* 该像素点偏移的block */
 
-  var ch_data = Wire(UInt(8.W)) // 字符的像素点数据
-  ch_data := templete.read(temp_index)
-  printf(p"index $index, ch_index $ch_index,ch_data $ch_data , ch_offset: $ch_offset, io:$io\n")
+  var ch_data = Wire(UInt(block_size.W)) // 字符的像素点数据
+  ch_data := templete.read(block_index)
+  printf(p"index $index, ch_index $ch_index,ch_data $ch_data , temp_offset: $temp_offset, io:$io\n")
 
-  io.data := Fill(24, ch_data(0))
+  var data_offset = UInt(8.W)
+  data_offset := (io.v_addr(3,2) * 8.U) + io.v_addr(1,0)
+
+  io.data := Fill(24, ch_data(data_offset))
 //  io.data := Fill(24, 1.U)
 }
