@@ -38,13 +38,13 @@ class cmd_ctrl extends Module {
   val ch_offset = Wire(UInt(7.W)) // 当前字符在该字模中显示到的像素点
   ch_offset := (io.v_addr(3,0) * h_ch.U) + io.h_addr(2,0)
 
-  var temp = Wire(UInt(8.W))
-  temp := ch_index * 4.U
+  var temp_index = Wire(UInt(8.W))
+  temp_index := ch_index * 4.U
 
   var ch_data = Wire(UInt(8.W)) // 字符的像素点数据
-  ch_data := templete.read(temp)
+  ch_data := templete.read(temp_index)
   printf(p"index $index, ch_index $ch_index,ch_data $ch_data , ch_offset: $ch_offset, io:$io\n")
 
-  io.data := Fill(24, ch_data)
+  io.data := Fill(24, ch_data(0))
 //  io.data := Fill(24, 1.U)
 }
