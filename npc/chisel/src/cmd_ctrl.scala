@@ -45,7 +45,7 @@ class cmd_ctrl extends Module {
   ch_data := templete.read(block_index)
   printf(p"index $index, ch_index $ch_index,ch_data $ch_data , temp_offset: $temp_offset, io:$io\n")
 
-  var data_offset = UInt(8.W)
+  var data_offset = Wire(UInt(8.W))
   data_offset := (io.v_addr(3,2) * 8.U) + io.v_addr(1,0)
 
   io.data := Fill(24, ch_data(data_offset))
