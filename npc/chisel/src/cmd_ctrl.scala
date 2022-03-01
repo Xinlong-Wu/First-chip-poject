@@ -39,11 +39,11 @@ class cmd_ctrl extends Module {
   ch_offset := (io.v_addr(3,0) * h_ch.U) + io.h_addr(2,0)
 
   var temp = Wire(UInt(8.W))
-  temp := Cat(ch_index * (h_ch * w_ch).U, ch_offset)
-  printf(p"index $index, ch_index $ch_index,ch_offset: $ch_offset, TEMPLETE_address $temp, io:$io\n")
+  temp := ch_index * 4.U
 
-  var ch_data = Wire(UInt(1.W)) // 字符的像素点数据
+  var ch_data = Wire(UInt(8.W)) // 字符的像素点数据
   ch_data := templete.read(temp)
+  printf(p"index $index, ch_index $ch_index,ch_data $ch_data , ch_offset: $ch_offset, io:$io\n")
 
   io.data := Fill(24, ch_data)
 //  io.data := Fill(24, 1.U)
