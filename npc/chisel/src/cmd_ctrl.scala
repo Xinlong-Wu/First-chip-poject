@@ -35,15 +35,12 @@ class cmd_ctrl extends Module {
   val templete = Mem(block_num, UInt(block_size.W))
   loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/AsciiMask.hex")
 
-  val temp_offset = Wire(UInt(7.W)) // 当前字符在该字模中显示到的像素点
-  temp_offset := (io.v_addr%16.U)/4.U
-
   var block_index = Wire(UInt(8.W)) // 计算该字符在字模内存的哪一个block里
   block_index := ch_index * 4.U /* 基block */ + io.v_addr(3,2) /* 该像素点偏移的block */
 
   var ch_data = Wire(UInt(block_size.W)) // 字符的像素点数据
   ch_data := templete.read(block_index)
-  printf(p"index $index, ch_index $ch_index,ch_data $ch_data , temp_offset: $temp_offset, io:$io\n")
+  printf(p"index $index, ch_index $ch_index,ch_data $ch_data, io:$io\n")
 
   var data_offset = Wire(UInt(8.W))
   data_offset := (io.v_addr(3,2) * 8.U) + io.v_addr(1,0)
