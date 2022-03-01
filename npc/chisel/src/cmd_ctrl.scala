@@ -36,7 +36,7 @@ class cmd_ctrl extends Module {
   loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/AsciiMask.hex")
 
   val ch_offset = Wire(UInt(7.W)) // 当前字符在该字模中显示到的像素点
-  ch_offset := (io.v_addr(3,0) * h_ch.U(5.W)) + io.h_addr(2,0)
+  ch_offset := (io.v_addr(3,0) * h_ch.U) + io.h_addr(2,0)
 
   var temp = Wire(UInt(8.W))
   temp := Cat(ch_index,ch_offset)
