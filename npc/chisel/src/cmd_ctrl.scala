@@ -30,7 +30,7 @@ class cmd_ctrl extends Module {
   loadMemoryFromFile(screen_buffer, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/screen_buffer.hex")
 
   val ch_index = Wire(UInt(8.W)) // 字符在字模中的起始位置
-  ch_index := 69.U
+  ch_index := screen_buffer.read(index) - 32.U
 
   val temp = Wire(UInt(8.W))
   temp := screen_buffer.read(index)
@@ -43,7 +43,7 @@ class cmd_ctrl extends Module {
 
   var ch_data = Wire(UInt(block_size.W)) // 字符的像素点数据
   ch_data := templete.read(block_index)
-  printf(p"index $index, ch_ascii_dex $temp, ch_index $ch_index\n")
+  printf(p"index $index, ch_index $ch_index, block_index $block_index\n")
 
   var data_offset = Wire(UInt(8.W))
   data_offset := 31.U - ((io.v_addr(1,0) * 8.U) + io.h_addr(2,0))
