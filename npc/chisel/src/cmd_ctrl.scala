@@ -22,9 +22,12 @@ class cmd_ctrl extends Module {
   // 总共380个block
   val block_num = 380
 
+  val v_addr_reverse = Wire(UInt(10.W))
+  v_addr_reverse := 479.U - io.v_addr
+
   // 将屏幕上的坐标转换成buffer的坐标
   val index = Wire(UInt(12.W))
-  index := (io.v_addr(9,4) * (h_display/w_ch).U(10.W)) + io.h_addr(9,3)
+  index := (v_addr_reverse(9,4) * (h_display/w_ch).U(10.W)) + io.h_addr(9,3)
 
   val screen_buffer = Mem((h_display/w_ch * v_display/h_ch)+10, UInt(8.W))
   loadMemoryFromFile(screen_buffer, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/screen_buffer.hex")
@@ -36,14 +39,14 @@ class cmd_ctrl extends Module {
   loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/AsciiMask.hex")
 
   var block_index = Wire(UInt(9.W)) // 计算该字符在字模内存的哪一个block里
-  block_index := ch_index * 4.U /* 基block */ + io.v_addr(3,2) /* 该像素点偏移的block */
+  block_index := ch_index * 4.U /* 基block */ + v_addr_reverse(3,2) /* 该像素点偏移的block */
 
   var ch_data = Wire(UInt(block_size.W)) // 字符的像素点数据
   ch_data := templete.read(block_index)
 //  printf(p"index $index, ch_index $ch_index, block_index $block_index, io:$io\n")
 
   var data_offset = Wire(UInt(8.W))
-  data_offset := 31.U - ((io.v_addr(1,0) * 8.U) + io.h_addr(2,0))
+  data_offset := 31.U - ((v_addr_reverse(1,0) * 8.U) + io.h_addr(2,0))
 
 //  printf(p"index $index, ch_index $ch_index, block_index $block_index, ch_data $ch_data, data_offset $data_offset, io:$io\n")
 
