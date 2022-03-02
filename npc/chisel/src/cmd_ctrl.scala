@@ -46,7 +46,7 @@ class cmd_ctrl extends Module {
 //  printf(p"index $index, ch_index $ch_index, block_index $block_index, io:$io\n")
 
   var data_offset = Wire(UInt(8.W))
-  data_offset := 31.U - ((v_addr_reverse(1,0) * 8.U) + io.h_addr(2,0))
+  data_offset := 31.U - ((io.v_addr(1,0) * 8.U) + io.h_addr(2,0))
 
 //  printf(p"index $index, ch_index $ch_index, block_index $block_index, ch_data $ch_data, data_offset $data_offset, io:$io\n")
 
