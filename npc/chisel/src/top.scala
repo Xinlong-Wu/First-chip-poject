@@ -104,13 +104,23 @@ class top extends Module{
   VGA_G := my_vga_ctrl.io.vga_g
   VGA_B := my_vga_ctrl.io.vga_b
 
+  val buffer_index = Wire(UInt(12.W))
+  val buffer_data = Wire(UInt(8.W))
+
   val cmd_ctrl = Module(new cmd_ctrl())
   cmd_ctrl.clock := clock
   cmd_ctrl.reset := reset
   cmd_ctrl.io.h_addr := h_addr
   cmd_ctrl.io.v_addr := v_addr
+  cmd_ctrl.io.buffer_data := buffer_data
+  buffer_index := cmd_ctrl.io.buffer_index
   vga_data := cmd_ctrl.io.data
 
+  val screen_buffer = Module(new screen_buffer())
+  screen_buffer.clock := clock
+  screen_buffer.reset := reset
+  screen_buffer.io.buffer_index := buffer_index
+  buffer_data := screen_buffer.io.buffer_data
 
 //  val mem = Module(new vmem(524288,24, "npc/resource/AsciiMask.hex"))
 //  mem.clock := clock
