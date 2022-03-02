@@ -30,7 +30,7 @@ class cmd_ctrl extends Module {
   loadMemoryFromFile(screen_buffer, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/screen_buffer.hex")
 
   val ch_index = Wire(UInt(8.W)) // 字符在字模中的起始位置
-  ch_index := screen_buffer.read(index)
+  ch_index := screen_buffer.read(index) - 32.U
 
   val temp = Wire(UInt(8.W))
   temp := screen_buffer.read(index)
