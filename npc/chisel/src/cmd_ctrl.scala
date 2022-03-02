@@ -23,7 +23,7 @@ class cmd_ctrl extends Module {
   val block_num = 380
 
   val v_addr_reverse = Wire(UInt(10.W))
-  v_addr_reverse := 479.U - io.v_addr
+  v_addr_reverse := Cat((479.U - io.v_addr)(9,4), io.v_addr(3,0))
 
   // 将屏幕上的坐标转换成buffer的坐标
   val index = Wire(UInt(12.W))
