@@ -18,7 +18,14 @@ class ps2_reader extends Module {
     io.outdata := io.data
     ps2data := io.data
 
-    printf(p"got $ps2data \n")
+    val ascii_data = Wire(UInt(8.W))
+
+    val scancode2ascii = Module(new scancode2ascii())
+    scancode2ascii.io.scan_code := ps2data
+    ascii_data := scancode2ascii.io.ascii
+
+    printf(p"got $ps2data ascii: $ascii_data\n")
+
     io.finish := 1.U
   }
 
