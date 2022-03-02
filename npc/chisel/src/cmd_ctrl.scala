@@ -6,6 +6,8 @@ class cmd_ctrl extends Module {
   val io = IO(new Bundle() {
     val h_addr = Input(UInt(10.W))  // 当前屏幕坐标
     val v_addr = Input(UInt(10.W))
+    val buffer_data = Input(UInt(8.W))
+    val buffer_index = Output(UInt(12.W))
     val data = Output(UInt(24.W))
   })
 
@@ -26,14 +28,10 @@ class cmd_ctrl extends Module {
   v_addr_reverse := Cat((479.U - io.v_addr)(9,4), io.v_addr(3,0))
 
   // 将屏幕上的坐标转换成buffer的坐标
-  val index = Wire(UInt(12.W))
-  index := (v_addr_reverse(9,4) * (h_display/w_ch).U(10.W)) + io.h_addr(9,3)
-
-  val screen_buffer = Mem((h_display/w_ch * v_display/h_ch)+10, UInt(8.W))
-  loadMemoryFromFile(screen_buffer, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/screen_buffer.hex")
+  io.buffer_index := (v_addr_reverse(9,4) * (h_display/w_ch).U(10.W)) + io.h_addr(9,3)
 
   val ch_index = Wire(UInt(8.W)) // 字符在字模中的起始位置
-  ch_index := screen_buffer.read(index) - 32.U
+  ch_index := io.buffer_data - 32.U
 
   val templete = Mem(block_num, UInt(block_size.W))
   loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/AsciiMask.hex")
