@@ -23,7 +23,7 @@ class cmd_ctrl extends Module {
   val block_num = 380
 
   // 将屏幕上的坐标转换成buffer的坐标
-  val index = Wire(UInt(10.W))
+  val index = Wire(UInt(12.W))
   index := (io.v_addr(9,4) * (h_display/w_ch).U(10.W)) + io.h_addr(9,3)
 
   val screen_buffer = Mem((h_display/w_ch * v_display/h_ch)+10, UInt(8.W))
@@ -31,9 +31,6 @@ class cmd_ctrl extends Module {
 
   val ch_index = Wire(UInt(8.W)) // 字符在字模中的起始位置
   ch_index := screen_buffer.read(index) - 32.U
-
-  val temp = Wire(UInt(8.W))
-  temp := screen_buffer.read(index)
 
   val templete = Mem(block_num, UInt(block_size.W))
   loadMemoryFromFile(templete, "/home/vincent/CodeSpace/First-chip-poject/npc/resource/AsciiMask.hex")
