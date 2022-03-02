@@ -40,7 +40,7 @@ class cmd_ctrl extends Module {
 
   var ch_data = Wire(UInt(block_size.W)) // 字符的像素点数据
   ch_data := templete.read(block_index)
-  printf(p"index $index, ch_index $ch_index, block_index $block_index, io:$io\n")
+//  printf(p"index $index, ch_index $ch_index, block_index $block_index, io:$io\n")
 
   var data_offset = Wire(UInt(8.W))
   data_offset := 31.U - ((io.v_addr(1,0) * 8.U) + io.h_addr(2,0))
