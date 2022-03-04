@@ -82,8 +82,7 @@ static int cmd_x(char *args) {
       for(int i = len;i > 0; i-=onceLength){
         word_t data = vaddr_read(addr, onceLength);
         printf("0x%016lx\t",data);
-        if (printCount % 4 == 0){
-          printCount++;
+        if (++printCount % 4 == 0){
           printf("\n");
         }
         addr+=onceLength;
