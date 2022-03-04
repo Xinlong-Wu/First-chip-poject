@@ -135,14 +135,6 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  printf("print Tokens: ");
-  for (size_t i = 0; i < nr_token; i++)
-  {
-    printf("%s ",tokens[i].str);
-  }
-  printf("\n");
-  
-
   word_t res = eval(0,nr_token-1, success);
 
   return res;
@@ -240,6 +232,20 @@ word_t eval(int p, int q, bool *success){
     }
 
     Log("main op is %c", tokens[main_op].type);
+
+      printf("print left Tokens: ");
+      for (size_t i = 0; i < main_op; i++)
+      {
+        printf("%s ",tokens[i].str);
+      }
+      printf("\n");
+
+      printf("print right Tokens: ");
+      for (size_t i = main_op+1; i < nr_token; i++)
+      {
+        printf("%s ",tokens[i].str);
+      }
+      printf("\n");
     
     bool val1_success = false;
     bool val2_success = false;
