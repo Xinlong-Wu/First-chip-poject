@@ -212,15 +212,12 @@ word_t eval(int p, int q, bool *success){
         if(main_op == -1 || main_op_priority == -1){
           main_op = i;
           main_op_priority = get_priority(&base_priority, tokens[i].type);
-          printf("Token %s, priority %d\n",tokens[i].str,main_op_priority);
           continue;
         }
 
         int tmp_priority = get_priority(&base_priority, tokens[i].type);
-        printf("Token %s, priority %d\n",tokens[i].str,tmp_priority);
         
         if(tmp_priority >= 0 && main_op_priority >= tmp_priority){
-          printf("main_op changed\n");
           main_op = i;
           main_op_priority = tmp_priority;
         }
