@@ -11,6 +11,7 @@ enum {
 
   /* TODO: Add more token types */
   TK_NUM,
+  TK_NEG_NUM,
   TK_HEX_NUM,
 
 };
@@ -136,6 +137,20 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
+  // recognize the negative number
+  for (size_t i = 0; i < nr_token; i++){
+    switch (tokens[i].type){
+      default:
+        break;
+      case '-':{
+        if (tokens[i-1].type < TK_NOTYPE)
+          tokens[i].type = TK_NEG_NUM;
+        break;
+      }
+    }
+  }
+  
+
   word_t res = eval(0,nr_token-1, success);
 
   return res;
@@ -180,6 +195,12 @@ word_t eval(int p, int q, bool *success){
     *success = false;
     return 0;
   }
+  else if (tokens[p].type == '(' && tokens[q].type == ')') {
+    /* The expression is surrounded by a matched pair of parentheses.
+     * If that is the case, just throw away the parentheses.
+     */
+    return eval(p + 1, q - 1, success);
+  }
   else if (p == q) {
     /* Single token.
      * For now this token should be a number.
@@ -203,11 +224,9 @@ word_t eval(int p, int q, bool *success){
       }
     }
   }
-  else if (tokens[p].type == '(' && tokens[q].type == ')') {
-    /* The expression is surrounded by a matched pair of parentheses.
-     * If that is the case, just throw away the parentheses.
-     */
-    return eval(p + 1, q - 1, success);
+  else if(tokens[p].type == TK_NEG_NUM){
+    sword_t val = eval(p+1, q,success);
+    return val*-1;
   }
   else {
     /* We should do more things here. */
@@ -258,9 +277,9 @@ word_t eval(int p, int q, bool *success){
     bool val1_success = false;
     bool val2_success = false;
 
-    int val1 = eval(p, main_op - 1,&val1_success);
+    sword_t val1 = eval(p, main_op - 1,&val1_success);
     // printf("res is %d\n", val1);
-    int val2 = eval(main_op + 1, q,&val2_success);
+    sword_t val2 = eval(main_op + 1, q,&val2_success);
     // printf("res is %d\n", val2);
 
     *success = val1_success && val2_success;
