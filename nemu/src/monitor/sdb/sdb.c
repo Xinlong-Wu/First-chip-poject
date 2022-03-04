@@ -115,6 +115,18 @@ static int cmd_si(char *args){
   return 0;
 }
 
+static int cmd_expr(char *args){
+  word_t res = 0;
+  bool isSuccess = false;
+  res = expr(args, &isSuccess);
+  if(isSuccess){
+    printf("expr %s, value is %ln\n",args,&res);
+  }
+  else
+    printf("Valit expr\n");
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -199,7 +211,10 @@ void sdb_mainloop() {
       }
     }
 
-    if (i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
+    if (i == NR_CMD) { 
+      // printf("Unknown command '%s'\n", cmd); 
+      cmd_expr(args);
+    }
   }
 }
 
