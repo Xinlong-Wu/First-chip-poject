@@ -183,12 +183,12 @@ word_t eval(int p, int q, bool *success){
      * Return the value of the number.
      */
     if(tokens[p].type == TK_NUM){
-      Log("Current Token is number %s, convert to int %d",tokens[p].str,atoi(tokens[p].str));
+      // Log("Current Token is number %s, convert to int %d",tokens[p].str,atoi(tokens[p].str));
       *success = true;
       return atoi(tokens[p].str);
     }
     else{
-      Log("Current Token is %c",tokens[p].type);
+      // Log("Current Token is %c",tokens[p].type);
       *success = false;
       return 0;
     }
@@ -229,29 +229,29 @@ word_t eval(int p, int q, bool *success){
       return 0;
     }
 
-    Log("main op is %c", tokens[main_op].type);
+    // Log("main op is %c", tokens[main_op].type);
 
-      printf("print left Tokens: ");
-      for (size_t i = 0; i < main_op; i++)
-      {
-        printf("%s ",tokens[i].str);
-      }
-      printf("\n");
+      // printf("print left Tokens: ");
+      // for (size_t i = 0; i < main_op; i++)
+      // {
+      //   printf("%s ",tokens[i].str);
+      // }
+      // printf("\n");
 
-      printf("print right Tokens: ");
-      for (size_t i = main_op+1; i < nr_token; i++)
-      {
-        printf("%s ",tokens[i].str);
-      }
-      printf("\n");
+      // printf("print right Tokens: ");
+      // for (size_t i = main_op+1; i < nr_token; i++)
+      // {
+      //   printf("%s ",tokens[i].str);
+      // }
+      // printf("\n");
     
     bool val1_success = false;
     bool val2_success = false;
 
     int val1 = eval(p, main_op - 1,&val1_success);
-    printf("res is %d", val1);
+    // printf("res is %d\n", val1);
     int val2 = eval(main_op + 1, q,&val2_success);
-    printf("res is %d", val2);
+    // printf("res is %d\n", val2);
 
     *success = val1_success && val2_success;
 
