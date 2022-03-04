@@ -5,6 +5,7 @@
  */
 #include <regex.h>
 #include <utils.h>
+#include <memory/vaddr.h>
 
 enum {
   TK_NOTYPE = 256,
@@ -13,6 +14,7 @@ enum {
   TK_NEG_NUM,
   TK_HEX_NUM,
   TK_REG,
+  TK_DEREF,
 };
 
 static struct rule {
@@ -148,6 +150,11 @@ word_t expr(char *e, bool *success) {
           tokens[i].type = TK_NEG_NUM;
         break;
       }
+      case '*':{
+        if (tokens[i-1].type < TK_NOTYPE)
+          tokens[i].type = TK_DEREF;
+        break;
+      }
     }
   }
   
@@ -228,14 +235,22 @@ word_t eval(int p, int q, bool *success){
       }
     }
   }
-  else if(tokens[p].type == TK_NEG_NUM){
-    sword_t val = eval(p+1, q,success);
-    return val*-1;
-  }
   else {
-    /* We should do more things here. */
-    int base_priority = 0;
+    // handle special Token
+    switch (tokens[p].type){
+      default:
+        break;
+      case TK_NEG_NUM:{
+        sword_t val = eval(p+1, q,success);
+        return val*-1;
+      }
+      case TK_DEREF:{
+        word_t addr = eval(p+1, q,success);
+        return vaddr_read(addr, 8);
+      }
+    }
 
+    int base_priority = 0;
     int main_op = -1;
     int main_op_priority = -1;
 
