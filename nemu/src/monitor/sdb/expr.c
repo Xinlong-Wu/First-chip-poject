@@ -4,12 +4,14 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include <utils.h>
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
 
   /* TODO: Add more token types */
   TK_NUM,
+  TK_HEX_NUM,
 
 };
 
@@ -21,7 +23,7 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-
+  {"0[x|X][0-9|a-f]+", TK_HEX_NUM},
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"\\-", '-'},         // minus
@@ -98,6 +100,7 @@ static bool make_token(char *e) {
             nr_token++;
             break;
           case TK_NUM:
+          case TK_HEX_NUM:
             assert(substr_len < 32 && "Number input is too long");
             if (substr_len > 32){
               Log("Number input is too long");
@@ -182,15 +185,22 @@ word_t eval(int p, int q, bool *success){
      * For now this token should be a number.
      * Return the value of the number.
      */
-    if(tokens[p].type == TK_NUM){
-      // Log("Current Token is number %s, convert to int %d",tokens[p].str,atoi(tokens[p].str));
-      *success = true;
-      return atoi(tokens[p].str);
-    }
-    else{
-      // Log("Current Token is %c",tokens[p].type);
-      *success = false;
-      return 0;
+    switch (tokens[p].type){
+      default:{
+        // Log("Current Token is %c",tokens[p].type);
+        *success = false;
+        return 0;
+      }
+      case TK_NUM:{
+        // Log("Current Token is number %s, convert to int %d",tokens[p].str,atoi(tokens[p].str));
+        *success = true;
+        return atoi(tokens[p].str);
+      }
+      case TK_HEX_NUM:{
+        // Log("Current Token is number %s, convert to int %d",tokens[p].str,htoi(tokens[p].str));
+        *success = true;
+        return htoi(tokens[p].str);
+      }
     }
   }
   else if (tokens[p].type == '(' && tokens[q].type == ')') {
