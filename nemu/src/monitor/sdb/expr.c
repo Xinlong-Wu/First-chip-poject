@@ -9,8 +9,10 @@
 #include <memory/paddr.h>
 
 enum {
-  TK_NOTYPE = 256,
   TK_EQ,
+  TK_NEQ,
+  TK_AND,
+  TK_NOTYPE = 256,
   TK_NUM,
   TK_NEG_NUM,
   TK_HEX_NUM,
@@ -36,6 +38,8 @@ static struct rule {
   {"\\(", '('},         // Left parenthesis
   {"\\)", ')'},         // right parenthesis
   {"==", TK_EQ},        // equal
+  {"!=", TK_NEQ},       // not equal
+  {"&&", TK_AND},       // and
   {"[0-9]+", TK_NUM}       //number
 };
 
@@ -99,6 +103,9 @@ static bool make_token(char *e) {
           case '/':
           case '(':
           case ')':
+          case TK_EQ:
+          case TK_NEQ:
+          case TK_AND:
             tokens[nr_token].type = rules[i].token_type;
             tokens[nr_token].str[0] = rules[i].token_type;
             nr_token++;
@@ -179,21 +186,26 @@ bool check_parentheses(int p, int q){
 int get_priority(int * base_priority, int token_type){
   switch (token_type)
   {
-  case '+':
-  case '-':
-    return (*base_priority) + 0;
-  case '*':
-  case '/':
-    return (*base_priority) + 1;
-  case '(':
-    (*base_priority)+=3;
-    return -1;
-  case ')':
-    (*base_priority)-=3;
-    return -1;
-  
-  default:
-    return -1;
+    case TK_AND:
+      return (*base_priority) + 0;
+    case TK_EQ:
+    case TK_NEQ:
+      return (*base_priority) + 1;
+    case '+':
+    case '-':
+      return (*base_priority) + 2;
+    case '*':
+    case '/':
+      return (*base_priority) + 3;
+    case '(':
+      (*base_priority)+=100;
+      return -1;
+    case ')':
+      (*base_priority)-=100;
+      return -1;
+    
+    default:
+      return -1;
   }
 }
 
@@ -249,7 +261,7 @@ word_t eval(int p, int q, bool *success){
         word_t addr = eval(p+1, q,success);
         if(!in_pmem(addr))
           addr += CONFIG_MBASE;
-        printf("dereference 0x%016lx",addr);
+        printf("dereference 0x%016lx\n",addr);
         return vaddr_read(addr, 8);
       }
     }
@@ -322,6 +334,9 @@ word_t eval(int p, int q, bool *success){
         }
         return val1 / val2;
       }
+      case TK_EQ: return val1 == val2;
+      case TK_NEQ: return val1 != val2;
+      case TK_AND: return val1 && val2;
       default: *success = false; return 0;
     }
   }
