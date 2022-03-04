@@ -134,7 +134,7 @@ word_t expr(char *e, bool *success) {
 
   Log("got %s, has %d token", e,nr_token);
 
-  word_t res = eval(0,nr_token-1, success);
+  word_t res = eval(0,nr_token, success);
 
   return res;
 }
