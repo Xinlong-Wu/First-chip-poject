@@ -89,6 +89,7 @@ static int cmd_x(char *args) {
         while (onceLength > i)
           onceLength/=2;
       }
+      printf("\n");
     }
     else
       printf("%s\n", ASNI_FMT(str(Error: valid mem address.), ASNI_FG_RED));
