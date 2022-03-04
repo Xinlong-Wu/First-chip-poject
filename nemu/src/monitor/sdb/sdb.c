@@ -116,9 +116,9 @@ static int cmd_si(char *args){
 }
 
 static int cmd_expr(char *args){
-  uint32_t res = 0;
+  int res = 0;
   bool isSuccess = false;
-  res = (uint32_t)expr(args, &isSuccess);
+  res = (int)expr(args, &isSuccess);
   if(isSuccess){
     printf("expr %s, value is %ls\n",args,&res);
   }
