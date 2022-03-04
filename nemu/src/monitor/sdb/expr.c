@@ -138,7 +138,7 @@ word_t expr(char *e, bool *success) {
   printf("print Tokens: ");
   for (size_t i = 0; i < nr_token; i++)
   {
-    printf("%s ",tokens[i].str);
+    printf("No.%ld: %s ",i,tokens[i].str);
   }
   printf("\n");
   
