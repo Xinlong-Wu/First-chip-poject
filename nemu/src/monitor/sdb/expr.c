@@ -95,6 +95,7 @@ static bool make_token(char *e) {
           case ')':
             tokens[nr_token].type = rules[i].token_type;
             nr_token++;
+            Log("push");
             break;
           case TK_NUM:
             assert(substr_len < 32 && "Number input is too long");
@@ -107,6 +108,7 @@ static bool make_token(char *e) {
               tokens[nr_token].str[i] = substr_start[i];
             }
             nr_token++;
+            Log("push");
             break;
           default:
             break;
