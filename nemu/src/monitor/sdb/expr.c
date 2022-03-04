@@ -127,6 +127,7 @@ static bool make_token(char *e) {
 word_t eval(int p, int q, bool *success);
 
 word_t expr(char *e, bool *success) {
+  Log("got %s", e);
   if (!make_token(e)) {
     *success = false;
     return 0;
