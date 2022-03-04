@@ -225,6 +225,8 @@ word_t eval(int p, int q, bool *success){
       *success = false;
       return 0;
     }
+
+    Log("main op is %c", tokens[main_op].type);
     
     bool val1_success = false;
     bool val2_success = false;
