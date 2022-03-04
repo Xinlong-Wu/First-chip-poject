@@ -7,13 +7,12 @@
 #include <utils.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
-
-  /* TODO: Add more token types */
+  TK_NOTYPE = 256,
+  TK_EQ,
   TK_NUM,
   TK_NEG_NUM,
   TK_HEX_NUM,
-
+  TK_REG,
 };
 
 static struct rule {
@@ -25,6 +24,7 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
   {"0[x|X][0-9|a-f]+", TK_HEX_NUM},
+  {"\\$.*", TK_REG},
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"\\-", '-'},         // minus
@@ -102,6 +102,7 @@ static bool make_token(char *e) {
             break;
           case TK_NUM:
           case TK_HEX_NUM:
+          case TK_REG:
             assert(substr_len < 32 && "Number input is too long");
             if (substr_len > 32){
               Log("Number input is too long");
@@ -221,6 +222,9 @@ word_t eval(int p, int q, bool *success){
         // Log("Current Token is number %s, convert to int %d",tokens[p].str,htoi(tokens[p].str));
         *success = true;
         return htoi(tokens[p].str);
+      }
+      case TK_REG:{
+        return isa_reg_str2val(tokens[p].str+1, success);
       }
     }
   }
