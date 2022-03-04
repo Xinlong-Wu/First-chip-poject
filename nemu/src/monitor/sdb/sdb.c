@@ -116,11 +116,11 @@ static int cmd_si(char *args){
 }
 
 static int cmd_expr(char *args){
-  int res = 0;
+  word_t res = 0;
   bool isSuccess = false;
-  res = (int)expr(args, &isSuccess);
+  res = expr(args, &isSuccess);
   if(isSuccess){
-    printf("expr %s, value is %ls\n",args,&res);
+    printf("expr %s, value is %lu\n",args,res);
   }
   else
     printf("Valit expr\n");
