@@ -27,8 +27,8 @@ static struct rule {
   {"\\-", '-'},         // minus
   {"\\*", '*'},         // mul
   {"/", '/'},         // div
-  {"(", '('},         // Left parenthesis
-  {")", ')'},         // right parenthesis
+  {"\\(", '('},         // Left parenthesis
+  {"\\)", ')'},         // right parenthesis
   {"==", TK_EQ},        // equal
   {"\\d*", TK_NUM}       //number
 };
