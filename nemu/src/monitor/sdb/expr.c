@@ -27,6 +27,8 @@ static struct rule {
   {"\\-", '-'},         // minus
   {"\\*", '*'},         // mul
   {"/", '/'},         // div
+  {"(", '('},         // Left parenthesis
+  {")", ')'},         // right parenthesis
   {"==", TK_EQ},        // equal
   {"\\d*", TK_NUM}       //number
 };
@@ -85,7 +87,29 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+          case '+':
+          case '-':
+          case '*':
+          case '/':
+          case '(':
+          case ')':
+            tokens[nr_token].type = rules[i].token_type;
+            nr_token++;
+            break;
+          case TK_NUM:
+            assert(substr_len < 32 && "Number input is too long");
+            if (substr_len > 32){
+              Log("Number input is too long");
+              return false;
+            }
+            tokens[nr_token].type = rules[i].token_type;
+            for (size_t i = 0; i < substr_len; i++){
+              tokens[nr_token].str[i] = substr_start[i];
+            }
+            nr_token++;
+            break;
+          default:
+            break;
         }
 
         break;
@@ -97,10 +121,10 @@ static bool make_token(char *e) {
       return false;
     }
   }
-
   return true;
 }
 
+word_t eval(int p, int q, bool *success);
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -108,8 +132,123 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  word_t res = eval(0,nr_token-1, success);
 
-  return 0;
+  return res;
+}
+
+bool check_parentheses(int p, int q){
+  int unmatched_parenthesis = 0;
+  for(int i = p; i<=q;i++){
+    if(tokens[i].type == '(')
+      unmatched_parenthesis+=1;
+    else if(tokens[i].type == ')')
+      unmatched_parenthesis-=1;
+  }
+  return unmatched_parenthesis == 0;
+}
+
+int get_priority(int * base_priority, int token_type){
+  switch (token_type)
+  {
+  case '+':
+  case '-':
+    return (*base_priority) + 0;
+  case '*':
+  case '/':
+    return (*base_priority) + 1;
+  case '(':
+    (*base_priority)+=1;
+    return -1;
+  case ')':
+    (*base_priority)-=1;
+    return -1;
+  
+  default:
+    return -1;
+  }
+}
+
+word_t eval(int p, int q, bool *success){
+  if (p > q) {
+    /* Bad expression */
+    *success = false;
+    return 0;
+  }
+  else if (p == q) {
+    /* Single token.
+     * For now this token should be a number.
+     * Return the value of the number.
+     */
+    if(tokens[p].type == TK_NUM){
+      *success = true;
+      return atoi(tokens[p].str);
+    }
+    else{
+      *success = false;
+      return 0;
+    }
+  }
+  else if (tokens[p].type == '(' && tokens[q].type == ')') {
+    /* The expression is surrounded by a matched pair of parentheses.
+     * If that is the case, just throw away the parentheses.
+     */
+    return eval(p + 1, q - 1, success);
+  }
+  else {
+    /* We should do more things here. */
+    int base_priority = 0;
+
+    int main_op = -1;
+    int main_op_priority = -1;
+
+    
+    for (int i = p; i <= q; i++){
+      if(tokens[i].type < TK_NOTYPE){
+        if(main_op == -1 || main_op_priority == -1){
+          main_op = i;
+          main_op_priority = get_priority(&base_priority, tokens[i].type);
+          continue;
+        }
+
+        int tmp_priority = get_priority(&base_priority, tokens[i].type);
+        
+        if(tmp_priority > 0 && main_op_priority < tmp_priority){
+          main_op = i;
+          main_op_priority = tmp_priority;
+        }
+      }
+    }
+
+    if(main_op < 1){
+      *success = false;
+      return 0;
+    }
+    
+    bool val1_success = false;
+    bool val2_success = false;
+
+    int val1 = eval(p, main_op - 1,&val1_success);
+    int val2 = eval(main_op + 1, q,&val2_success);
+
+    *success = val1_success && val2_success;
+
+    if(*success == false){
+      return 0;
+    }
+
+    switch (tokens[main_op].type) {
+      case '+': return val1 + val2;
+      case '-': return val1 - val2;
+      case '*': return val1 * val2;
+      case '/': {
+        if (val2 == 0){
+          *success = false;
+          return 0;
+        }
+        return val1 / val2;
+      }
+      default: *success = false; return 0;
+    }
+  }
 }
