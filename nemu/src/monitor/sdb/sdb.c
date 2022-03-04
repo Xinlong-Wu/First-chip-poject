@@ -213,7 +213,7 @@ void sdb_mainloop() {
 
     if (i == NR_CMD) { 
       // printf("Unknown command '%s'\n", cmd); 
-      cmd_expr(args);
+      cmd_expr(cmd);
     }
   }
 }
