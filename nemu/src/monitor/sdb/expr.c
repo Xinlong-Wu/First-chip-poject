@@ -220,6 +220,7 @@ word_t eval(int p, int q, bool *success){
         printf("Token %s, priority %d\n",tokens[i].str,tmp_priority);
         
         if(tmp_priority > 0 && main_op_priority >= tmp_priority){
+          printf("main_op changed\n");
           main_op = i;
           main_op_priority = tmp_priority;
         }
