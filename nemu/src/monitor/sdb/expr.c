@@ -134,7 +134,7 @@ word_t expr(char *e, bool *success) {
 
   Log("got %s, has %d token", e,nr_token);
 
-  word_t res = eval(0,nr_token, success);
+  word_t res = eval(0,nr_token-1, success);
 
   return res;
 }
@@ -174,6 +174,7 @@ int get_priority(int * base_priority, int token_type){
 word_t eval(int p, int q, bool *success){
   if (p > q) {
     /* Bad expression */
+    Log(" Bad expression ");
     *success = false;
     return 0;
   }
@@ -183,10 +184,12 @@ word_t eval(int p, int q, bool *success){
      * Return the value of the number.
      */
     if(tokens[p].type == TK_NUM){
+      Log("Current Token is number %s, convert to int %d",tokens[p].str,atoi(tokens[p].str));
       *success = true;
       return atoi(tokens[p].str);
     }
     else{
+      Log("Current Token is %c",tokens[p].type);
       *success = false;
       return 0;
     }
