@@ -94,6 +94,7 @@ static bool make_token(char *e) {
           case '(':
           case ')':
             tokens[nr_token].type = rules[i].token_type;
+            tokens[nr_token].str[i] = rules[i].token_type;
             nr_token++;
             Log("push");
             break;
@@ -134,7 +135,13 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  Log("got %s, has %d token", e,nr_token);
+  printf("print Tokens: ");
+  for (size_t i = 0; i < nr_token; i++)
+  {
+    printf("%s",tokens[i].str);
+  }
+  printf("\n");
+  
 
   word_t res = eval(0,nr_token-1, success);
 
