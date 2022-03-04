@@ -249,6 +249,7 @@ word_t eval(int p, int q, bool *success){
         word_t addr = eval(p+1, q,success);
         if(!in_pmem(addr))
           addr += CONFIG_MBASE;
+        printf("dereference 0x%016lx",addr);
         return vaddr_read(addr, 8);
       }
     }
