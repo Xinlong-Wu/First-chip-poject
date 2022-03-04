@@ -116,11 +116,11 @@ static int cmd_si(char *args){
 }
 
 static int cmd_expr(char *args){
-  word_t res = 0;
+  uint32_t res = 0;
   bool isSuccess = false;
-  res = expr(args, &isSuccess);
+  res = (uint32_t)expr(args, &isSuccess);
   if(isSuccess){
-    printf("expr %s, value is %ln\n",args,&res);
+    printf("expr %s, value is %ls\n",args,&res);
   }
   else
     printf("Valit expr\n");
@@ -177,7 +177,6 @@ void sdb_set_batch_mode() {
 }
 
 void sdb_mainloop() {
-  Log("SDB Mod");
   if (is_batch_mode) {
     cmd_c(NULL);
     return;
