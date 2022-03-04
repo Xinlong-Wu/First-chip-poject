@@ -107,7 +107,7 @@ static int cmd_si(char *args){
   s.snpc = cpu.pc;
   while (n--){
     isa_exec_once(&s);
-    printf("instrcution: %2X", s.isa.inst.val);
+    printf("instrcution: %4X\n", s.isa.inst.val);
     cpu.pc = s.dnpc;
   }
   return 0;
