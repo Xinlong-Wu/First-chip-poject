@@ -159,10 +159,10 @@ int get_priority(int * base_priority, int token_type){
   case '/':
     return (*base_priority) + 1;
   case '(':
-    (*base_priority)+=1;
+    (*base_priority)+=3;
     return -1;
   case ')':
-    (*base_priority)-=1;
+    (*base_priority)-=3;
     return -1;
   
   default:
