@@ -23,7 +23,7 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-  {"(0[x|X])?[0-9|a-f]+", TK_HEX_NUM},
+  {"0[x|X][0-9|a-f]+", TK_HEX_NUM},
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"\\-", '-'},         // minus
