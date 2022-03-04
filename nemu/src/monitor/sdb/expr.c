@@ -96,7 +96,6 @@ static bool make_token(char *e) {
             tokens[nr_token].type = rules[i].token_type;
             tokens[nr_token].str[0] = rules[i].token_type;
             nr_token++;
-            Log("push");
             break;
           case TK_NUM:
             assert(substr_len < 32 && "Number input is too long");
@@ -109,7 +108,6 @@ static bool make_token(char *e) {
               tokens[nr_token].str[i] = substr_start[i];
             }
             nr_token++;
-            Log("push");
             break;
           default:
             break;
@@ -218,6 +216,7 @@ word_t eval(int p, int q, bool *success){
         }
 
         int tmp_priority = get_priority(&base_priority, tokens[i].type);
+        printf("Token %s, priority %d\n",tokens[i].str,tmp_priority);
         
         if(tmp_priority > 0 && main_op_priority >= tmp_priority){
           main_op = i;
