@@ -219,7 +219,7 @@ word_t eval(int p, int q, bool *success){
 
         int tmp_priority = get_priority(&base_priority, tokens[i].type);
         
-        if(tmp_priority > 0 && main_op_priority < tmp_priority){
+        if(tmp_priority > 0 && main_op_priority >= tmp_priority){
           main_op = i;
           main_op_priority = tmp_priority;
         }
