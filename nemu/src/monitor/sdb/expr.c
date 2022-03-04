@@ -6,6 +6,7 @@
 #include <regex.h>
 #include <utils.h>
 #include <memory/vaddr.h>
+#include <memory/paddr.h>
 
 enum {
   TK_NOTYPE = 256,
@@ -246,6 +247,8 @@ word_t eval(int p, int q, bool *success){
       }
       case TK_DEREF:{
         word_t addr = eval(p+1, q,success);
+        if(!in_pmem(addr))
+          addr += CONFIG_MBASE;
         return vaddr_read(addr, 8);
       }
     }
