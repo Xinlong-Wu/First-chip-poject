@@ -94,7 +94,7 @@ static bool make_token(char *e) {
           case '(':
           case ')':
             tokens[nr_token].type = rules[i].token_type;
-            tokens[nr_token].str[i] = rules[i].token_type;
+            tokens[nr_token].str[0] = rules[i].token_type;
             nr_token++;
             Log("push");
             break;
