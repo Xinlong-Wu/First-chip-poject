@@ -126,6 +126,31 @@ static int cmd_si(char *args){
   }
   return 0;
 }
+
+static int cmd_p(char *args){
+  if(args){
+    bool isSuccess = false;
+    word_t res = expr(args, &isSuccess);
+    if(isSuccess){
+      printf("expr %s, value is %lu\n",args,res);
+    }
+    else{
+      printf("Valit expr\n");
+      return 0;
+    }
+  }
+  return 0;
+}
+
+extern WP* new_wp(char *exp);
+static int cmd_w(char *args){
+  if(args){
+    WP *wp = new_wp(args);
+    if (wp==NULL)
+      printf("Valid expr %s", args);
+  }
+  return 0;
+}
 static int cmd_help(char *args);
 
 static struct {
@@ -141,8 +166,8 @@ static struct {
   {"si", "si [N], step in the program", cmd_si},
   {"info", "info [r|w], out put the info of Regesiter or WatchPoint", cmd_info},
   {"x", "x [N] [EXPR] , out put N Bite data from value of EXPR by sixteen format", cmd_x},
-  // {"p", "p [EXPR], out put the value of EXPR"},
-  // {"w", "w [EXPR], set WatchPoint stop the program if the value of EXPR has changed"},
+  {"p", "p [EXPR], out put the value of EXPR", cmd_p},
+  {"w", "w [EXPR], set WatchPoint stop the program if the value of EXPR has changed", cmd_w},
   // {"d", "d [N], delete WatchPoint witch id is N"},
 };
 
