@@ -75,7 +75,8 @@ static int cmd_x(char *args) {
     char *exprstr = cmd + strlen(cmd) +1;
 
     bool isSuccess = false;
-    addr = (paddr_t)expr(exprstr, &isSuccess);
+    if(exprstr!=NULL)
+      addr = (paddr_t)expr(exprstr, &isSuccess);
     if(isSuccess){
       printf("expr %s, value is %u\n",args,addr);
     }
