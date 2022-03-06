@@ -66,10 +66,13 @@ static int cmd_x(char *args) {
 
   int len = 0;
   paddr_t addr = 0;
-  char expr[50];
-  if(args)
-    sscanf(args,"%d %s",&len,expr);
-  Log("expr: %s",expr);
+  char *expr = NULL;
+  if(args){
+    char * cmd = strtok(args, " ");
+    len = atoi(cmd);
+    expr = cmd + strlen(cmd) +1;
+  }
+  Log("expr %s",expr);
 
   if(len != 0 && addr!=0){
     int onceLength = sizeof(word_t) < len ? sizeof(word_t) : (len>>1)<<1;
