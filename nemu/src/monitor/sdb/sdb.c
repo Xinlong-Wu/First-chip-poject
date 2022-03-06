@@ -122,24 +122,11 @@ static int cmd_si(char *args){
   s.snpc = cpu.pc;
   while (n--){
     isa_exec_once(&s);
-    printf("instrcution: 0x%08X\n", s.isa.inst.val);
+    printf("instrcution: %s\n", s.logbuf);
     cpu.pc = s.dnpc;
   }
   return 0;
 }
-
-static int cmd_expr(char *args){
-  word_t res = 0;
-  bool isSuccess = false;
-  res = expr(args, &isSuccess);
-  if(isSuccess){
-    printf("expr %s, value is %lu\n",args,res);
-  }
-  else
-    printf("Valit expr\n");
-  return 0;
-}
-
 static int cmd_help(char *args);
 
 static struct {
@@ -224,8 +211,7 @@ void sdb_mainloop() {
     }
 
     if (i == NR_CMD) { 
-      // printf("Unknown command '%s'\n", cmd); 
-      cmd_expr(args);
+      printf("Unknown command '%s'\n", cmd); 
     }
   }
 }
