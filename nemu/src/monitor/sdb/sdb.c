@@ -68,6 +68,7 @@ static int cmd_x(char *args) {
   paddr_t addr = 0;
   if(args){
     char *cmd = strtok(args, " ");
+    Log("cmd:%s", cmd);
     len = atoi(cmd);
   }
 
