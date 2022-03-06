@@ -63,11 +63,13 @@ static int cmd_info(char *args) {
 extern word_t vaddr_read(vaddr_t addr, int len);
 
 static int cmd_x(char *args) {
-
+  Log("cmd_info get arg %s", args);
   int len = 0;
   paddr_t addr = 0;
-  if(args)
-    sscanf(args,"%d %x",&len,&addr);
+  if(args){
+    char *cmd = strtok(args, " ");
+    len = atoi(cmd);
+  }
 
   if(len != 0 && addr!=0){
     int onceLength = sizeof(word_t) < len ? sizeof(word_t) : (len>>1)<<1;
