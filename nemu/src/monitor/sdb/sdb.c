@@ -68,7 +68,7 @@ static int cmd_x(char *args) {
   paddr_t addr = 0;
   if(args)
     len = atoi(strtok(args, " "));
-  Log("arg: %s", args);
+  Log("arg: %s", args+1);
 
   if(len != 0 && addr!=0){
     int onceLength = sizeof(word_t) < len ? sizeof(word_t) : (len>>1)<<1;
