@@ -113,16 +113,18 @@ static int cmd_x(char *args) {
 }
 
 extern void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
-extern void exec_once(Decode *s, vaddr_t pc);
 static int cmd_si(char *args){
   int n = 1;
   if(args)
     sscanf(args,"%x",&n);
   
   Decode s;
+  s.pc = cpu.pc;
+  s.snpc = cpu.pc;
   while (n--){
-    exec_once(&s,cpu.pc);
-    printf("instrcution: %s\n", s.logbuf);
+    isa_exec_once(&s);
+    printf("instrcution: 0x%08X\n", s.isa.inst.val);
+    cpu.pc = s.dnpc;
   }
   return 0;
 }
