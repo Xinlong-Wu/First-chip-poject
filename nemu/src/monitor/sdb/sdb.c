@@ -66,13 +66,21 @@ static int cmd_x(char *args) {
 
   int len = 0;
   paddr_t addr = 0;
-  char *expr = NULL;
   if(args){
     char * cmd = strtok(args, " ");
     len = atoi(cmd);
-    expr = cmd + strlen(cmd) +1;
+    char *exprstr = cmd + strlen(cmd) +1;
+
+    bool isSuccess = false;
+    addr = (paddr_t)expr(exprstr, &isSuccess);
+    if(isSuccess){
+      printf("expr %s, value is %u\n",args,addr);
+    }
+    else{
+      printf("Valit expr\n");
+      return 0;
+    }
   }
-  Log("expr %s",expr);
 
   if(len != 0 && addr!=0){
     int onceLength = sizeof(word_t) < len ? sizeof(word_t) : (len>>1)<<1;
