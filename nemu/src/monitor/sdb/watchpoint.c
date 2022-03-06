@@ -9,11 +9,14 @@ typedef struct watchpoint {
 
   bool is_free;
   char expr[100];
+  word_t expr_value;
+  word_t new_value;
 
 } WP;
 
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *tail = NULL, *free_ = NULL;
+static int active_wp = -1;
 
 void init_wp_pool() {
   int i;
@@ -23,6 +26,8 @@ void init_wp_pool() {
     wp_pool[i].prev = (i == 0 ? NULL : &wp_pool[i-1]);
     wp_pool[i].is_free = true;
     wp_pool[i].expr[0] = '\0';
+    wp_pool[i].expr_value = 0;
+    wp_pool[i].new_value = 0;
   }
 
   head = NULL;
@@ -32,7 +37,7 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 
-WP* new_wp(char *expr){
+WP* new_wp(char *exp){
   WP * newWp;
   // if all watch points are in used, return with NULL
   if(free_ == NULL)
@@ -43,11 +48,16 @@ WP* new_wp(char *expr){
   free_ = free_->next;
   free_->prev = newWp->prev;
 
+  bool valid_expr = false;
   // init watch piont
   newWp->next = NULL;
   newWp->prev = NULL;
   newWp->is_free = false;
-  strcpy(newWp->expr, expr);
+  strcpy(newWp->expr, exp);
+  newWp->expr_value = expr(newWp->expr,&valid_expr);
+  newWp->new_value = newWp->expr_value;
+  if(!valid_expr)
+    return NULL;
 
   // append to watch point list
   if (head == NULL){
@@ -81,6 +91,8 @@ void free_wp(WP *wp){
     wp->next->prev = wp->prev;
 
   // free wp and append to free list
+  wp->new_value = 0; 
+  wp->expr_value = 0;
   wp->expr[0] = '\0';
   wp->is_free = true;
   wp->next = NULL;
@@ -96,4 +108,28 @@ void free_wp(WP *wp){
     p->next = wp;
   }
   return;
+}
+
+bool check_wp(){
+  if(active_wp >= 0)
+    active_wp = -1;
+
+  WP *p = head;
+  while (p != NULL){
+    bool secuss;
+    p->expr_value = p->new_value;
+    p->new_value = expr(p->expr,&secuss);
+    if(p->new_value != p->expr_value){
+      active_wp = p->NO;
+      break;
+    }
+  }
+  
+  return active_wp >= 0;
+}
+
+void print_active_wp(){
+  printf("watch point No.%d: %s, value %lu changed to %lu",active_wp,
+         wp_pool[active_wp].expr, wp_pool[active_wp].expr_value,
+         wp_pool[active_wp].new_value);
 }
