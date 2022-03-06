@@ -147,7 +147,7 @@ static int cmd_w(char *args){
   if(args){
     WP *wp = new_wp(args);
     if (wp==NULL)
-      printf("Valid expr %s", args);
+      printf("Valid expr %s\n", args);
   }
   return 0;
 }
