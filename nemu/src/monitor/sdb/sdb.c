@@ -54,8 +54,12 @@ static int cmd_info(char *args) {
     isa_reg_display(args);
   }
   else if (strcmp(cmd, "w") == 0){
-    
-    Log("TBD: Show WatchPoint %s",args);
+    WP *p = get_wp_list();
+
+    while (p != NULL){
+      printf("watch pint N.%d: expr=%s, current value=%lu\n", p->NO, p->expr, p->expr_value);
+      p = p->next;
+    }
   }
 
   return 0;
