@@ -122,6 +122,10 @@ bool delete_wp(int id){
   return false;
 }
 
+WP * get_wp_list(){
+  return head;
+}
+
 void print_active_wp(){
   printf("watch point No.%d: %s, value %lu changed to %lu",active_wp,
          wp_pool[active_wp].expr, wp_pool[active_wp].expr_value,

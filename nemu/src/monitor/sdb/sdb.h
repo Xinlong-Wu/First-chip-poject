@@ -18,6 +18,8 @@ typedef struct watchpoint {
 
 extern bool delete_wp(int id);
 extern WP* new_wp(char *exp);
+extern WP * get_wp_list();
+
 extern void exec_once(Decode *s, vaddr_t pc);
 
 extern word_t vaddr_read(vaddr_t addr, int len);

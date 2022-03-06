@@ -54,6 +54,7 @@ static int cmd_info(char *args) {
     isa_reg_display(args);
   }
   else if (strcmp(cmd, "w") == 0){
+    
     Log("TBD: Show WatchPoint %s",args);
   }
 
