@@ -61,10 +61,10 @@ WP* new_wp(char *exp){
   return newWp;
 }
 
-void free_wp(WP *wp){
+bool free_wp(WP *wp){
   // avoid double free
   if(wp->is_free)
-    return;
+    return false;
 
   // remove wp pointer from prev wp
   if (wp->prev == NULL)
@@ -95,7 +95,7 @@ void free_wp(WP *wp){
     wp->prev = p;
     p->next = wp;
   }
-  return;
+  return true;
 }
 
 bool check_wp(){
@@ -114,6 +114,12 @@ bool check_wp(){
   }
   
   return active_wp >= 0;
+}
+
+bool delete_wp(int id){
+  if (id < 32)
+    return free_wp(&(wp_pool[id]));
+  return false;
 }
 
 void print_active_wp(){

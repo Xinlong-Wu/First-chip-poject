@@ -151,6 +151,15 @@ static int cmd_w(char *args){
   }
   return 0;
 }
+
+bool delete_wp(int id);
+static int cmd_d(char *args){
+  if(args){
+    int wp_id = atoi(args);
+    delete_wp(wp_id);
+  }
+  return 0;
+}
 static int cmd_help(char *args);
 
 static struct {
@@ -168,7 +177,7 @@ static struct {
   {"x", "x [N] [EXPR] , out put N Bite data from value of EXPR by sixteen format", cmd_x},
   {"p", "p [EXPR], out put the value of EXPR", cmd_p},
   {"w", "w [EXPR], set WatchPoint stop the program if the value of EXPR has changed", cmd_w},
-  // {"d", "d [N], delete WatchPoint witch id is N"},
+  {"d", "d [N], delete WatchPoint witch id is N", cmd_d},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
