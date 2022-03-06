@@ -122,7 +122,7 @@ static int cmd_si(char *args){
   s.snpc = cpu.pc;
   while (n--){
     isa_exec_once(&s);
-    printf("instrcution: %s\n", s.logbuf);
+    printf("instrcution: 0x%08X\n", s.isa.inst.val);
     cpu.pc = s.dnpc;
   }
   return 0;
