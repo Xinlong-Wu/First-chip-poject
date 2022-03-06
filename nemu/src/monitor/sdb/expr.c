@@ -29,7 +29,7 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
   {"0[x|X][0-9|a-f]+", TK_HEX_NUM},
-  {"\\$((\\$0)|(zero)|(gp)|(ra)|(s(p|([0-9][0-1]?)))|(t(p|[0-6]))|(a[0-7])|(x[1-3]?[1-9]))", TK_REG},
+  {"\\$((\\$0)|(zero)|(gp)|(ra)|(s(p|(1?[0-9])))|(t(p|[0-6]))|(a[0-7])|(x[1-3]?[0-9]))", TK_REG},
   {" +", TK_NOTYPE},    // spaces
   {"\\+", '+'},         // plus
   {"\\-", '-'},         // minus
