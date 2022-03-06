@@ -111,6 +111,7 @@ bool check_wp(){
       active_wp = p->NO;
       break;
     }
+    p = p->next;
   }
   
   return active_wp >= 0;
