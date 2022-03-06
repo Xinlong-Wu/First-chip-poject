@@ -28,7 +28,7 @@ void isa_reg_display(char* reg) {
   word_t res = isa_reg_str2val(cmd, &isSuccess);
 
   if(isSuccess)
-    printf("Reg %s: %lu (signed vlue: %ld)\n", cmd, res, (sword_t)res);
+    printf("Reg %s: %lu (0x%lx)\n", cmd, res, (sword_t)res);
   else
     printf("%s\n", ASNI_FMT(str(Error: wrong register.), ASNI_FG_RED));
 
