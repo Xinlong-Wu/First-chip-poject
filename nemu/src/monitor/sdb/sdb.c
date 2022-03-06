@@ -60,8 +60,6 @@ static int cmd_info(char *args) {
   return 0;
 }
 
-extern word_t vaddr_read(vaddr_t addr, int len);
-
 static int cmd_x(char *args) {
 
   int len = 0;
@@ -112,8 +110,6 @@ static int cmd_x(char *args) {
   return 0;
 }
 
-extern void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
-extern void exec_once(Decode *s, vaddr_t pc);
 static int cmd_si(char *args){
   int n = 1;
   if(args)
@@ -142,7 +138,6 @@ static int cmd_p(char *args){
   return 0;
 }
 
-extern WP* new_wp(char *exp);
 static int cmd_w(char *args){
   if(args){
     WP *wp = new_wp(args);
@@ -152,7 +147,6 @@ static int cmd_w(char *args){
   return 0;
 }
 
-bool delete_wp(int id);
 static int cmd_d(char *args){
   if(args){
     int wp_id = atoi(args);

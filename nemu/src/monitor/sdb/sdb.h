@@ -2,6 +2,7 @@
 #define __SDB_H__
 
 #include <common.h>
+#include <cpu/decode.h>
 
 typedef struct watchpoint {
   int NO;
@@ -15,6 +16,13 @@ typedef struct watchpoint {
 
 } WP;
 
+extern bool delete_wp(int id);
+extern WP* new_wp(char *exp);
+extern void exec_once(Decode *s, vaddr_t pc);
+
+extern word_t vaddr_read(vaddr_t addr, int len);
+
 word_t expr(char *e, bool *success);
 
+extern void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
 #endif
