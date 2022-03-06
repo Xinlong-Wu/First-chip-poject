@@ -122,7 +122,7 @@ static int cmd_si(char *args){
   Decode s;
   while (n--){
     exec_once(&s, cpu.pc);
-    printf("instrcution: 0x%08X\n", s.isa.inst.val);
+    printf("instrcution: %s\n", s.logbuf);
   }
   return 0;
 }
