@@ -134,7 +134,7 @@ static int cmd_p(char *args){
     bool isSuccess = false;
     word_t res = expr(args, &isSuccess);
     if(isSuccess){
-      printf("expr %s, value is %lu (0x%lux)\n",args,res,res);
+      printf("expr %s, value is %lu (0x%lx)\n",args,res,res);
     }
     else{
       printf("Valit expr\n");
