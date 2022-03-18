@@ -108,6 +108,7 @@ static bool make_token(char *e) {
           case TK_AND:
             tokens[nr_token].type = rules[i].token_type;
             tokens[nr_token].str[0] = rules[i].token_type;
+            tokens[nr_token].str[1] = '\0';
             nr_token++;
             break;
           case TK_NUM:
@@ -122,6 +123,7 @@ static bool make_token(char *e) {
             for (size_t i = 0; i < substr_len; i++){
               tokens[nr_token].str[i] = substr_start[i];
             }
+            tokens[nr_token].str[substr_len] = '\0';
             nr_token++;
             break;
           default:
@@ -313,9 +315,9 @@ word_t eval(int p, int q, bool *success){
     bool val2_success = false;
 
     sword_t val1 = eval(p, main_op - 1,&val1_success);
-    // printf("res is %d\n", val1);
+    printf("res is %ld\n", val1);
     sword_t val2 = eval(main_op + 1, q,&val2_success);
-    // printf("res is %d\n", val2);
+    printf("res is %ld\n", val2);
 
     *success = val1_success && val2_success;
 
