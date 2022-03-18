@@ -1,7 +1,7 @@
 import chisel3._
 import chisel3.util.Counter
 
-class top extends Module{
+class top(width: Int) extends Module{
   val sw = IO(Input(UInt(16.W)))
   val ps2_clk =IO(Input(UInt(1.W)))
   val ps2_data =IO(Input(UInt(1.W)))
@@ -39,6 +39,15 @@ class top extends Module{
   VGA_G := 0.U(8.W)
   VGA_B := 0.U(8.W)
 
-Counter
+  val pc_reg = Module(new PC(width))
+
+  val gpr = Module(new GPR(width))
+  gpr.io.id := DontCare
+  gpr.io.wenable := DontCare
+  gpr.io.wdata := DontCare
+  gpr.io.rdata := DontCare
+
+//  val ifu = Module(new IFU(width))
+//  ifu.io.
 
 }
