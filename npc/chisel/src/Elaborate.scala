@@ -4,7 +4,5 @@ object Elaborate extends App {
   if(args.length != 0){
     myarg = args
   }
-//  (new chisel3.stage.ChiselStage).execute(myarg, Seq(chisel3.stage.ChiselGeneratorAnnotation(() => new bcd7seg())))
-//  (new chisel3.stage.ChiselStage).execute(myarg, Seq(chisel3.stage.ChiselGeneratorAnnotation(() => new vga_ctrl())))
   (new chisel3.stage.ChiselStage).execute(myarg, Seq(chisel3.stage.ChiselGeneratorAnnotation(() => new top())))
 }
