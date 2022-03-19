@@ -4,6 +4,6 @@ object Elaborate extends App {
   if(args.length != 0){
     myarg = args
   }
-  (new chisel3.stage.ChiselStage).execute(myarg, Seq(chisel3.stage.ChiselGeneratorAnnotation(() => new GPR(64))))
+//  (new chisel3.stage.ChiselStage).execute(myarg, Seq(chisel3.stage.ChiselGeneratorAnnotation(() => new GPR(64))))
   (new chisel3.stage.ChiselStage).execute(myarg, Seq(chisel3.stage.ChiselGeneratorAnnotation(() => new top(64))))
 }

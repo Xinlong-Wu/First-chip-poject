@@ -28,7 +28,6 @@ OBJ_SRC = $(basename $(notdir $(wildcard $(VERILOG_DIR)/*.v)))
 VERILOG_SRC = $(wildcard $(VERILOG_DIR)/*.v)
 VERILOG_SRC += $(wildcard $(CHISEL_BUILD)/*.v)
 CPP_SRC = $(wildcard $(CPP_DIR)/*.cpp)
-CPP_SRC += $(SRC_AUTO_BIND)
 
 # DO NOT modify the following code!!!
 
@@ -73,8 +72,13 @@ VERILATOR_CFLAGS += -MMD --build -cc --trace  \
 				-O3 --x-assign fast --x-initial fast --noassert --exe
 LDFLAGS += -lSDL2 -lSDL2_image
 
-sim: build nvboard
+sim: verilog $(VERILOG_SRC) $(CPP_SRC)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
+		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
+		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
+		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
+	$(abspath $(BUILD_DIR)/$(TOPNAME))
 	
 nvboard: build
 	@$(BUILD_DIR)/$(TOPNAME)
@@ -83,13 +87,14 @@ nvboard-debug: build
 	@$(BUILD_DIR)/$(TOPNAME) &> $(BUILD_DIR)/log
 
 
-gtkwave: build
+gtkwave: sim
 	@$(BUILD_DIR)/$(TOPNAME);gtkwave $(WAVE_FILE)
 
 build: verilog $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE)
 	@rm -rf $(BUILD_DIR)/obj_dir
+	python $(NPC_DIR)/resource/AsciiGen.py mask $(NPC_DIR)/resource
 	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
-		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE) \
+		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) $(SRC_AUTO_BIND) $(NVBOARD_ARCHIVE) \
 		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
 		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
 

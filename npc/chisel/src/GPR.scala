@@ -7,17 +7,10 @@ class GPR(width: Int) extends Module {
     val wdata = Input(UInt(width.W))
     val rdata = Output(UInt(width.W))
   })
-
   val GPR = Reg(Vec(32,UInt(width.W)))
 
-  if(reset.asBool == true.B){
-    for(i <- 0 to 31){
-      GPR(i) := 0.U(width.W)
-    }
-  }
-
-  if(io.wenable == true.B){
-    GPR(io.id) := io.wdata
+  for(i <- 0 to 31){
+    GPR(i) := Mux(reset.asBool, 0.U(width.W), Mux(io.wenable && io.id === i.U, io.wdata, GPR(io.id)))
   }
 
   io.rdata := GPR(io.id)
