@@ -3,6 +3,67 @@
 #include <cpu/ifetch.h>
 #include <cpu/decode.h>
 
+extern void ftracer(int rd, int rs1, word_t addr, word_t pc);
+// ftrace
+#ifdef CONFIG_FTRACE
+typedef struct symrecord{
+	uint64_t addr;
+	uint32_t szie;
+	char name[50];
+} symrecord;
+extern size_t record_size;
+extern symrecord FuncRecord[100];
+
+int ftrace_sp = 0;
+
+void ftrace_wirte(char *name, word_t addr, word_t pc, int ret){
+  log_write("0x%lx: ",pc);
+  ftrace_indent(ftrace_sp);
+  if(ret)
+    log_write("ret [%s]\n",name);
+  else
+    log_write("call [%s@0x%lx]\n",name, addr);
+}
+
+void ftracer(int rd, int rs1, word_t addr, word_t pc){
+  int is_ret = 0;
+  char * name = NULL;
+  char * curr_name = NULL;
+  for (size_t i = 0; i < record_size; i++){
+    if(FuncRecord[i].addr == addr){
+      name = FuncRecord[i].name;
+      break;
+    }
+    else if((FuncRecord[i].addr < pc) && (pc < (FuncRecord[i].addr + FuncRecord[i].szie))){
+      curr_name = FuncRecord[i].name;
+    }
+  }
+  if (name == NULL && curr_name != NULL){
+    is_ret = 1;
+  }
+  
+
+  if(name != NULL || curr_name != NULL){
+    if (is_ret){
+      if(rd == 0 && rs1 == 1){
+        ftrace_sp--;
+        ftrace_wirte(curr_name,addr,pc,is_ret);
+      }
+    }
+    else{
+      ftrace_wirte(name, addr, pc,is_ret);
+      ftrace_sp++;
+    }
+  }
+
+  return;
+}
+#endif
+
+#define JARL(rd, rs1, addr, pc) if(CONFIG_FTRACE) ftracer(rd,rs1,addr,pc); 
+
+#define JAL(rd, rs1, addr, pc) if(CONFIG_FTRACE) ftracer(rd,rs1,addr,pc);
+
 #define R(i) gpr(i)
 #define Mr vaddr_read
 #define Mw vaddr_write
@@ -81,9 +142,9 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 ????? ????? 001 ????? 00110 11", slliw   , I, R(dest) = SEXT(R(src1) << BITS(src2,5,0),32));
   INSTPAT("0000000 ????? ????? 101 ????? 00110 11", srliw   , I, R(dest) = SEXT(BITS(R(src1),31,0) >> BITS(src2,5,0),32));
   INSTPAT("0100000 ????? ????? 101 ????? 00110 11", sraiw   , I, R(dest) = SEXT((SEXT(BITS(R(src1),31,31),1) << (32 - BITS(src2,5,0))) | (R(src1) >> BITS(src2,5,0)),32));
-  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr    , I, s->dnpc = (R(src1) + SEXT(src2, 12))&(~1); R(dest) = s->pc + 4);
+  INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr    , I, s->dnpc = (R(src1) + SEXT(src2, 12))&(~1); R(dest) = s->pc + 4; JARL(dest,src1,s->dnpc,s->pc));
 
-  INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal     , J, s->dnpc = s->pc + src1; R(dest) = s->pc + 4);
+  INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal     , J, s->dnpc = s->pc + src1; R(dest) = s->pc + 4; JAL(0,0,s->dnpc,s->pc));
   
   INSTPAT("0000000 ????? ????? 000 ????? 01100 11", add     , R, R(dest) = R(src1) + R(src2));
   INSTPAT("0100000 ????? ????? 000 ????? 01100 11", sub     , R, R(dest) = R(src1) - R(src2));

@@ -162,6 +162,10 @@ config IRINGBUF_SIZE
   int "size of iringtrace buf"
   default 50
 
+config FTRACE
+  depends on TRACE
+  bool "enable the function trace"
+  default true
 
 config DIFFTEST
   depends on TARGET_NATIVE_ELF

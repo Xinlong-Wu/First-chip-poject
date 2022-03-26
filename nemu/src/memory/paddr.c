@@ -3,6 +3,8 @@
 #include <device/mmio.h>
 #include <isa.h>
 
+extern int ftrace_sp;
+
 #if   defined(CONFIG_PMEM_MALLOC)
 static uint8_t *pmem = NULL;
 #else // CONFIG_PMEM_GARRAY
@@ -43,6 +45,9 @@ void init_mem() {
 }
 
 word_t paddr_read(paddr_t addr, int len) {
+#ifdef CONFIG_FTRACE
+  ftrace_indent(ftrace_sp+3);
+#endif
 #ifdef CONFIG_TRACE_MEM
   log_write("Read Memory: *0x%x ", addr);
 #endif
@@ -62,6 +67,9 @@ word_t paddr_read(paddr_t addr, int len) {
 }
 
 void paddr_write(paddr_t addr, int len, word_t data) {
+#ifdef CONFIG_FTRACE
+  ftrace_indent(ftrace_sp+3);
+#endif
 #ifdef CONFIG_TRACE_MEM
   log_write("Write Memory: *0x%x ", addr);
 #endif

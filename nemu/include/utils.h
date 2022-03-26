@@ -58,5 +58,10 @@ uint64_t get_time();
     log_write(__VA_ARGS__); \
   } while (0)
 
+#define ftrace_indent(n) \
+for (size_t i = 0; i < n; i++) \
+  log_write("\t");
+
+
 word_t htoi(char *s);
 #endif

@@ -15,6 +15,10 @@ override ARGS += $(ARGS_DIFF)
 # Command to execute NEMU
 IMG ?=
 
+ifdef CONFIG_FTRACE
+override ARGS += --elf=$(basename $(IMG)).elf
+endif
+
 ifdef SDB
 NEMU_EXEC := $(BINARY) $(ARGS) $(IMG)
 else
