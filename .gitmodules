@@ -7,7 +7,3 @@
 	path = nvboard
 	url = git@github.com:NJU-ProjectN/nvboard.git
 	branch = master
-[submodule "am-kernels"]
-	path = am-kernels
-	url = git@github.com:NJU-ProjectN/am-kernels.git
-	branch = ics2021
