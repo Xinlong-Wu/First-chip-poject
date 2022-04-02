@@ -2,18 +2,21 @@ import chisel3._
 import chisel3.util.Counter
 
 class top(width: Int) extends Module{
-  val inst = IO(Input(UInt(32.W)))
-  val pc =IO(Output(UInt(width.W)))
+  val io = IO(new Bundle() {
+    val inst = (Input(UInt(32.W)))
+    val pc =(Output(UInt(width.W)))
+  })
 
   val pc_reg = Module(new PC(width))
-  pc := pc_reg.io.pc_addr
+  io.pc := pc_reg.io.pc_addr
 
-  val gpr = Module(new GPR(width))
-  gpr.io.id := DontCare
-  gpr.io.wenable := DontCare
-  gpr.io.wdata := DontCare
-  gpr.io.rdata := DontCare
+  val if_id = Module(new IF_ID(width))
+  if_id.io.if_pc := pc_reg.io.pc_addr
+  if_id.io.if_inst := io.inst
 
 //  val ifu = Module(new IFU(width))
 
+  val idu = Module(new IDU(width))
+//  idu.io.pc_addr := if_id.io.if_pc
+//  idu.io.pc_addr := if_id.io.if_pc
 }

@@ -5,4 +5,6 @@ class IFU(width: Int) extends Module {
     val pc_addr = Input(UInt(width.W))
     val inst_data = Output(UInt(32.W))
   })
+
+
 }
