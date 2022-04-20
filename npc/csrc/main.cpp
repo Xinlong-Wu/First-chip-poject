@@ -68,6 +68,10 @@ int main(int argc, char **argv) {
   while(!is_ebreak) {
     // nvboard_update();
     top->clock = !top->clock;
+    if((top->io_pc_addr%0x80000000)>>2 >= 65536){
+      std::cout<<"End of Rom"<<std::endl;
+      exit(-1);
+    }
     top->io_inst = (top->io_pc_re == 1) ? inst_rom[ (top->io_pc_addr%0x80000000) >> 2 ] : 0;
     top->eval();
     tfp->dump(main_time);

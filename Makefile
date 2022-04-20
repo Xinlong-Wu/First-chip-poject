@@ -67,18 +67,36 @@ endef
 include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
-CFLAGS += -g $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
+NPC_CFLAGS += -g $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 VERILATOR_CFLAGS += -MMD --build -cc --trace  \
-				-O0 --x-assign fast --x-initial fast --noassert --exe
-LDFLAGS += -lSDL2 -lSDL2_image
+				-O3 --x-assign fast --x-initial fast --noassert --exe
+NPC_LDFLAGS += -lSDL2 -lSDL2_image
+
+IMAGE_PATH ?= inst.bin
 
 sim: verilog $(VERILOG_SRC) $(CPP_SRC)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	echo verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
+		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
+		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
+		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
 	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
 		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
-		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
+		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
 		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
-	$(abspath $(BUILD_DIR)/$(TOPNAME)) inst.bin
+	$(abspath $(BUILD_DIR)/$(TOPNAME)) ${IMAGE_PATH}
+
+gdb: verilog $(VERILOG_SRC) $(CPP_SRC)
+	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
+	echo verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
+		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
+		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
+		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
+	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
+		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
+		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
+		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
+	gdb --args $(abspath $(BUILD_DIR)/$(TOPNAME)) ${IMAGE_PATH}
 	
 nvboard: build
 	@$(BUILD_DIR)/$(TOPNAME)
@@ -95,7 +113,7 @@ build: verilog $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE)
 	python $(NPC_DIR)/resource/AsciiGen.py mask $(NPC_DIR)/resource
 	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
 		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) $(SRC_AUTO_BIND) $(NVBOARD_ARCHIVE) \
-		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
+		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
 		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
 
 _default:	build

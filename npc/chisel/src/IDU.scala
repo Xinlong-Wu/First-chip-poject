@@ -21,7 +21,7 @@ class IDU(width: Int) extends Module {
     val aluty = Output(UInt(3.W))
   })
 
-  printf("got instruction: %b\n",io.inst_data)
+  // printf("got instruction: %b\n",io.inst_data)
   val decoder = new RVDecoder(io.inst_data)
 
   val instInfo = decoder.getInstInfo()
@@ -61,8 +61,8 @@ class IDU(width: Int) extends Module {
     reset.asBool -> 0.U,
   ))
 
-  printf("got fuop: %b\n",instInfo(3))
-  printf("got aluty: %b\n",instInfo(4))
+  // printf("got fuop: %b\n",instInfo(3))
+  // printf("got aluty: %b\n",instInfo(4))
   io.fuop := Mux(reset.asBool, 0.U, instInfo(3))
   io.aluty := Mux(reset.asBool, 0.U, instInfo(4))
 }

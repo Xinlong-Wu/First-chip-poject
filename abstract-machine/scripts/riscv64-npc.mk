@@ -23,7 +23,11 @@ image: $(IMAGE).elf
 
 run: image
 	echo    "$(MAKE) -C $(NEMU_HOME)/.. run ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin"
+	echo "cd /home/vincent/CodeSpace/First-chip-poject && make -f /home/vincent/CodeSpace/First-chip-poject/Makefile IMAGE_PATH=$(IMAGE).bin sim"
+	cd /home/vincent/CodeSpace/First-chip-poject && make -f /home/vincent/CodeSpace/First-chip-poject/Makefile IMAGE_PATH=$(IMAGE).bin sim
 
 gdb: image
 	echo    "$(MAKE) -C $(NEMU_HOME)/.. gdb ARGS="$(NEMUFLAGS)" IMG=$(IMAGE).bin"
+	echo "cd /home/vincent/CodeSpace/First-chip-poject && make -f /home/vincent/CodeSpace/First-chip-poject/Makefile IMAGE_PATH=$(IMAGE).bin gdb"
+	cd /home/vincent/CodeSpace/First-chip-poject && make -f /home/vincent/CodeSpace/First-chip-poject/Makefile IMAGE_PATH=$(IMAGE).bin gdb
 	
