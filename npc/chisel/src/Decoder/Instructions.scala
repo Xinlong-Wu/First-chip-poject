@@ -1,0 +1,8 @@
+package Decoder
+
+import chisel3.util.BitPat
+
+object Instructions {
+  def ADDI    = BitPat("b???????_?????_?????_000_?????_00100_11")
+  def EBREAK  = BitPat("b0000000_00001_00000_000_00000_11100_11")
+}

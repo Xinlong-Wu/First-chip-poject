@@ -67,9 +67,9 @@ endef
 include $(NVBOARD_HOME)/scripts/nvboard.mk
 
 INCFLAGS = $(addprefix -I, $(INC_PATH))
-CFLAGS += $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
+CFLAGS += -g $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 VERILATOR_CFLAGS += -MMD --build -cc --trace  \
-				-O3 --x-assign fast --x-initial fast --noassert --exe
+				-O0 --x-assign fast --x-initial fast --noassert --exe
 LDFLAGS += -lSDL2 -lSDL2_image
 
 sim: verilog $(VERILOG_SRC) $(CPP_SRC)
@@ -78,7 +78,7 @@ sim: verilog $(VERILOG_SRC) $(CPP_SRC)
 		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
 		$(addprefix -CFLAGS , $(CFLAGS)) $(addprefix -LDFLAGS , $(LDFLAGS)) \
 		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
-	$(abspath $(BUILD_DIR)/$(TOPNAME))
+	$(abspath $(BUILD_DIR)/$(TOPNAME)) inst.bin
 	
 nvboard: build
 	@$(BUILD_DIR)/$(TOPNAME)
