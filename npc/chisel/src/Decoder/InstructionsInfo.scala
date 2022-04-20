@@ -30,6 +30,7 @@ object FuType {
 
 object ALUOpType{
   def addi = "b0000_0001".U
+  def auipc = "b0000_0001".U
 
   def apply() = UInt(8.W)
 }
@@ -43,6 +44,7 @@ object InstType{
 
 object ImmFormat {
   def INST_I  = "b0001".U
+  def INST_U= "b0010".U
 
   def INVALID = "b1111".U
 
@@ -67,6 +69,7 @@ abstract trait InstructionsInfo {
 object RVInstInfo extends InstructionsInfo{
   val table: Array[(BitPat, List[UInt])] = Array(
     ADDI -> List(SrcType.reg, SrcType.reg, SrcType.imm, FuType.alu, ALUOpType.addi, Y, ImmFormat.INST_I),
+    AUIPC -> List(SrcType.reg, SrcType.pc, SrcType.imm, FuType.alu, ALUOpType.addi, Y, ImmFormat.INST_U),
     EBREAK -> List(SrcType.unknow, SrcType.unknow, SrcType.unknow, FuType.ebreak, ALUOpType.addi, N, ImmFormat.INVALID)
   )
 //  val table: Array[(BitPat, UInt)] = Array(

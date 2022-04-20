@@ -24,7 +24,7 @@ class EXU(width: Int) extends Module {
   io.wrd_en := io.rd_we
 
   io.wdata := MuxCase(0.U, Array(
-    (io.fuop === FuType.alu && io.aluty === ALUOpType.addi) -> (io.reg1_data + io.imm_data),
+    (io.fuop === FuType.alu && (io.aluty === ALUOpType.addi)) -> (io.reg1_data + io.imm_data),
     reset.asBool -> 0.U
   ))
 

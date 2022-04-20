@@ -1,4 +1,4 @@
-import Decoder.FuType
+import Decoder.{ALUOpType, FuType}
 import chisel3._
 import chisel3.util.Counter
 
@@ -22,11 +22,17 @@ class top(width: Int) extends Module{
 //  val ifu = Module(new IFU(width))
 
   val idu = Module(new IDU(width))
+
   idu.io.inst_data := io.inst
+  idu.io.pc_addr := pc_reg.io.pc_addr
+  idu.io.reg1_data_i := gpr.io.rdata1
+  idu.io.reg2_data_i := gpr.io.rdata2
+
   gpr.io.re1 := idu.io.reg1_re
   gpr.io.re2 := idu.io.reg2_re
   gpr.io.rid1 := idu.io.reg1_rid
   gpr.io.rid2 := idu.io.reg2_rid
+
 
   val exu = Module(new EXU(width))
   exu.io.fuop := idu.io.fuop
@@ -37,8 +43,8 @@ class top(width: Int) extends Module{
   exu.io.rd_id := idu.io.rd_id
   exu.io.imm_data := idu.io.imm_data
 
-  exu.io.reg1_data := gpr.io.rdata1
-  exu.io.reg2_data := gpr.io.rdata2
+  exu.io.reg1_data := idu.io.reg1_data_o
+  exu.io.reg2_data := idu.io.reg2_data_o
 
   gpr.io.we := exu.io.wrd_en
   gpr.io.wid := exu.io.wrd_id
