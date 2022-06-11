@@ -1,3 +1,4 @@
+import Chisel.Cat
 import chisel3._
 
 class WBU(width: Int) extends Module {
@@ -15,12 +16,11 @@ class WBU(width: Int) extends Module {
     val pc_waddr = Output(UInt(width.W))
   })
   io.pc_we := io.wb_pc
-  io.pc_waddr := Mux(io.wb_pc, io.wdata_i, io.pc_addr+4.U)
+  io.pc_waddr := Cat(io.wdata_i(width-1,1), 0.U)
 
   io.we := io.rf_wb
   io.wid := io.rd_id
-  io.wdata_o := Mux(io.wb_pc, io.wdata_i, io.pc_addr+4.U)
+  io.wdata_o := Mux(io.wb_pc,io.pc_addr+4.U, io.wdata_i)
 
-  printf("[WBU]: rd=0x%x\n",io.rd_id)
-  printf("[WBU]: pc=0x%x\n",io.pc_waddr)
+  printf("[WBU]: pc_wb=0x%x\n",io.wdata_i)
 }

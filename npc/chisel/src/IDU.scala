@@ -34,7 +34,6 @@ class IDU(width: Int) extends Module {
     reset.asBool -> 0.U
   ))
 
-  printf("[IDU] instruction: 0x%x\n",io.inst_data)
   io.rd_we := instInfo(5)
 
   // rs1
@@ -73,4 +72,7 @@ class IDU(width: Int) extends Module {
 
   printf("[IDU] fuop: %b\n",instInfo(3))
   printf("[IDU] aluty: %b\n",instInfo(4))
+  printf("[IDU] instruction: 0x%x\n",io.inst_data)
+
+  printf("[IDU]: rd=0x%x, rs1=0x%x, rs2=0x%x\n",io.rd_id,io.reg1_rid,io.reg2_rid)
 }

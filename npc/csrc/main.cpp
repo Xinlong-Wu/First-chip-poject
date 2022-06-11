@@ -78,9 +78,15 @@ int main(int argc, char **argv) {
     }
     // top->io_inst = (top->io_pc_re == 1) ? inst_rom[ (top->io_pc_addr%0x80000000) >> 2 ] : 0;
     top->io_inst = inst_rom[ (top->io_pc_addr%0x80000000) >> 2 ];
-    single_cycle();
+    top->eval();
     tfp->dump(main_time);
-    getchar();
+
+    if(counter%2 == 0){
+      printf("\n");
+      // getchar();
+    }
+    counter++;
+
     main_time++;
   }
 

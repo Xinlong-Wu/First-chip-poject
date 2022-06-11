@@ -15,4 +15,6 @@ class PC(width: Int) extends Module {
 
   io.pc_addr := PC_reg;
   io.pc_re := Mux(reset.asBool || io.pc_we,false.B, true.B);
+
+  printf("[PC]: pc=0x%x\n",PC_reg)
 }

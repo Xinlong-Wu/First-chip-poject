@@ -10,6 +10,8 @@ class top(width: Int) extends Module{
   })
 
   val gpr = Module(new GPR(width))
+  gpr.io.clk := clock
+  gpr.io.rst := reset
 
   val pc_reg = Module(new PC(width))
   io.pc_addr := pc_reg.io.pc_addr
@@ -28,10 +30,10 @@ class top(width: Int) extends Module{
   idu.io.reg1_data_i := gpr.io.rdata1
   idu.io.reg2_data_i := gpr.io.rdata2
 
-  gpr.io.re1 := idu.io.reg1_re
-  gpr.io.re2 := idu.io.reg2_re
-  gpr.io.rid1 := idu.io.reg1_rid
-  gpr.io.rid2 := idu.io.reg2_rid
+  gpr.io.ren1 := idu.io.reg1_re
+  gpr.io.ren2 := idu.io.reg2_re
+  gpr.io.raddr1 := idu.io.reg1_rid
+  gpr.io.raddr2 := idu.io.reg2_rid
 
 
   val exu = Module(new EXU(width))
@@ -55,8 +57,8 @@ class top(width: Int) extends Module{
   pc_reg.io.pc_we := wbu.io.pc_we
   pc_reg.io.pc_waddr := wbu.io.pc_waddr
 
-  gpr.io.we := wbu.io.rf_wb
-  gpr.io.wid := wbu.io.rd_id
+  gpr.io.wen := wbu.io.rf_wb
+  gpr.io.waddr := wbu.io.rd_id
   gpr.io.wdata := wbu.io.wdata_o
 
   val dpic = Module(new DPIC())
