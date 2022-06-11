@@ -24,12 +24,14 @@ object FuType {
   def jmp = "b0010".U
   def ebreak = "b1111".U
 
-  def typeCount = 3
+  def typeCount = 4
 
   def apply() = UInt(log2Up(typeCount).W)
 }
 
 object ALUOpType{
+  def unimp = 0.U
+
   def addi = "b0000_0001".U
 
   def apply() = UInt(8.W)
@@ -65,7 +67,7 @@ abstract trait InstructionsInfo {
   def decodeDefault: List[UInt] = // illegal instruction
   //      srcType(0)      srcType(1)      srcType(2)      fuType          aluType    rfWe wbPC ImmFormat
   //        |               |               |               |               |         |   |    |
-     List(SrcType.unknow, SrcType.unknow, SrcType.unknow, FuType.alu, ALUOpType.addi, N, N, ImmFormat.INVALID)
+     List(SrcType.unknow, SrcType.unknow, SrcType.unknow, FuType.ebreak, ALUOpType.unimp, N, N, ImmFormat.INVALID)
 
 //  def decodeDefault = InstType.INVALID_INST
 

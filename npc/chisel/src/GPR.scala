@@ -14,5 +14,7 @@ class GPR(width: Int) extends BlackBox {
     val ren2 = Input(Bool())
     val rdata1 = Output(UInt(width.W))
     val rdata2 = Output(UInt(width.W))
+
+    val DPIC_res = Output(UInt(width.W))
   })
 }

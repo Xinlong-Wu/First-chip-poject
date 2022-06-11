@@ -12,7 +12,8 @@ module GPR #( DATA_WIDTH = 64) (
   input wire ren2,
 
   output reg [DATA_WIDTH-1:0] rdata1,
-  output reg [DATA_WIDTH-1:0] rdata2
+  output reg [DATA_WIDTH-1:0] rdata2,
+  output wire [DATA_WIDTH-1:0] DPIC_res
 );
   reg [DATA_WIDTH-1:0] rf [31:0];
   
@@ -77,5 +78,7 @@ module GPR #( DATA_WIDTH = 64) (
 		else
 			rdata2 = `ZERO_WORD;
 	end
+
+  assign DPIC_res = rf[0];
 
 endmodule

@@ -13,9 +13,19 @@ static const vluint64_t sim_time = 1000;
 // void nvboard_bind_all_pins(Vtop* top);
 
 bool is_ebreak = false;
-void hit_ebreak(){
-  std::cout<<"hit ebreak"<<std::endl;
-  is_ebreak = true;
+int rval = 0;
+void hit_ebreak(int res,svBit unimp){
+  if (unimp)
+  {
+    printf("\n\033[1;31m hit unimp inst\033[0m\n");
+    is_ebreak = true;
+    rval = -1;
+  }else 
+  {
+    printf("hit ebreak with value %d\n",res);
+    is_ebreak = true;
+    rval = res;
+  }
 }
 
 static void single_cycle() {
@@ -93,6 +103,6 @@ int main(int argc, char **argv) {
   tfp->close();
   delete top;
   delete tfp;
-  exit(0);
+  exit(rval);
   return 0;
 }

@@ -63,4 +63,6 @@ class top(width: Int) extends Module{
 
   val dpic = Module(new DPIC())
   dpic.io.is_ebreak := Mux(idu.io.fuop === FuType.ebreak, 1.U, 0.U)
+  dpic.io.result := gpr.io.DPIC_res
+  dpic.io.unimp := Mux(idu.io.aluty === ALUOpType.unimp, 1.U, 0.U)
 }
