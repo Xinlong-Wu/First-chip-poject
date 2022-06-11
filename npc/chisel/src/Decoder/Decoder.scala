@@ -19,11 +19,16 @@ class RVDecoder(inst_data: UInt) {
 
   def getImmI(): UInt = {
     val imm = inst(31,20)
-    Cat(Fill(20,imm(11)),imm)
+    Cat(Fill(52,imm(11)),imm)
   }
 
   def getImmU(): UInt = {
     val imm = inst(31,12)
-    Cat(Fill(12,imm(19)),imm)
+    Cat(Fill(44,imm(19)),imm)
+  }
+
+  def getImmJ(): UInt = {
+    val imm = inst(31,12)
+    Cat(Fill(44,imm(19)),imm(19),imm(7,0),imm(8),imm(18,9),0.U)
   }
 }

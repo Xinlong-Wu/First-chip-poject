@@ -39,16 +39,25 @@ class top(width: Int) extends Module{
   exu.io.aluty := idu.io.aluty
   exu.io.reg1_re := idu.io.reg1_re
   exu.io.reg2_re := idu.io.reg2_re
-  exu.io.rd_we := idu.io.rd_we
-  exu.io.rd_id := idu.io.rd_id
   exu.io.imm_data := idu.io.imm_data
 
   exu.io.reg1_data := idu.io.reg1_data_o
   exu.io.reg2_data := idu.io.reg2_data_o
 
-  gpr.io.we := exu.io.wrd_en
-  gpr.io.wid := exu.io.wrd_id
-  gpr.io.wdata := exu.io.wdata
+  val wbu = Module(new WBU(width))
+  wbu.io.rf_wb := idu.io.rd_we
+  wbu.io.wb_pc := idu.io.wb_pc
+  wbu.io.rd_id := idu.io.rd_id
+  wbu.io.wdata_i := exu.io.wdata
+  wbu.io.pc_addr := pc_reg.io.pc_addr
+  wbu.io.wb_pc := idu.io.wb_pc
+
+  pc_reg.io.pc_we := wbu.io.pc_we
+  pc_reg.io.pc_waddr := wbu.io.pc_waddr
+
+  gpr.io.we := wbu.io.rf_wb
+  gpr.io.wid := wbu.io.rd_id
+  gpr.io.wdata := wbu.io.wdata_o
 
   val dpic = Module(new DPIC())
   dpic.io.is_ebreak := Mux(idu.io.fuop === FuType.ebreak, 1.U, 0.U)

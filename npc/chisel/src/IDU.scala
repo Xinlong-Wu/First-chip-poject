@@ -21,9 +21,9 @@ class IDU(width: Int) extends Module {
 
     val fuop = Output(UInt(8.W))
     val aluty = Output(UInt(3.W))
+    val wb_pc = Output(Bool())
   })
 
-  // printf("got instruction: %b\n",io.inst_data)
   val decoder = new RVDecoder(io.inst_data)
 
   val instInfo = decoder.getInstInfo()
@@ -34,10 +34,8 @@ class IDU(width: Int) extends Module {
     reset.asBool -> 0.U
   ))
 
-  io.rd_we := MuxCase(false.B, Array(
-    (SrcType.reg === instInfo(0)) -> true.B,
-    reset.asBool -> false.B
-  ))
+  printf("[IDU] instruction: 0x%x\n",io.inst_data)
+  io.rd_we := instInfo(5)
 
   // rs1
   io.reg1_re := MuxCase(0.U, Array(
@@ -63,13 +61,16 @@ class IDU(width: Int) extends Module {
   io.reg2_data_o := io.reg2_data_i
 
   io.imm_data := MuxCase(0.U, Array(
-    (ImmFormat.INST_U === instInfo(6)) -> decoder.getImmU(),
-    (ImmFormat.INST_I === instInfo(6)) -> decoder.getImmI(),
+    (ImmFormat.INST_U === instInfo(7)) -> decoder.getImmU(),
+    (ImmFormat.INST_I === instInfo(7)) -> decoder.getImmI(),
+    (ImmFormat.INST_J === instInfo(7)) -> decoder.getImmJ(),
     reset.asBool -> 0.U,
   ))
-
-  // printf("got fuop: %b\n",instInfo(3))
-  // printf("got aluty: %b\n",instInfo(4))
   io.fuop := Mux(reset.asBool, 0.U, instInfo(3))
   io.aluty := Mux(reset.asBool, 0.U, instInfo(4))
+
+  io.wb_pc := instInfo(6)
+
+  printf("[IDU] fuop: %b\n",instInfo(3))
+  printf("[IDU] aluty: %b\n",instInfo(4))
 }

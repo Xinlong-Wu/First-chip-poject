@@ -64,7 +64,11 @@ int main(int argc, char **argv) {
   reset(10);
 
   top->trace(tfp, 99);
-  tfp->open("./build/top.vcd");
+  tfp->open("/home/vincent/CodeSpace/First-chip-poject/npc/build/top.vcd");
+
+  printf("\033[1;32m npc start \033[0m\n");
+  int counter = 0;
+
   while(!is_ebreak) {
     // nvboard_update();
     top->clock = !top->clock;
@@ -72,9 +76,11 @@ int main(int argc, char **argv) {
       std::cout<<"End of Rom"<<std::endl;
       exit(-1);
     }
-    top->io_inst = (top->io_pc_re == 1) ? inst_rom[ (top->io_pc_addr%0x80000000) >> 2 ] : 0;
-    top->eval();
+    // top->io_inst = (top->io_pc_re == 1) ? inst_rom[ (top->io_pc_addr%0x80000000) >> 2 ] : 0;
+    top->io_inst = inst_rom[ (top->io_pc_addr%0x80000000) >> 2 ];
+    single_cycle();
     tfp->dump(main_time);
+    getchar();
     main_time++;
   }
 
