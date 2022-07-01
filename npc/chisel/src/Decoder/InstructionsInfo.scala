@@ -22,6 +22,8 @@ object SrcType {
 object FuType {
   def alu = "b0001".U
   def jmp = "b0010".U
+  def stu = "b0011".U
+
   def ebreak = "b1111".U
 
   def typeCount = 4
@@ -43,9 +45,8 @@ object JumpOpType{
   def apply() = UInt(8.W)
 }
 
-object wbType{
-  def INVALID_INST = "b0000_0000".U
-  def addi = "b0000_0001".U
+object LSUOpType{
+  def sd = "b0011".U
 
   def apply() = UInt(8.W)
 }
@@ -54,6 +55,7 @@ object ImmFormat {
   def INST_I  = "b0001".U
   def INST_U = "b0010".U
   def INST_J = "b0011".U
+  def INST_S = "b0100".U
 
   def INVALID = "b1111".U
 
@@ -84,7 +86,7 @@ object RVInstInfo extends InstructionsInfo{
 
     JAL -> List(SrcType.reg, SrcType.pc, SrcType.imm, FuType.jmp, JumpOpType.jal, Y, ImmFormat.INST_J),
 
-    SD -> List(SrcType.reg, SrcType.pc, SrcType.imm, FuType.jmp, JumpOpType.jal, Y, ImmFormat.INST_J),
+    SD -> List(SrcType.imm, SrcType.reg, SrcType.reg, FuType.stu, LSUOpType.sd, N, ImmFormat.INST_S),
 
     EBREAK -> List(SrcType.unknow, SrcType.unknow, SrcType.unknow, FuType.ebreak, ALUOpType.addi, N, ImmFormat.INVALID)
   )

@@ -10,6 +10,9 @@ class top(width: Int) extends Module{
   val core = Module(new Core(width))
   io.imem <> core.io.imem
 
+  val memory = Module(new Memory(width))
+  core.io.dmem <> memory.io.dmem
+
   val dpic = Module(new DPIC())
   dpic.io.is_ebreak := Mux(core.io.instInfo.fuop === FuType.ebreak, 1.U, 0.U)
   dpic.io.result := core.io.DPIC_res

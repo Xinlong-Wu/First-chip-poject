@@ -4,6 +4,7 @@ import chisel3._
 class Core(width: Int) extends Module {
   val io = IO(new Bundle() {
     val imem = Flipped(new ImemPortIo(width))
+    val dmem = Flipped(new DmemPortIo(width))
 
     // for debug
     val instInfo = new InstInfo()
@@ -47,16 +48,19 @@ class Core(width: Int) extends Module {
 
   val wbu = Module(new WBU(width))
   wbu.io.inst_info <> idu.io.inst_info
-  wbu.io.rd_wen := idu.io.rd_we
   wbu.io.rd_id := idu.io.rd_id
-  wbu.io.wdata_i := exu.io.wdata
+  wbu.io.wdata_i := exu.io.data_o
   wbu.io.pc_addr := pc_reg.io.pc_addr
+
+  io.dmem.wen := wbu.io.dmem_wen
+  io.dmem.wdata := wbu.io.wdata_o
+  io.dmem.addr := exu.io.imm_data
 
   pc_reg.io.pc_we := wbu.io.pc_we
   pc_reg.io.pc_waddr := wbu.io.pc_waddr
 
-  gpr.io.wen := wbu.io.rd_wen
-  gpr.io.waddr := wbu.io.rd_id
+  gpr.io.wen := wbu.io.we
+  gpr.io.waddr := wbu.io.wid
   gpr.io.wdata := wbu.io.wdata_o
 
   // for test

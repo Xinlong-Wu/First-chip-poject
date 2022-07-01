@@ -1,4 +1,4 @@
-import Decoder.{ALUOpType, FuType, JumpOpType}
+import Decoder.{ALUOpType, FuType, JumpOpType, LSUOpType}
 import chisel3._
 import chisel3.util.MuxCase
 
@@ -12,15 +12,16 @@ class EXU(width: Int) extends Module {
     val reg2_data = Input(UInt(width.W))
     val imm_data = Input(UInt(width.W))
 
-    val wdata = Output(UInt(width.W))
+    val data_o = Output(UInt(width.W))
   })
 
-  io.wdata := MuxCase(0.U, Array(
+  io.data_o := MuxCase(0.U, Array(
     (io.inst_info.fuop === FuType.alu && (io.inst_info.aluty === ALUOpType.addi)) -> (io.reg1_data + io.imm_data),
+    (io.inst_info.fuop === FuType.stu && (io.inst_info.aluty === LSUOpType.sd)) -> (io.reg1_data + io.imm_data),
     (io.inst_info.fuop === FuType.jmp && (io.inst_info.aluty === JumpOpType.jal)) -> (io.reg1_data + io.imm_data),
     reset.asBool -> 0.U
   ))
 
-  printf("[EXU]: src1=0x%x, src2=0x%x, imm=0x%x, rd=0x%x\n",io.reg1_data, io.reg2_data,io.imm_data,io.wdata)
+  printf("[EXU]: src1=0x%x, src2=0x%x, imm=0x%x, rd=0x%x\n",io.reg1_data, io.reg2_data,io.imm_data,io.data_o)
 
 }

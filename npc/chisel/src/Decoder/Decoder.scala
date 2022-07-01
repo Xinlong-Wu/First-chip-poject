@@ -31,4 +31,8 @@ class RVDecoder(inst_data: UInt) {
     val imm = inst(31,12)
     Cat(Fill(44,imm(19)),imm(19),imm(7,0),imm(8),imm(18,9),0.U)
   }
+
+  def getImmS(): UInt = {
+    Cat(Fill(52,inst(31)),inst(31,25),inst(11,7))
+  }
 }

@@ -13,7 +13,7 @@ CHISEL_DIR = $(NPC_DIR)/chisel/src
 VERILOG_DIR = $(NPC_DIR)/vsrc
 BUILD_DIR = $(YSYX_HOME)/build
 CHISEL_BUILD = $(NPC_DIR)/build
-WAVE_FILE = $(BUILD_DIR)/top.vcd
+WAVE_FILE = $(CHISEL_BUILD)/top.vcd
 $(shell mkdir -p $(BUILD_DIR))
 
 MAX_THREAD = `cat /proc/cpuinfo |grep "processor"|wc -l`
@@ -106,7 +106,7 @@ nvboard-debug: build
 
 
 gtkwave: sim
-	@$(BUILD_DIR)/$(TOPNAME);gtkwave $(WAVE_FILE)
+	$(BUILD_DIR)/$(TOPNAME);gtkwave $(WAVE_FILE)
 
 build: verilog $(VERILOG_SRC) $(CPP_SRC) $(NVBOARD_ARCHIVE)
 	@rm -rf $(BUILD_DIR)/obj_dir

@@ -5,6 +5,7 @@ import chisel3.util.MuxCase
 class InstInfo extends Bundle{
   val fuop = Output(UInt(8.W))
   val aluty = Output(UInt(3.W))
+  val rfwen = Output(Bool())
 }
 
 class IDU(width: Int) extends Module {
@@ -16,7 +17,6 @@ class IDU(width: Int) extends Module {
 
     val reg1_re = Output(Bool())
     val reg2_re = Output(Bool())
-    val rd_we = Output(Bool())
     val rd_id = Output(UInt(5.W))
     val reg1_rid = Output(UInt(5.W))
     val reg2_rid = Output(UInt(5.W))
@@ -37,7 +37,7 @@ class IDU(width: Int) extends Module {
     reset.asBool -> 0.U
   ))
 
-  io.rd_we := instInfo(5)
+  io.inst_info.rfwen := instInfo(5)
 
   // rs1
   io.reg1_re := MuxCase(0.U, Array(
@@ -66,6 +66,7 @@ class IDU(width: Int) extends Module {
     (ImmFormat.INST_U === instInfo(6)) -> decoder.getImmU(),
     (ImmFormat.INST_I === instInfo(6)) -> decoder.getImmI(),
     (ImmFormat.INST_J === instInfo(6)) -> decoder.getImmJ(),
+    (ImmFormat.INST_S === instInfo(6)) -> decoder.getImmS(),
     reset.asBool -> 0.U,
   ))
   io.inst_info.fuop := Mux(reset.asBool, 0.U, instInfo(3))
