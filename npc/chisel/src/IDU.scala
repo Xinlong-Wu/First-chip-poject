@@ -2,6 +2,11 @@ import chisel3._
 import Decoder.{ImmFormat, RVDecoder, SrcType}
 import chisel3.util.MuxCase
 
+class InstInfo extends Bundle{
+  val fuop = Output(UInt(8.W))
+  val aluty = Output(UInt(3.W))
+}
+
 class IDU(width: Int) extends Module {
   val io = IO(new Bundle() {
     val pc_addr = Input(UInt(width.W))
@@ -19,9 +24,7 @@ class IDU(width: Int) extends Module {
     val reg2_data_o = Output(UInt(width.W))
     val imm_data = Output(UInt(width.W))
 
-    val fuop = Output(UInt(8.W))
-    val aluty = Output(UInt(3.W))
-    val wb_pc = Output(Bool())
+    val inst_info = new InstInfo()
   })
 
   val decoder = new RVDecoder(io.inst_data)
@@ -60,15 +63,13 @@ class IDU(width: Int) extends Module {
   io.reg2_data_o := io.reg2_data_i
 
   io.imm_data := MuxCase(0.U, Array(
-    (ImmFormat.INST_U === instInfo(7)) -> decoder.getImmU(),
-    (ImmFormat.INST_I === instInfo(7)) -> decoder.getImmI(),
-    (ImmFormat.INST_J === instInfo(7)) -> decoder.getImmJ(),
+    (ImmFormat.INST_U === instInfo(6)) -> decoder.getImmU(),
+    (ImmFormat.INST_I === instInfo(6)) -> decoder.getImmI(),
+    (ImmFormat.INST_J === instInfo(6)) -> decoder.getImmJ(),
     reset.asBool -> 0.U,
   ))
-  io.fuop := Mux(reset.asBool, 0.U, instInfo(3))
-  io.aluty := Mux(reset.asBool, 0.U, instInfo(4))
-
-  io.wb_pc := instInfo(6)
+  io.inst_info.fuop := Mux(reset.asBool, 0.U, instInfo(3))
+  io.inst_info.aluty := Mux(reset.asBool, 0.U, instInfo(4))
 
   printf("[IDU] fuop: %b\n",instInfo(3))
   printf("[IDU] aluty: %b\n",instInfo(4))

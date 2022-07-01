@@ -22,8 +22,8 @@ class IDU_tester extends AnyFreeSpec with ChiselScalatestTester {
       c.io.reg1_data_o.expect("h3".U(64.W))
 
       c.io.imm_data.expect("b0000000_00011".U)
-      c.io.fuop.expect(FuType.alu)
-      c.io.aluty.expect(ALUOpType.addi)
+      c.io.inst_info.fuop.expect(FuType.alu)
+      c.io.inst_info.aluty.expect(ALUOpType.addi)
     }
   }
 
@@ -45,8 +45,8 @@ class IDU_tester extends AnyFreeSpec with ChiselScalatestTester {
       c.io.reg2_rid.expect("b00000".U)
       c.io.reg1_data_o.expect("h80000000".U(64.W))
       c.io.imm_data.expect("b0000000_00000_00000_111".U)
-      c.io.fuop.expect(FuType.alu)
-      c.io.aluty.expect(ALUOpType.addi)
+      c.io.inst_info.fuop.expect(FuType.alu)
+      c.io.inst_info.aluty.expect(ALUOpType.addi)
     }
   }
 }

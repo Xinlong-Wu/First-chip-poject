@@ -4,8 +4,7 @@ import chisel3.util.MuxCase
 
 class EXU(width: Int) extends Module {
   val io = IO(new Bundle() {
-    val fuop = Input(UInt(8.W))
-    val aluty = Input(UInt(3.W))
+    val inst_info = Flipped(new InstInfo())
 
     val reg1_re = Input(Bool())
     val reg2_re = Input(Bool())
@@ -17,8 +16,8 @@ class EXU(width: Int) extends Module {
   })
 
   io.wdata := MuxCase(0.U, Array(
-    (io.fuop === FuType.alu && (io.aluty === ALUOpType.addi)) -> (io.reg1_data + io.imm_data),
-    (io.fuop === FuType.jmp && (io.aluty === JumpOpType.jal)) -> (io.reg1_data + io.imm_data),
+    (io.inst_info.fuop === FuType.alu && (io.inst_info.aluty === ALUOpType.addi)) -> (io.reg1_data + io.imm_data),
+    (io.inst_info.fuop === FuType.jmp && (io.inst_info.aluty === JumpOpType.jal)) -> (io.reg1_data + io.imm_data),
     reset.asBool -> 0.U
   ))
 

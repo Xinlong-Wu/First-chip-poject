@@ -65,9 +65,9 @@ abstract trait InstructionsInfo {
   def Y = true.B
 
   def decodeDefault: List[UInt] = // illegal instruction
-  //      srcType(0)      srcType(1)      srcType(2)      fuType          aluType    rfWe wbPC ImmFormat
-  //        |               |               |               |               |         |   |    |
-     List(SrcType.unknow, SrcType.unknow, SrcType.unknow, FuType.ebreak, ALUOpType.unimp, N, N, ImmFormat.INVALID)
+  //      srcType(0)      srcType(1)      srcType(2)      fuType          aluType        rfWe ImmFormat
+  //        |               |               |               |               |             |    |
+     List(SrcType.unknow, SrcType.unknow, SrcType.unknow, FuType.ebreak, ALUOpType.unimp, N, ImmFormat.INVALID)
 
 //  def decodeDefault = InstType.INVALID_INST
 
@@ -77,14 +77,16 @@ abstract trait InstructionsInfo {
 
 object RVInstInfo extends InstructionsInfo{
   val table: Array[(BitPat, List[UInt])] = Array(
-    ADDI -> List(SrcType.reg, SrcType.reg, SrcType.imm, FuType.alu, ALUOpType.addi, Y, N, ImmFormat.INST_I),
+    ADDI -> List(SrcType.reg, SrcType.reg, SrcType.imm, FuType.alu, ALUOpType.addi, Y, ImmFormat.INST_I),
+    JALR-> List(SrcType.reg, SrcType.reg, SrcType.imm, FuType.jmp, JumpOpType.jal, Y, ImmFormat.INST_I),
 
-    AUIPC -> List(SrcType.reg, SrcType.pc, SrcType.imm, FuType.alu, ALUOpType.addi, Y, N, ImmFormat.INST_U),
+    AUIPC -> List(SrcType.reg, SrcType.pc, SrcType.imm, FuType.alu, ALUOpType.addi, Y, ImmFormat.INST_U),
 
-    JAL -> List(SrcType.reg, SrcType.pc, SrcType.imm, FuType.jmp, JumpOpType.jal, Y, Y, ImmFormat.INST_J),
-    JALR-> List(SrcType.reg, SrcType.reg, SrcType.imm, FuType.jmp, JumpOpType.jal, Y, Y, ImmFormat.INST_I),
+    JAL -> List(SrcType.reg, SrcType.pc, SrcType.imm, FuType.jmp, JumpOpType.jal, Y, ImmFormat.INST_J),
 
-    EBREAK -> List(SrcType.unknow, SrcType.unknow, SrcType.unknow, FuType.ebreak, ALUOpType.addi, N, N, ImmFormat.INVALID)
+    SD -> List(SrcType.reg, SrcType.pc, SrcType.imm, FuType.jmp, JumpOpType.jal, Y, ImmFormat.INST_J),
+
+    EBREAK -> List(SrcType.unknow, SrcType.unknow, SrcType.unknow, FuType.ebreak, ALUOpType.addi, N, ImmFormat.INVALID)
   )
 //  val table: Array[(BitPat, UInt)] = Array(
 //    ADDI -> InstType.addi
