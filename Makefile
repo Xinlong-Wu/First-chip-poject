@@ -70,16 +70,12 @@ INCFLAGS = $(addprefix -I, $(INC_PATH))
 NPC_CFLAGS += -g $(INCFLAGS) -DTOP_NAME="\"V$(TOPNAME)\""
 VERILATOR_CFLAGS += -MMD --build -cc --trace  \
 				-O3 --x-assign fast --x-initial fast --noassert --exe
-NPC_LDFLAGS += -lSDL2 -lSDL2_image
+NPC_LDFLAGS += -lSDL2 -lSDL2_image -lreadline
 
 IMAGE_PATH ?= inst.bin
 
 sim: verilog $(VERILOG_SRC) $(CPP_SRC)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	echo verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
-		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
-		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
-		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
 	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
 		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
 		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
@@ -88,10 +84,6 @@ sim: verilog $(VERILOG_SRC) $(CPP_SRC)
 
 gdb: verilog $(VERILOG_SRC) $(CPP_SRC)
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
-	echo verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
-		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
-		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
-		--Mdir $(BUILD_DIR)/obj_dir -o $(abspath $(BUILD_DIR)/$(TOPNAME))
 	verilator $(VERILATOR_CFLAGS) -j $(JOB_NUM) \
 		-top $(TOPNAME) $(VERILOG_SRC) $(CPP_SRC) \
 		$(addprefix -CFLAGS , $(NPC_CFLAGS)) $(addprefix -LDFLAGS , $(NPC_LDFLAGS)) \
