@@ -13,5 +13,6 @@
 !.gitignore
 !init.sh
 !.gitmodules
+!Dockerfile
 !/nvboard
 !/am-kernels
