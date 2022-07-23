@@ -1,7 +1,9 @@
 STUID = ysyx_22040200
 STUNAME = 乌鑫龙
 
-YSYX_HOME=/home/vincent/CodeSpace/First-chip-poject
+YSYX_HOME=/home/ysyx-project
+NEMU_HOME = $(YSYX_HOME)/nemu
+NVBOARD_HOME=$(YSYX_HOME)/nvboard
 
 INC_PATH ?=
 NXDC_FILES = $(YSYX_HOME)/npc/constr/top.nxdc
@@ -34,7 +36,6 @@ CPP_SRC = $(wildcard $(CPP_DIR)/*.cpp)
 TRACER = tracer-ysyx2204
 GITFLAGS = -q --author='$(TRACER) <tracer@ysyx.org>' --no-verify --allow-empty
 
-YSYX_HOME = $(NEMU_HOME)/..
 WORK_BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
 WORK_INDEX = $(YSYX_HOME)/.git/index.$(WORK_BRANCH)
 TRACER_BRANCH = $(TRACER)

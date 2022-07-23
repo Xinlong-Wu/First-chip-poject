@@ -1,4 +1,3 @@
-YSYX_HOME=/home/vincent/CodeSpace/First-chip-poject
 NPC_DIR = $(YSYX_HOME)/npc
 CHISEL_BUILD = $(NPC_DIR)/build
 CHISEL_DIR = $(NPC_DIR)/chisel/src
