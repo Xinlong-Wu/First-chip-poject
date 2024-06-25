@@ -32,7 +32,7 @@ static bool g_print_step = false;
 
 void device_update();
 
-static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
+void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
@@ -40,7 +40,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 }
 
-static void exec_once(Decode *s, vaddr_t pc) {
+void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);

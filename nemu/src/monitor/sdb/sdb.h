@@ -17,7 +17,10 @@
 #define __SDB_H__
 
 #include <common.h>
+#include <cpu/decode.h>
 
 word_t expr(char *e, bool *success);
 
+extern void exec_once(Decode *s, vaddr_t pc);
+extern void trace_and_difftest(Decode *_this, vaddr_t dnpc);
 #endif

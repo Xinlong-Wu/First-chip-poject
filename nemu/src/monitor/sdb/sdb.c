@@ -52,6 +52,25 @@ static int cmd_q(char *args) {
   return -1;
 }
 
+static int cmd_si(char *args){
+  int n = 1;
+  if(args)
+    sscanf(args,"%d",&n);
+
+  // printf("run %d time\n", n);
+  
+  struct Decode s;
+  while (n--){
+    exec_once(&s, cpu.pc);
+    printf("%s\n", s.logbuf);
+    trace_and_difftest(&s, cpu.pc);
+    // printf("nemu_state.state %d\n", nemu_state.state);
+    if (nemu_state.state != NEMU_STOP) break;
+    IFDEF(CONFIG_DEVICE, device_update());
+  }
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -64,6 +83,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
+  {"si", "si [N], step in the program", cmd_si},
 
 };
 
