@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "watchpoint.h"
 
 static int is_batch_mode = false;
 
@@ -91,12 +92,12 @@ static int cmd_info(char *args) {
       isa_reg_display(expargs);
   }
   else if (strcmp(cmd, "w") == 0){
-    // WP *p = get_wp_list();
+    WP *p = get_wp_list();
 
-    // while (p != NULL){
-    //   printf("watch pint N.%d: expr=%s, current value=%lu\n", p->NO, p->expr, p->expr_value);
-    //   p = p->next;
-    // }
+    while (p != NULL){
+      printf("watch pint N.%d: expr=%s, current value=%u\n", p->NO, p->expr, p->expr_value);
+      p = p->next;
+    }
   }
   else{
     printf("%s\n", ANSI_FMT(str(Error: valid params.), ANSI_FG_RED));
@@ -105,6 +106,8 @@ static int cmd_info(char *args) {
 
   return 0;
 }
+
+
 
 static struct {
   const char *name;
@@ -118,7 +121,7 @@ static struct {
   /* TODO: Add more commands */
   {"si", "si [N], step in the program", cmd_si},
   {"info", "info [r|w], out put the info of Regesiter or WatchPoint", cmd_info},
-
+  {"x", "x [N] [EXPR] , out put N Bite data from value of EXPR by sixteen format", cmd_x},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
