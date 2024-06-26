@@ -24,6 +24,8 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 
+static int cmd_help(char *args);
+
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
   static char *line_read = NULL;
@@ -71,7 +73,38 @@ static int cmd_si(char *args){
   return 0;
 }
 
-static int cmd_help(char *args);
+static int cmd_info(char *args) {
+  // Log("cmd_info get arg %s", args);
+  char *cmd = strtok(args, " ");
+  if (cmd == NULL){
+    printf("%s\n", ANSI_FMT(str(Error: valid params.), ANSI_FG_RED));
+    cmd_help(NULL);
+    return 0;
+  }
+  
+  char * expargs = cmd + strlen(cmd) +1;
+
+  if (strcmp(cmd,"r") == 0){
+    if (strlen(expargs) == 0)
+      isa_reg_display(NULL);
+    else
+      isa_reg_display(expargs);
+  }
+  else if (strcmp(cmd, "w") == 0){
+    // WP *p = get_wp_list();
+
+    // while (p != NULL){
+    //   printf("watch pint N.%d: expr=%s, current value=%lu\n", p->NO, p->expr, p->expr_value);
+    //   p = p->next;
+    // }
+  }
+  else{
+    printf("%s\n", ANSI_FMT(str(Error: valid params.), ANSI_FG_RED));
+    cmd_help(NULL);
+  }
+
+  return 0;
+}
 
 static struct {
   const char *name;
@@ -84,6 +117,7 @@ static struct {
 
   /* TODO: Add more commands */
   {"si", "si [N], step in the program", cmd_si},
+  {"info", "info [r|w], out put the info of Regesiter or WatchPoint", cmd_info},
 
 };
 
