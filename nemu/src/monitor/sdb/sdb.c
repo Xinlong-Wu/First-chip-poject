@@ -17,6 +17,8 @@
 #include <cpu/cpu.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <memory/vaddr.h>
+#include <memory/paddr.h>
 #include "sdb.h"
 #include "watchpoint.h"
 
@@ -83,13 +85,11 @@ static int cmd_info(char *args) {
     return 0;
   }
   
-  char * expargs = cmd + strlen(cmd) +1;
+  char * expargs = strtok(NULL, " ");
+  // printf("cmd %s, expargs %s\n", cmd, expargs);
 
   if (strcmp(cmd,"r") == 0){
-    if (strlen(expargs) == 0)
-      isa_reg_display(NULL);
-    else
-      isa_reg_display(expargs);
+    isa_reg_display(expargs);
   }
   else if (strcmp(cmd, "w") == 0){
     WP *p = get_wp_list();
@@ -107,7 +107,56 @@ static int cmd_info(char *args) {
   return 0;
 }
 
+static int cmd_x(char *args) {
 
+  int len = 0;
+  paddr_t addr = 0;
+  if(args){
+    char * cmd = strtok(args, " ");
+    len = atoi(cmd);
+    char *exprstr = strtok(NULL, " ");
+
+    bool isSuccess = false;
+    if(exprstr!=NULL)
+      addr = (paddr_t)expr(exprstr, &isSuccess);
+    if(isSuccess){
+      printf("expr %s, value is %u\n",args,addr);
+    }
+    else{
+      printf("Valit expr\n");
+      return 0;
+    }
+  }
+
+  if(len != 0 && addr!=0){
+    int onceLength = sizeof(word_t) < len ? sizeof(word_t) : (len>>1)<<1;
+    if (onceLength == 0)
+      onceLength = 1;
+    
+    if(!in_pmem(addr))
+      addr += CONFIG_MBASE;
+    if(in_pmem(addr)){
+      int printCount = 0;
+      printf("0x%x:\t", addr);
+      for(int i = len;i > 0; i-=onceLength){
+        word_t data = vaddr_read(addr, onceLength);
+        printf("0x%016x\t",data);
+        if (++printCount % 4 == 0){
+          printf("\n");
+        }
+        addr+=onceLength;
+        while (onceLength > i)
+          onceLength/=2;
+      }
+      printf("\n");
+    }
+    else
+      printf("%s\n", ANSI_FMT(str(Error: valid mem address.), ANSI_FG_RED));
+    return 0;
+  }
+  printf("%s\n", ANSI_FMT(str(Error: valid mem address.), ANSI_FG_RED));
+  return 0;
+}
 
 static struct {
   const char *name;
