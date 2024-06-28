@@ -123,7 +123,7 @@ static int cmd_x(char *args) {
       printf("expr %s, value is %u\n",args,addr);
     }
     else{
-      printf("Valit expr\n");
+      printf("%s\n", ANSI_FMT(str(Error: Valit expr), ANSI_FG_RED));
       return 0;
     }
   }
@@ -158,6 +158,30 @@ static int cmd_x(char *args) {
   return 0;
 }
 
+static int cmd_p(char *args){
+  if(args){
+    bool isSuccess = false;
+    word_t res = expr(args, &isSuccess);
+    if(isSuccess){
+      printf("expr %s, value is %u (0x%x)\n",args,res,res);
+    }
+    else{
+      printf("%s\n", ANSI_FMT(str(Error: Valit expr), ANSI_FG_RED));
+      return 0;
+    }
+  }
+  return 0;
+}
+
+static int cmd_w(char *args){
+  if(args){
+    WP *wp = new_wp(args);
+    if (wp==NULL)
+      printf("%s\n", ANSI_FMT(str(Error: Valit expr), ANSI_FG_RED));
+  }
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -171,6 +195,11 @@ static struct {
   {"si", "si [N], step in the program", cmd_si},
   {"info", "info [r|w], out put the info of Regesiter or WatchPoint", cmd_info},
   {"x", "x [N] [EXPR] , out put N Bite data from value of EXPR by sixteen format", cmd_x},
+  {"p", "p [EXPR], out put the value of EXPR", cmd_p},
+  {"w", "w [EXPR], set WatchPoint stop the program if the value of EXPR has changed", cmd_w},
+  // {"d", "d [N], delete WatchPoint witch id is N", cmd_d},
+  // {"b", "b [EXPR], set breakoint at address of EXPR", cmd_b},
+  // {"g", "an empty command for exit into gdb", cmd_gdb},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
