@@ -32,9 +32,36 @@ static bool g_print_step = false;
 
 void device_update();
 
+#ifdef CONFIG_ITRACE_COND
+
+#define CONFIG_IRINGBUF_SIZE 50
+typedef struct irecord{
+  char logbuf[128]; 
+} irecord;
+
+irecord iringbuf[CONFIG_IRINGBUF_SIZE];
+size_t ir_tail = 0;
+
+void iringbuf_dump(){
+  log_write("Instruction trace buffer:\n");
+  for (size_t i = 0; i < CONFIG_IRINGBUF_SIZE; i++){
+    log_write("%ld : ", i);
+    log_write("%s\n", iringbuf[(ir_tail + i)%CONFIG_IRINGBUF_SIZE].logbuf);
+  }
+}
+
+#else
+void iringbuf_dump(){};
+#endif
+
 void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
-  if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+  if (ITRACE_COND)
+  {
+    // log_write("%s\n", _this->logbuf);
+    strcpy(iringbuf[ir_tail].logbuf, _this->logbuf);
+    ir_tail = (ir_tail + 1) % CONFIG_IRINGBUF_SIZE;
+  }
 #endif
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
@@ -93,6 +120,7 @@ static void statistic() {
 
 void assert_fail_msg() {
   isa_reg_display(NULL);
+  iringbuf_dump();
   statistic();
 }
 
