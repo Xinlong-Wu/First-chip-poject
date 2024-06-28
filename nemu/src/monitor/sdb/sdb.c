@@ -264,12 +264,20 @@ void sdb_mainloop() {
     return;
   }
 
+  char prev_cmd[1024] = "";
+
   for (char *str; (str = rl_gets()) != NULL; ) {
     char *str_end = str + strlen(str);
 
     /* extract the first token as the command */
     char *cmd = strtok(str, " ");
-    if (cmd == NULL) { continue; }
+    if (cmd == NULL) {
+      if (prev_cmd[0] != '\0') {
+        cmd = prev_cmd;
+      } else
+        continue;
+    }
+    strcpy(prev_cmd, cmd);
 
     /* treat the remaining string as the arguments,
      * which may need further parsing
