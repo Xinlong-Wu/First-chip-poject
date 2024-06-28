@@ -32,7 +32,7 @@ static bool g_print_step = false;
 
 void device_update();
 
-#ifdef CONFIG_ITRACE_COND
+#ifdef CONFIG_ITRACE
 
 #define CONFIG_IRINGBUF_SIZE 50
 typedef struct irecord{
@@ -41,21 +41,20 @@ typedef struct irecord{
 
 irecord iringbuf[CONFIG_IRINGBUF_SIZE];
 size_t ir_tail = 0;
+#endif
 
 void iringbuf_dump(){
+#ifdef CONFIG_ITRACE
   log_write("Instruction trace buffer:\n");
   for (size_t i = 0; i < CONFIG_IRINGBUF_SIZE; i++){
     log_write("%ld : ", i);
     log_write("%s\n", iringbuf[(ir_tail + i)%CONFIG_IRINGBUF_SIZE].logbuf);
   }
+#endif
 }
 
-#else
-void iringbuf_dump(){};
-#endif
-
 void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
-#ifdef CONFIG_ITRACE_COND
+#ifdef CONFIG_ITRACE
   if (ITRACE_COND)
   {
     // log_write("%s\n", _this->logbuf);
