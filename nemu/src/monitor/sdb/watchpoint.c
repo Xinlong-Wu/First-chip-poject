@@ -142,7 +142,7 @@ WP * get_wp_list(){
 }
 
 void print_active_wp(){
-  printf("watch point No.%d: %s, value %u changed to %u\n",active_wp,
+  printf("watch point No.%d: %s, value %lu changed to %lu\n",active_wp,
          wp_pool[active_wp].expr, wp_pool[active_wp].expr_value,
          wp_pool[active_wp].new_value);
 }

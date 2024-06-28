@@ -95,7 +95,7 @@ static int cmd_info(char *args) {
     WP *p = get_wp_list();
 
     while (p != NULL){
-      printf("watch pint N.%d: expr=%s, current value=%u\n", p->NO, p->expr, p->expr_value);
+      printf("watch pint N.%d: expr=%s, current value=%lu\n", p->NO, p->expr, p->expr_value);
       p = p->next;
     }
   }
@@ -140,7 +140,7 @@ static int cmd_x(char *args) {
       printf("0x%x:\t", addr);
       for(int i = len;i > 0; i-=onceLength){
         word_t data = vaddr_read(addr, onceLength);
-        printf("0x%016x\t",data);
+        printf("0x%016lx\t",data);
         if (++printCount % 4 == 0){
           printf("\n");
         }
@@ -163,7 +163,7 @@ static int cmd_p(char *args){
     bool isSuccess = false;
     word_t res = expr(args, &isSuccess);
     if(isSuccess){
-      printf("expr %s, value is %u (0x%x)\n",args,res,res);
+      printf("expr %s, value is %lu (0x%lx)\n",args,res,res);
     }
     else{
       printf("%s\n", ANSI_FMT(str(Error: Valit expr), ANSI_FG_RED));

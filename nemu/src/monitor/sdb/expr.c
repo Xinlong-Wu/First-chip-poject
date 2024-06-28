@@ -265,7 +265,7 @@ word_t eval(int p, int q, bool *success){
         word_t addr = eval(p+1, q,success);
         if(!in_pmem(addr))
           addr += CONFIG_MBASE;
-        printf("dereference 0x%016x\n",addr);
+        printf("dereference 0x%016lx\n",addr);
         return vaddr_read(addr, 8);
       }
     }
@@ -317,9 +317,9 @@ word_t eval(int p, int q, bool *success){
     bool val2_success = false;
 
     sword_t val1 = eval(p, main_op - 1,&val1_success);
-    printf("res is %d\n", val1);
+    printf("res is %ld\n", val1);
     sword_t val2 = eval(main_op + 1, q,&val2_success);
-    printf("res is %d\n", val2);
+    printf("res is %ld\n", val2);
 
     *success = val1_success && val2_success;
 
