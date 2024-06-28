@@ -182,6 +182,33 @@ static int cmd_w(char *args){
   return 0;
 }
 
+static int cmd_b(char *args){
+  if(args){
+    char ch[50] = " ";
+    if (args[0]=='0'&&args[1]=='x')
+      sprintf(ch, "$pc == %s",args);
+    else
+      sprintf(ch, "$pc == 0x%s",args);
+    WP *wp = new_wp(ch);
+    if (wp==NULL)
+      printf("Valid expr %s\n", args);
+  }
+  return 0;
+}
+
+static int cmd_d(char *args){
+  if(args){
+    int wp_id = atoi(args);
+    delete_wp(wp_id);
+  }
+  return 0;
+}
+
+static int cmd_gdb(char *args){
+  printf("\n");
+  return 0;
+}
+
 static struct {
   const char *name;
   const char *description;
@@ -197,9 +224,9 @@ static struct {
   {"x", "x [N] [EXPR] , out put N Bite data from value of EXPR by sixteen format", cmd_x},
   {"p", "p [EXPR], out put the value of EXPR", cmd_p},
   {"w", "w [EXPR], set WatchPoint stop the program if the value of EXPR has changed", cmd_w},
-  // {"d", "d [N], delete WatchPoint witch id is N", cmd_d},
-  // {"b", "b [EXPR], set breakoint at address of EXPR", cmd_b},
-  // {"g", "an empty command for exit into gdb", cmd_gdb},
+  {"d", "d [N], delete WatchPoint witch id is N", cmd_d},
+  {"b", "b [EXPR], set breakoint at address of EXPR", cmd_b},
+  {"g", "an empty command for exit into gdb", cmd_gdb},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
